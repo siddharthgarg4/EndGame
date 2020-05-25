@@ -20,6 +20,7 @@ public:
     }
 };
 
+//custom run the application as per the client
 EndGame::Application *EndGame::createApplication() {
     return new Sandbox();
 }

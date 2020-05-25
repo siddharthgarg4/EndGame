@@ -18,5 +18,8 @@
 //MARK: Entry Point
 #include "EndGame/EntryPoint.hpp"
 
+//MARK: Logging
+#include "EndGame/LogSubSystem/LogSubSystem.hpp"
+
 
 #endif /* EndGame_h */

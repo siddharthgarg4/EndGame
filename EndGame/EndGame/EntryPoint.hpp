@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include "Application.hpp"
+#include "LogSubSystem.hpp"
 
 extern EndGame::Application *EndGame::createApplication();
 
