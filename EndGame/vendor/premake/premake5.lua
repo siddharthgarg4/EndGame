@@ -41,6 +41,18 @@ project "EndGame"
       "EG_PLATFORM_OSX"
     }
 
+    filter "configurations:Debug"
+		  defines "EG_ENGINE_DEBUG"
+		  optimize "On"
+
+    filter "configurations:Release"
+		  defines "EG_ENGINE_RELEASE"
+		  optimize "On"
+
+    filter "configurations:Dist"
+		  defines "EG_ENGINE_DIST"
+		  optimize "On"
+
 project "Sandbox"
   location "EndGame"
   language "C++"
@@ -74,3 +86,15 @@ project "Sandbox"
   defines {
     "EG_PLATFORM_OSX"
   }
+
+  filter "configurations:Debug"
+    defines "EG_DEBUG"
+    optimize "On"
+
+  filter "configurations:Release"
+    defines "EG_RELEASE"
+    optimize "On"
+
+  filter "configurations:Dist"
+    defines "EG_DIST"
+    optimize "On"
