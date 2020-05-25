@@ -7,27 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D7962EC40F8A25E58F2812C /* LogSubSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFF7A1D4958EA90658D3B814 /* LogSubSystem.cpp */; };
-		1FF31B01944D5FF31230E941 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51B13D8963DB1A3B97CC03C9 /* Application.cpp */; };
-		2EA8DE91F1693F034E9E1CD1 /* EntryPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FE044719E24B4F4B66387D59 /* EntryPoint.cpp */; };
-		B54457E07BD24F52E9D47620 /* SandboxApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07E715E89D5DD51A0BFA2C28 /* SandboxApp.cpp */; };
+		DB5B350C73D3227E9FBA134C /* LogSubSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 359D0BF4CFC101267FE6E234 /* LogSubSystem.cpp */; };
+		E3ACCDB150D4DC235267CBF1 /* EntryPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B78C2E3904EF246B7B0E2479 /* EntryPoint.cpp */; };
+		E4DA76213C3FE913EE4E0461 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90290A91AFBDB5B94DB16E9 /* Application.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		07E715E89D5DD51A0BFA2C28 /* SandboxApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SandboxApp.cpp; path = Sandbox/SandboxApp.cpp; sourceTree = "<group>"; };
-		51B13D8963DB1A3B97CC03C9 /* Application.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Application.cpp; path = EndGame/Src/Application.cpp; sourceTree = "<group>"; };
-		5857541680920CC8682D9A56 /* EndGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EndGame.h; path = EndGame/EndGame.h; sourceTree = "<group>"; };
-		AFF7A1D4958EA90658D3B814 /* LogSubSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LogSubSystem.cpp; path = EndGame/Src/SubSystems/LogSubSystem/LogSubSystem.cpp; sourceTree = "<group>"; };
-		D30AC75A775D650C8995AD9A /* EndGame */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = EndGame; path = EndGame; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD54B45EC2EBBB908630CA9E /* LogSubSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = text; name = LogSubSystem.hpp; path = EndGame/Src/SubSystems/LogSubSystem/LogSubSystem.hpp; sourceTree = "<group>"; };
-		DEE119B27457D8E4E2F42FF2 /* SandboxApp.hpp */ = {isa = PBXFileReference; lastKnownFileType = text; name = SandboxApp.hpp; path = Sandbox/SandboxApp.hpp; sourceTree = "<group>"; };
-		ECA2C563D0E9CD9554D6FBA3 /* EntryPoint.hpp */ = {isa = PBXFileReference; lastKnownFileType = text; name = EntryPoint.hpp; path = EndGame/Src/EntryPoint.hpp; sourceTree = "<group>"; };
-		F7B98C7309E369253DD452B3 /* Application.hpp */ = {isa = PBXFileReference; lastKnownFileType = text; name = Application.hpp; path = EndGame/Src/Application.hpp; sourceTree = "<group>"; };
-		FE044719E24B4F4B66387D59 /* EntryPoint.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = EntryPoint.cpp; path = EndGame/Src/EntryPoint.cpp; sourceTree = "<group>"; };
+		0FB35D36B2A183E841C76376 /* EndGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EndGame.h; path = EndGame/EndGame.h; sourceTree = "<group>"; };
+		2D186F602DCB6C52A1AD3DA0 /* libEndGame.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libEndGame.a; path = libEndGame.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		359D0BF4CFC101267FE6E234 /* LogSubSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LogSubSystem.cpp; path = EndGame/Src/SubSystems/LogSubSystem/LogSubSystem.cpp; sourceTree = "<group>"; };
+		66FAF783B45DEDB52A7CEDC3 /* EntryPoint.hpp */ = {isa = PBXFileReference; lastKnownFileType = text; name = EntryPoint.hpp; path = EndGame/Src/EntryPoint.hpp; sourceTree = "<group>"; };
+		69E48A939BDDD54515BD10D3 /* Application.hpp */ = {isa = PBXFileReference; lastKnownFileType = text; name = Application.hpp; path = EndGame/Src/Application.hpp; sourceTree = "<group>"; };
+		819A297E1BBE1EB0CBE3FFBE /* LogSubSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = text; name = LogSubSystem.hpp; path = EndGame/Src/SubSystems/LogSubSystem/LogSubSystem.hpp; sourceTree = "<group>"; };
+		B78C2E3904EF246B7B0E2479 /* EntryPoint.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = EntryPoint.cpp; path = EndGame/Src/EntryPoint.cpp; sourceTree = "<group>"; };
+		E90290A91AFBDB5B94DB16E9 /* Application.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Application.cpp; path = EndGame/Src/Application.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		F45B1FCA446EB47CC6ECE60A /* Frameworks */ = {
+		C6B9B4D0F56008C24EA16310 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -37,67 +34,49 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2BDD27B8D02FC56AE2680DF8 /* Src */ = {
+		502707D83C18138A8E4FAE18 /* Src */ = {
 			isa = PBXGroup;
 			children = (
-				51B13D8963DB1A3B97CC03C9 /* Application.cpp */,
-				F7B98C7309E369253DD452B3 /* Application.hpp */,
-				FE044719E24B4F4B66387D59 /* EntryPoint.cpp */,
-				ECA2C563D0E9CD9554D6FBA3 /* EntryPoint.hpp */,
-				6C3A9383B99D89B52FBC89C3 /* SubSystems */,
+				E90290A91AFBDB5B94DB16E9 /* Application.cpp */,
+				69E48A939BDDD54515BD10D3 /* Application.hpp */,
+				B78C2E3904EF246B7B0E2479 /* EntryPoint.cpp */,
+				66FAF783B45DEDB52A7CEDC3 /* EntryPoint.hpp */,
+				A9A265A3F21349D536B21BE3 /* SubSystems */,
 			);
 			name = Src;
-			sourceTree = "<group>";
-		};
-		6C3A9383B99D89B52FBC89C3 /* SubSystems */ = {
-			isa = PBXGroup;
-			children = (
-				C99FE2926B897E8462B090D2 /* LogSubSystem */,
-			);
-			name = SubSystems;
-			sourceTree = "<group>";
-		};
-		89D269462E2506F8405D4F86 /* Sandbox */ = {
-			isa = PBXGroup;
-			children = (
-				07E715E89D5DD51A0BFA2C28 /* SandboxApp.cpp */,
-				DEE119B27457D8E4E2F42FF2 /* SandboxApp.hpp */,
-			);
-			name = Sandbox;
 			sourceTree = "<group>";
 		};
 		A6C936B49B3FADE6EA134CF4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D30AC75A775D650C8995AD9A /* EndGame */,
+				2D186F602DCB6C52A1AD3DA0 /* libEndGame.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AA37800A4E8A1DBC60C2664A /* EndGame */ = {
+		A9A265A3F21349D536B21BE3 /* SubSystems */ = {
 			isa = PBXGroup;
 			children = (
-				5857541680920CC8682D9A56 /* EndGame.h */,
-				2BDD27B8D02FC56AE2680DF8 /* Src */,
+				CDEC09B26079D3A4C95277F2 /* LogSubSystem */,
 			);
-			name = EndGame;
+			name = SubSystems;
 			sourceTree = "<group>";
 		};
 		AE72E671417E3F6389B334B1 /* EndGame */ = {
 			isa = PBXGroup;
 			children = (
-				AA37800A4E8A1DBC60C2664A /* EndGame */,
-				89D269462E2506F8405D4F86 /* Sandbox */,
+				0FB35D36B2A183E841C76376 /* EndGame.h */,
+				502707D83C18138A8E4FAE18 /* Src */,
 				A6C936B49B3FADE6EA134CF4 /* Products */,
 			);
 			name = EndGame;
 			sourceTree = "<group>";
 		};
-		C99FE2926B897E8462B090D2 /* LogSubSystem */ = {
+		CDEC09B26079D3A4C95277F2 /* LogSubSystem */ = {
 			isa = PBXGroup;
 			children = (
-				AFF7A1D4958EA90658D3B814 /* LogSubSystem.cpp */,
-				DD54B45EC2EBBB908630CA9E /* LogSubSystem.hpp */,
+				359D0BF4CFC101267FE6E234 /* LogSubSystem.cpp */,
+				819A297E1BBE1EB0CBE3FFBE /* LogSubSystem.hpp */,
 			);
 			name = LogSubSystem;
 			sourceTree = "<group>";
@@ -105,23 +84,22 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		278A1C003446CB72A9313A40 /* EndGame */ = {
+		96DFDB4639CE01F8C8F3E186 /* EndGame */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E296682932A9FCDBB5282E69 /* Build configuration list for PBXNativeTarget "EndGame" */;
+			buildConfigurationList = B4F4FD2FE39B51213CDCAB6F /* Build configuration list for PBXNativeTarget "EndGame" */;
 			buildPhases = (
-				6442A06AB456351C36D466AA /* Resources */,
-				CDEFB9C11E034E73A0818001 /* Sources */,
-				F45B1FCA446EB47CC6ECE60A /* Frameworks */,
+				36A1357065478962BE88E3B0 /* Resources */,
+				A04E4EC7CEF4A2B92835FD07 /* Sources */,
+				C6B9B4D0F56008C24EA16310 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = EndGame;
-			productInstallPath = "$(HOME)/bin";
 			productName = EndGame;
-			productReference = D30AC75A775D650C8995AD9A /* EndGame */;
-			productType = "com.apple.product-type.tool";
+			productReference = 2D186F602DCB6C52A1AD3DA0 /* libEndGame.a */;
+			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
@@ -135,13 +113,13 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				278A1C003446CB72A9313A40 /* EndGame */,
+				96DFDB4639CE01F8C8F3E186 /* libEndGame.a */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		6442A06AB456351C36D466AA /* Resources */ = {
+		36A1357065478962BE88E3B0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -151,14 +129,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		CDEFB9C11E034E73A0818001 /* Sources */ = {
+		A04E4EC7CEF4A2B92835FD07 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FF31B01944D5FF31230E941 /* Application.cpp in Sources */,
-				2EA8DE91F1693F034E9E1CD1 /* EntryPoint.cpp in Sources */,
-				0D7962EC40F8A25E58F2812C /* LogSubSystem.cpp in Sources */,
-				B54457E07BD24F52E9D47620 /* SandboxApp.cpp in Sources */,
+				E4DA76213C3FE913EE4E0461 /* Application.cpp in Sources */,
+				E3ACCDB150D4DC235267CBF1 /* EntryPoint.cpp in Sources */,
+				DB5B350C73D3227E9FBA134C /* LogSubSystem.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,37 +163,50 @@
 					"${SRCROOT}/EndGame/vendor/spdlog/include",
 					"$(inherited)",
 				);
-				OBJROOT = "bin-int/Debug-macosx-x86_64/EndGame";
+				OBJROOT = "bin-int/Debug-macosx-x86_64/EndGame/Debug/EndGame";
 				ONLY_ACTIVE_ARCH = NO;
 				SYMROOT = "bin/Debug-macosx-x86_64/EndGame";
 			};
 			name = Debug;
 		};
-		0D6F026F339532219A9C28AF /* Debug */ = {
+		5877772280B22FD4684DBD62 /* Dist */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CONFIGURATION_BUILD_DIR = "bin/Debug-macosx-x86_64/EndGame";
+				CONFIGURATION_BUILD_DIR = "bin/Dist-macosx-x86_64/EndGame";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_DYNAMIC_NO_PIC = NO;
-				INSTALL_PATH = /usr/local/bin;
+				INSTALL_PATH = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "macOS 10.15";
 				PRODUCT_NAME = EndGame;
 			};
-			name = Debug;
+			name = Dist;
 		};
-		6BFC7529B46D595BF90C2B69 /* Release */ = {
+		71685CAFCCA9B021A003FAEF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CONFIGURATION_BUILD_DIR = "bin/Release-macosx-x86_64/EndGame";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_DYNAMIC_NO_PIC = NO;
-				INSTALL_PATH = /usr/local/bin;
+				INSTALL_PATH = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "macOS 10.15";
 				PRODUCT_NAME = EndGame;
 			};
 			name = Release;
+		};
+		898F5075B9211F67942E5EB5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = "bin/Debug-macosx-x86_64/EndGame";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "macOS 10.15";
+				PRODUCT_NAME = EndGame;
+			};
+			name = Debug;
 		};
 		A192594DF418843FC65CE78D /* Dist */ = {
 			isa = XCBuildConfiguration;
@@ -236,7 +226,7 @@
 					"${SRCROOT}/EndGame/vendor/spdlog/include",
 					"$(inherited)",
 				);
-				OBJROOT = "bin-int/Dist-macosx-x86_64/EndGame";
+				OBJROOT = "bin-int/Dist-macosx-x86_64/EndGame/Dist/EndGame";
 				ONLY_ACTIVE_ARCH = NO;
 				SYMROOT = "bin/Dist-macosx-x86_64/EndGame";
 			};
@@ -260,24 +250,11 @@
 					"${SRCROOT}/EndGame/vendor/spdlog/include",
 					"$(inherited)",
 				);
-				OBJROOT = "bin-int/Release-macosx-x86_64/EndGame";
+				OBJROOT = "bin-int/Release-macosx-x86_64/EndGame/Release/EndGame";
 				ONLY_ACTIVE_ARCH = NO;
 				SYMROOT = "bin/Release-macosx-x86_64/EndGame";
 			};
 			name = Release;
-		};
-		B1CBD1DCAB31D34E9ECD301C /* Dist */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CONFIGURATION_BUILD_DIR = "bin/Dist-macosx-x86_64/EndGame";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_DYNAMIC_NO_PIC = NO;
-				INSTALL_PATH = /usr/local/bin;
-				MACOSX_DEPLOYMENT_TARGET = "macOS 10.15";
-				PRODUCT_NAME = EndGame;
-			};
-			name = Dist;
 		};
 /* End XCBuildConfiguration section */
 
@@ -292,12 +269,12 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		E296682932A9FCDBB5282E69 /* Build configuration list for PBXNativeTarget "EndGame" */ = {
+		B4F4FD2FE39B51213CDCAB6F /* Build configuration list for PBXNativeTarget "libEndGame.a" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0D6F026F339532219A9C28AF /* Debug */,
-				6BFC7529B46D595BF90C2B69 /* Release */,
-				B1CBD1DCAB31D34E9ECD301C /* Dist */,
+				898F5075B9211F67942E5EB5 /* Debug */,
+				71685CAFCCA9B021A003FAEF /* Release */,
+				5877772280B22FD4684DBD62 /* Dist */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

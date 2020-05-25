@@ -4,4 +4,7 @@
 	<FileRef
 		location = "group:EndGame.xcodeproj">
 	</FileRef>
+	<FileRef
+		location = "group:Sandbox.xcodeproj">
+	</FileRef>
 </Workspace>

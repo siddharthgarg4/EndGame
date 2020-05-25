@@ -14,7 +14,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 project "EndGame"
   location "EndGame"
   language "C++"
-  kind "ConsoleApp"
+  kind "StaticLib"
 
   location "../../"
 
@@ -24,9 +24,7 @@ project "EndGame"
   files {
     "../../EndGame/**.h",
     "../../EndGame/**.cpp",
-    "../../EndGame/**.hpp",
-    "../../Sandbox/**.hpp",
-    "../../Sandbox/**.cpp"
+    "../../EndGame/**.hpp"
   }
 
   sysincludedirs {
@@ -42,3 +40,37 @@ project "EndGame"
     defines {
       "EG_PLATFORM_OSX"
     }
+
+project "Sandbox"
+  location "EndGame"
+  language "C++"
+  kind "ConsoleApp"
+
+  location "../../"
+
+  targetdir ("../../bin/" .. outputdir .. "/EndGame" )
+  objdir ("../../bin-int/" .. outputdir .. "/EndGame" )
+
+  files {
+    "../../Sandbox/**.hpp",
+    "../../Sandbox/**.cpp"
+  }
+
+  sysincludedirs {
+    "${SRCROOT}/EndGame/vendor/spdlog/include",
+    "${SRCROOT}/EndGame/"
+  }
+
+  links {
+    "EndGame"
+  }
+
+  filter "system:macosx"
+    cppdialect "C++17"
+    staticruntime "On"
+    systemversion "macOS 10.15"
+    removefiles {"../../EndGame/vendor/**"}
+
+  defines {
+    "EG_PLATFORM_OSX"
+  }
