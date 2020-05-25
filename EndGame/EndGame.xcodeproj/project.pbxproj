@@ -3,43 +3,31 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		353DDFAB247B2AFE0030A799 /* SandboxApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 353DDFA9247B2AFE0030A799 /* SandboxApp.cpp */; };
-		353DDFAE247B2B420030A799 /* EntryPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 353DDFAC247B2B420030A799 /* EntryPoint.cpp */; };
-		353DDFAF247B2FC30030A799 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 353DDFA5247B2AAF0030A799 /* Application.cpp */; };
-		353DE3A8247B93840030A799 /* LogSubSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 353DE3A6247B93840030A799 /* LogSubSystem.cpp */; };
+		0D7962EC40F8A25E58F2812C /* LogSubSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFF7A1D4958EA90658D3B814 /* LogSubSystem.cpp */; };
+		1FF31B01944D5FF31230E941 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51B13D8963DB1A3B97CC03C9 /* Application.cpp */; };
+		2EA8DE91F1693F034E9E1CD1 /* EntryPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FE044719E24B4F4B66387D59 /* EntryPoint.cpp */; };
+		B54457E07BD24F52E9D47620 /* SandboxApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07E715E89D5DD51A0BFA2C28 /* SandboxApp.cpp */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		353DDF8F247B28D00030A799 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		353DDF91247B28D00030A799 /* EndGame */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = EndGame; sourceTree = BUILT_PRODUCTS_DIR; };
-		353DDFA5247B2AAF0030A799 /* Application.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
-		353DDFA6247B2AAF0030A799 /* Application.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Application.hpp; sourceTree = "<group>"; };
-		353DDFA8247B2ADB0030A799 /* EndGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EndGame.h; sourceTree = "<group>"; };
-		353DDFA9247B2AFE0030A799 /* SandboxApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SandboxApp.cpp; sourceTree = "<group>"; };
-		353DDFAC247B2B420030A799 /* EntryPoint.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EntryPoint.cpp; sourceTree = "<group>"; };
-		353DDFAD247B2B420030A799 /* EntryPoint.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EntryPoint.hpp; sourceTree = "<group>"; };
-		353DDFB0247B3AE50030A799 /* SandboxApp.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SandboxApp.hpp; sourceTree = "<group>"; };
-		353DE3A6247B93840030A799 /* LogSubSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LogSubSystem.cpp; sourceTree = "<group>"; };
-		353DE3A7247B93840030A799 /* LogSubSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LogSubSystem.hpp; sourceTree = "<group>"; };
+		07E715E89D5DD51A0BFA2C28 /* SandboxApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SandboxApp.cpp; path = Sandbox/SandboxApp.cpp; sourceTree = "<group>"; };
+		51B13D8963DB1A3B97CC03C9 /* Application.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Application.cpp; path = EndGame/Src/Application.cpp; sourceTree = "<group>"; };
+		5857541680920CC8682D9A56 /* EndGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EndGame.h; path = EndGame/EndGame.h; sourceTree = "<group>"; };
+		AFF7A1D4958EA90658D3B814 /* LogSubSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LogSubSystem.cpp; path = EndGame/Src/SubSystems/LogSubSystem/LogSubSystem.cpp; sourceTree = "<group>"; };
+		D30AC75A775D650C8995AD9A /* EndGame */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = EndGame; path = EndGame; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD54B45EC2EBBB908630CA9E /* LogSubSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = text; name = LogSubSystem.hpp; path = EndGame/Src/SubSystems/LogSubSystem/LogSubSystem.hpp; sourceTree = "<group>"; };
+		DEE119B27457D8E4E2F42FF2 /* SandboxApp.hpp */ = {isa = PBXFileReference; lastKnownFileType = text; name = SandboxApp.hpp; path = Sandbox/SandboxApp.hpp; sourceTree = "<group>"; };
+		ECA2C563D0E9CD9554D6FBA3 /* EntryPoint.hpp */ = {isa = PBXFileReference; lastKnownFileType = text; name = EntryPoint.hpp; path = EndGame/Src/EntryPoint.hpp; sourceTree = "<group>"; };
+		F7B98C7309E369253DD452B3 /* Application.hpp */ = {isa = PBXFileReference; lastKnownFileType = text; name = Application.hpp; path = EndGame/Src/Application.hpp; sourceTree = "<group>"; };
+		FE044719E24B4F4B66387D59 /* EntryPoint.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = EntryPoint.cpp; path = EndGame/Src/EntryPoint.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		353DDF8E247B28D00030A799 /* Frameworks */ = {
+		F45B1FCA446EB47CC6ECE60A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -49,280 +37,272 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		353DDF88247B28D00030A799 = {
+		2BDD27B8D02FC56AE2680DF8 /* Src */ = {
 			isa = PBXGroup;
 			children = (
-				353DDFA8247B2ADB0030A799 /* EndGame.h */,
-				353DDF93247B28D00030A799 /* EndGame */,
-				353DDFA3247B29BB0030A799 /* Sandbox */,
-				353DDF92247B28D00030A799 /* Products */,
+				51B13D8963DB1A3B97CC03C9 /* Application.cpp */,
+				F7B98C7309E369253DD452B3 /* Application.hpp */,
+				FE044719E24B4F4B66387D59 /* EntryPoint.cpp */,
+				ECA2C563D0E9CD9554D6FBA3 /* EntryPoint.hpp */,
+				6C3A9383B99D89B52FBC89C3 /* SubSystems */,
 			);
+			name = Src;
 			sourceTree = "<group>";
 		};
-		353DDF92247B28D00030A799 /* Products */ = {
+		6C3A9383B99D89B52FBC89C3 /* SubSystems */ = {
 			isa = PBXGroup;
 			children = (
-				353DDF91247B28D00030A799 /* EndGame */,
+				C99FE2926B897E8462B090D2 /* LogSubSystem */,
+			);
+			name = SubSystems;
+			sourceTree = "<group>";
+		};
+		89D269462E2506F8405D4F86 /* Sandbox */ = {
+			isa = PBXGroup;
+			children = (
+				07E715E89D5DD51A0BFA2C28 /* SandboxApp.cpp */,
+				DEE119B27457D8E4E2F42FF2 /* SandboxApp.hpp */,
+			);
+			name = Sandbox;
+			sourceTree = "<group>";
+		};
+		A6C936B49B3FADE6EA134CF4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D30AC75A775D650C8995AD9A /* EndGame */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		353DDF93247B28D00030A799 /* EndGame */ = {
+		AA37800A4E8A1DBC60C2664A /* EndGame */ = {
 			isa = PBXGroup;
 			children = (
-				353DE3A9247C30510030A799 /* LogSubSystem */,
-				353DDFAD247B2B420030A799 /* EntryPoint.hpp */,
-				353DDFAC247B2B420030A799 /* EntryPoint.cpp */,
-				353DDFA6247B2AAF0030A799 /* Application.hpp */,
-				353DDFA5247B2AAF0030A799 /* Application.cpp */,
+				5857541680920CC8682D9A56 /* EndGame.h */,
+				2BDD27B8D02FC56AE2680DF8 /* Src */,
 			);
-			path = EndGame;
+			name = EndGame;
 			sourceTree = "<group>";
 		};
-		353DDFA3247B29BB0030A799 /* Sandbox */ = {
+		AE72E671417E3F6389B334B1 /* EndGame */ = {
 			isa = PBXGroup;
 			children = (
-				353DDFB0247B3AE50030A799 /* SandboxApp.hpp */,
-				353DDFA9247B2AFE0030A799 /* SandboxApp.cpp */,
+				AA37800A4E8A1DBC60C2664A /* EndGame */,
+				89D269462E2506F8405D4F86 /* Sandbox */,
+				A6C936B49B3FADE6EA134CF4 /* Products */,
 			);
-			path = Sandbox;
+			name = EndGame;
 			sourceTree = "<group>";
 		};
-		353DE3A9247C30510030A799 /* LogSubSystem */ = {
+		C99FE2926B897E8462B090D2 /* LogSubSystem */ = {
 			isa = PBXGroup;
 			children = (
-				353DE3A6247B93840030A799 /* LogSubSystem.cpp */,
-				353DE3A7247B93840030A799 /* LogSubSystem.hpp */,
+				AFF7A1D4958EA90658D3B814 /* LogSubSystem.cpp */,
+				DD54B45EC2EBBB908630CA9E /* LogSubSystem.hpp */,
 			);
-			path = LogSubSystem;
+			name = LogSubSystem;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		353DDF90247B28D00030A799 /* EndGame */ = {
+		278A1C003446CB72A9313A40 /* EndGame */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 353DDF98247B28D00030A799 /* Build configuration list for PBXNativeTarget "EndGame" */;
+			buildConfigurationList = E296682932A9FCDBB5282E69 /* Build configuration list for PBXNativeTarget "EndGame" */;
 			buildPhases = (
-				353DDF8D247B28D00030A799 /* Sources */,
-				353DDF8E247B28D00030A799 /* Frameworks */,
-				353DDF8F247B28D00030A799 /* CopyFiles */,
+				6442A06AB456351C36D466AA /* Resources */,
+				CDEFB9C11E034E73A0818001 /* Sources */,
+				F45B1FCA446EB47CC6ECE60A /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = EndGame;
+			productInstallPath = "$(HOME)/bin";
 			productName = EndGame;
-			productReference = 353DDF91247B28D00030A799 /* EndGame */;
+			productReference = D30AC75A775D650C8995AD9A /* EndGame */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		353DDF89247B28D00030A799 /* Project object */ = {
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			attributes = {
-				LastUpgradeCheck = 1150;
-				ORGANIZATIONNAME = Siddharth;
-				TargetAttributes = {
-					353DDF90247B28D00030A799 = {
-						CreatedOnToolsVersion = 11.5;
-					};
-				};
-			};
-			buildConfigurationList = 353DDF8C247B28D00030A799 /* Build configuration list for PBXProject "EndGame" */;
-			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = en;
-			hasScannedForEncodings = 0;
-			knownRegions = (
-				en,
-				Base,
-			);
-			mainGroup = 353DDF88247B28D00030A799;
-			productRefGroup = 353DDF92247B28D00030A799 /* Products */;
+			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "EndGame" */;
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 1;
+			mainGroup = AE72E671417E3F6389B334B1 /* EndGame */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				353DDF90247B28D00030A799 /* EndGame */,
+				278A1C003446CB72A9313A40 /* EndGame */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		6442A06AB456351C36D466AA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
-		353DDF8D247B28D00030A799 /* Sources */ = {
+		CDEFB9C11E034E73A0818001 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				353DDFAF247B2FC30030A799 /* Application.cpp in Sources */,
-				353DDFAE247B2B420030A799 /* EntryPoint.cpp in Sources */,
-				353DE3A8247B93840030A799 /* LogSubSystem.cpp in Sources */,
-				353DDFAB247B2AFE0030A799 /* SandboxApp.cpp in Sources */,
+				1FF31B01944D5FF31230E941 /* Application.cpp in Sources */,
+				2EA8DE91F1693F034E9E1CD1 /* EntryPoint.cpp in Sources */,
+				0D7962EC40F8A25E58F2812C /* LogSubSystem.cpp in Sources */,
+				B54457E07BD24F52E9D47620 /* SandboxApp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
-		353DDF96247B28D00030A799 /* Debug */ = {
+		0CDD2620B028AF52CAF97C60 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++1z";
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
+					EG_PLATFORM_OSX,
 				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				"HEADER_SEARCH_PATHS[arch=*]" = (
+				HEADER_SEARCH_PATHS = (
 					"${SRCROOT}/EndGame/vendor/spdlog/include",
 					"$(inherited)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				OBJROOT = "bin-int/Debug-macosx-x86_64/EndGame";
+				ONLY_ACTIVE_ARCH = NO;
+				SYMROOT = "bin/Debug-macosx-x86_64/EndGame";
 			};
 			name = Debug;
 		};
-		353DDF97247B28D00030A799 /* Release */ = {
+		0D6F026F339532219A9C28AF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
+				CONFIGURATION_BUILD_DIR = "bin/Debug-macosx-x86_64/EndGame";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				"HEADER_SEARCH_PATHS[arch=*]" = (
-					"$(inherited)",
-					"${SRCROOT}/EndGame/vendor/spdlog/include",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				SDKROOT = macosx;
-			};
-			name = Release;
-		};
-		353DDF99247B28D00030A799 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8DJK64U982;
-				ENABLE_HARDENED_RUNTIME = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local/bin;
+				MACOSX_DEPLOYMENT_TARGET = "macOS 10.15";
+				PRODUCT_NAME = EndGame;
 			};
 			name = Debug;
 		};
-		353DDF9A247B28D00030A799 /* Release */ = {
+		6BFC7529B46D595BF90C2B69 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8DJK64U982;
-				ENABLE_HARDENED_RUNTIME = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = "bin/Release-macosx-x86_64/EndGame";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local/bin;
+				MACOSX_DEPLOYMENT_TARGET = "macOS 10.15";
+				PRODUCT_NAME = EndGame;
 			};
 			name = Release;
+		};
+		A192594DF418843FC65CE78D /* Dist */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++1z";
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					EG_PLATFORM_OSX,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"${SRCROOT}/EndGame/vendor/spdlog/include",
+					"$(inherited)",
+				);
+				OBJROOT = "bin-int/Dist-macosx-x86_64/EndGame";
+				ONLY_ACTIVE_ARCH = NO;
+				SYMROOT = "bin/Dist-macosx-x86_64/EndGame";
+			};
+			name = Dist;
+		};
+		AD27085A5179A60C63B1EE9A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++1z";
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					EG_PLATFORM_OSX,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"${SRCROOT}/EndGame/vendor/spdlog/include",
+					"$(inherited)",
+				);
+				OBJROOT = "bin-int/Release-macosx-x86_64/EndGame";
+				ONLY_ACTIVE_ARCH = NO;
+				SYMROOT = "bin/Release-macosx-x86_64/EndGame";
+			};
+			name = Release;
+		};
+		B1CBD1DCAB31D34E9ECD301C /* Dist */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = "bin/Dist-macosx-x86_64/EndGame";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local/bin;
+				MACOSX_DEPLOYMENT_TARGET = "macOS 10.15";
+				PRODUCT_NAME = EndGame;
+			};
+			name = Dist;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		353DDF8C247B28D00030A799 /* Build configuration list for PBXProject "EndGame" */ = {
+		1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "EndGame" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				353DDF96247B28D00030A799 /* Debug */,
-				353DDF97247B28D00030A799 /* Release */,
+				0CDD2620B028AF52CAF97C60 /* Debug */,
+				AD27085A5179A60C63B1EE9A /* Release */,
+				A192594DF418843FC65CE78D /* Dist */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		353DDF98247B28D00030A799 /* Build configuration list for PBXNativeTarget "EndGame" */ = {
+		E296682932A9FCDBB5282E69 /* Build configuration list for PBXNativeTarget "EndGame" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				353DDF99247B28D00030A799 /* Debug */,
-				353DDF9A247B28D00030A799 /* Release */,
+				0D6F026F339532219A9C28AF /* Debug */,
+				6BFC7529B46D595BF90C2B69 /* Release */,
+				B1CBD1DCAB31D34E9ECD301C /* Dist */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
-	};
-	rootObject = 353DDF89247B28D00030A799 /* Project object */;
+};
+rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
 }
