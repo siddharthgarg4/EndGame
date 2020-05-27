@@ -200,7 +200,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"${SRCROOT}/EndGame/vendor/spdlog/include",
-					"${SRCROOT}/EndGame",
+					"${SRCROOT}",
 					"$(inherited)",
 				);
 				OBJROOT = "bin-int/Dist-macosx-x86_64/EndGame/Dist/Sandbox";
@@ -239,7 +239,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"${SRCROOT}/EndGame/vendor/spdlog/include",
-					"${SRCROOT}/EndGame",
+					"${SRCROOT}",
 					"$(inherited)",
 				);
 				OBJROOT = "bin-int/Release-macosx-x86_64/EndGame/Release/Sandbox";
@@ -265,7 +265,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"${SRCROOT}/EndGame/vendor/spdlog/include",
-					"${SRCROOT}/EndGame",
+					"${SRCROOT}",
 					"$(inherited)",
 				);
 				OBJROOT = "bin-int/Debug-macosx-x86_64/EndGame/Debug/Sandbox";

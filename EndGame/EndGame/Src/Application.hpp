@@ -8,19 +8,20 @@
 
 #ifndef Application_hpp
 #define Application_hpp
-
-#include <stdio.h>
+#include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
+#include <EndGame/Src/SubSystems/LogSubSystem/LogSubSystem.hpp>
 
 namespace EndGame {
-class Application {
-public:
-    Application();
-    virtual ~Application();
-    
-    void run();
-};
 
-Application *createApplication();
+    class Application {
+        public:
+            Application();
+            virtual ~Application();
+
+            void run();
+    };
+
+    Application *createApplication();
 }
 
-#endif /* Application_hpp */
+#endif

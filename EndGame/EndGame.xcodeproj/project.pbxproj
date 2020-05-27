@@ -14,13 +14,18 @@
 
 /* Begin PBXFileReference section */
 		0FB35D36B2A183E841C76376 /* EndGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EndGame.h; path = EndGame/EndGame.h; sourceTree = "<group>"; };
+		29B449329D9CC0E4BFEA6F72 /* MouseEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MouseEvent.h; path = EndGame/Src/SubSystems/EventSubSystem/MouseEvent.h; sourceTree = "<group>"; };
 		2D186F602DCB6C52A1AD3DA0 /* libEndGame.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libEndGame.a; path = libEndGame.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		359D0BF4CFC101267FE6E234 /* LogSubSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LogSubSystem.cpp; path = EndGame/Src/SubSystems/LogSubSystem/LogSubSystem.cpp; sourceTree = "<group>"; };
+		53F1B620980587528BD70C60 /* Event.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Event.h; path = EndGame/Src/SubSystems/EventSubSystem/Event.h; sourceTree = "<group>"; };
 		66FAF783B45DEDB52A7CEDC3 /* EntryPoint.hpp */ = {isa = PBXFileReference; lastKnownFileType = text; name = EntryPoint.hpp; path = EndGame/Src/EntryPoint.hpp; sourceTree = "<group>"; };
 		69E48A939BDDD54515BD10D3 /* Application.hpp */ = {isa = PBXFileReference; lastKnownFileType = text; name = Application.hpp; path = EndGame/Src/Application.hpp; sourceTree = "<group>"; };
 		819A297E1BBE1EB0CBE3FFBE /* LogSubSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = text; name = LogSubSystem.hpp; path = EndGame/Src/SubSystems/LogSubSystem/LogSubSystem.hpp; sourceTree = "<group>"; };
 		B78C2E3904EF246B7B0E2479 /* EntryPoint.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = EntryPoint.cpp; path = EndGame/Src/EntryPoint.cpp; sourceTree = "<group>"; };
+		BA3AB75DBDAB898F3F182D9D /* Core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Core.h; path = EndGame/Src/Core.h; sourceTree = "<group>"; };
+		C77C4272E248B124E61948B2 /* KeyEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = KeyEvent.h; path = EndGame/Src/SubSystems/EventSubSystem/KeyEvent.h; sourceTree = "<group>"; };
 		E90290A91AFBDB5B94DB16E9 /* Application.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Application.cpp; path = EndGame/Src/Application.cpp; sourceTree = "<group>"; };
+		F813C608E57B58BA82754C48 /* ApplicationEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ApplicationEvent.h; path = EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,11 +44,23 @@
 			children = (
 				E90290A91AFBDB5B94DB16E9 /* Application.cpp */,
 				69E48A939BDDD54515BD10D3 /* Application.hpp */,
+				BA3AB75DBDAB898F3F182D9D /* Core.h */,
 				B78C2E3904EF246B7B0E2479 /* EntryPoint.cpp */,
 				66FAF783B45DEDB52A7CEDC3 /* EntryPoint.hpp */,
 				A9A265A3F21349D536B21BE3 /* SubSystems */,
 			);
 			name = Src;
+			sourceTree = "<group>";
+		};
+		97537D72EEB8F064A0C70BB2 /* EventSubSystem */ = {
+			isa = PBXGroup;
+			children = (
+				F813C608E57B58BA82754C48 /* ApplicationEvent.h */,
+				53F1B620980587528BD70C60 /* Event.h */,
+				C77C4272E248B124E61948B2 /* KeyEvent.h */,
+				29B449329D9CC0E4BFEA6F72 /* MouseEvent.h */,
+			);
+			name = EventSubSystem;
 			sourceTree = "<group>";
 		};
 		A6C936B49B3FADE6EA134CF4 /* Products */ = {
@@ -57,6 +74,7 @@
 		A9A265A3F21349D536B21BE3 /* SubSystems */ = {
 			isa = PBXGroup;
 			children = (
+				97537D72EEB8F064A0C70BB2 /* EventSubSystem */,
 				CDEC09B26079D3A4C95277F2 /* LogSubSystem */,
 			);
 			name = SubSystems;
@@ -162,6 +180,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"${SRCROOT}/EndGame/vendor/spdlog/include",
+					"${SRCROOT}",
 					"$(inherited)",
 				);
 				OBJROOT = "bin-int/Debug-macosx-x86_64/EndGame/Debug/EndGame";
@@ -226,6 +245,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"${SRCROOT}/EndGame/vendor/spdlog/include",
+					"${SRCROOT}",
 					"$(inherited)",
 				);
 				OBJROOT = "bin-int/Dist-macosx-x86_64/EndGame/Dist/EndGame";
@@ -251,6 +271,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"${SRCROOT}/EndGame/vendor/spdlog/include",
+					"${SRCROOT}",
 					"$(inherited)",
 				);
 				OBJROOT = "bin-int/Release-macosx-x86_64/EndGame/Release/EndGame";

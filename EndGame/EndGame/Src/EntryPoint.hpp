@@ -9,10 +9,9 @@
 #ifndef EntryPoint_hpp
 #define EntryPoint_hpp
 
-#include <stdio.h>
-#include "Application.hpp"
-#include "SubSystems/LogSubSystem/LogSubSystem.hpp"
+#include <EndGame/Src/Application.hpp>
+#include <EndGame/Src/SubSystems/LogSubSystem/LogSubSystem.hpp>
 
 extern EndGame::Application *EndGame::createApplication();
 
-#endif /* EntryPoint_hpp */
+#endif

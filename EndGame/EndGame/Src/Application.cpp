@@ -9,14 +9,18 @@
 #include "Application.hpp"
 
 namespace EndGame {
-Application::Application() {
-    
-}
-Application::~Application() {
-    
-}
 
-void Application::run() {
-    while(true) {}
-}
+    Application::Application() {}
+    Application::~Application() {}
+
+    void Application::run() {
+        WindowResizeEvent event(1280, 720);
+        if (event.isEventInCategory(EventCategory::EventCategoryApplication)) {
+            EG_TRACE(event);
+        }
+        if (event.isEventInCategory(EventCategory::EventCategoryInput)) {
+            EG_TRACE(event);
+        }
+        while (true);
+    }
 }

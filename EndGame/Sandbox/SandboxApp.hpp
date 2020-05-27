@@ -8,16 +8,12 @@
 
 #ifndef SandboxApp_hpp
 #define SandboxApp_hpp
-#include "EndGame.h"
+#include <EndGame/EndGame.h>
 
-class Sandbox : public EndGame::Application{
-public:
-    Sandbox() {
-    }
-    
-    ~Sandbox() {
-        
-    }
+class Sandbox : public EndGame::Application {
+    public:
+        Sandbox() {}
+        ~Sandbox() {}
 };
 
 //custom run the application as per the client
@@ -25,4 +21,4 @@ EndGame::Application *EndGame::createApplication() {
     return new Sandbox();
 }
 
-#endif /* SandboxApp_hpp */
+#endif

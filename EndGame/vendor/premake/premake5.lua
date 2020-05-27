@@ -24,11 +24,13 @@ project "EndGame"
   files {
     "../../EndGame/**.h",
     "../../EndGame/**.cpp",
-    "../../EndGame/**.hpp"
+    "../../EndGame/**.hpp",
+    "../../EndGame/**.h"
   }
 
   sysincludedirs {
-    "${SRCROOT}/EndGame/vendor/spdlog/include"
+    "${SRCROOT}/EndGame/vendor/spdlog/include",
+    "${SRCROOT}"
   }
 
   filter "system:macosx"
@@ -70,7 +72,7 @@ project "Sandbox"
 
   sysincludedirs {
     "${SRCROOT}/EndGame/vendor/spdlog/include",
-    "${SRCROOT}/EndGame/"
+    "${SRCROOT}"
   }
 
   links {

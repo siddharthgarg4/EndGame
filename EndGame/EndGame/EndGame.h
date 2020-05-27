@@ -10,16 +10,22 @@
 #define EndGame_h
 //For use by the EndGame applications
 
-#include "Src/Application.hpp"
-
 //MARK: Basic Libraries
 #include <iostream>
 
+//MARK: Application
+#include <EndGame/Src/Application.hpp>
+
 //MARK: Entry Point
-#include "Src/EntryPoint.hpp"
+#include <EndGame/Src/EntryPoint.hpp>
 
 //MARK: Logging
-#include "Src/SubSystems/LogSubSystem/LogSubSystem.hpp"
+#include <EndGame/Src/SubSystems/LogSubSystem/LogSubSystem.hpp>
 
+//MARK: Events
+#include <EndGame/Src/SubSystems/EventSubSystem/Event.h>
+#include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
+#include <EndGame/Src/SubSystems/EventSubSystem/KeyEvent.h>
+#include <EndGame/Src/SubSystems/EventSubSystem/MouseEvent.h>
 
-#endif /* EndGame_h */
+#endif
