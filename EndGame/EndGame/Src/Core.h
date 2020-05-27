@@ -7,7 +7,6 @@
 
 #ifndef Core_h
 #define Core_h
-#include <string>
 
 #ifndef EG_PLATFORM_OSX
     #error EndGame currently only supports OSX

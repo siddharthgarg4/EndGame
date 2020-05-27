@@ -21,6 +21,9 @@ project "EndGame"
   targetdir ("../../bin/" .. outputdir .. "/EndGame" )
   objdir ("../../bin-int/" .. outputdir .. "/EndGame" )
 
+  pchheader "EndGame/Src/EndGamePCH.hpp"
+	pchsource "EndGame/Src/EndGamePCH.cpp"
+
   files {
     "../../EndGame/**.h",
     "../../EndGame/**.cpp",

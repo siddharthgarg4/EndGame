@@ -8,8 +8,7 @@
 #ifndef Event_h
 #define Event_h
 #include <EndGame/Src/Core.h>
-#include <sstream>
-#include <functional>
+#include <EndGame/Src/EndGamePCH.hpp>
 
 namespace EndGame {
 
