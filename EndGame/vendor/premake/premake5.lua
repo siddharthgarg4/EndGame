@@ -22,7 +22,7 @@ project "EndGame"
   objdir ("../../bin-int/" .. outputdir .. "/EndGame" )
 
   pchheader "EndGame/Src/EndGamePCH.hpp"
-	pchsource "EndGame/Src/EndGamePCH.cpp"
+  pchsource "EndGame/Src/EndGamePCH.cpp"
 
   files {
     "../../EndGame/**.h",
