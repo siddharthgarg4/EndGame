@@ -79,7 +79,7 @@ project "Sandbox"
   }
 
   libdirs {
-    "${SRCROOT}/Sandbox/vendor/glfw/binaries/lib/"
+    "${SRCROOT}/EndGame/vendor/glfw/lib/"
   }
 
   links {
