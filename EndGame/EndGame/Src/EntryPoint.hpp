@@ -10,7 +10,7 @@
 #define EntryPoint_hpp
 
 #include <EndGame/Src/Application.hpp>
-#include <EndGame/Src/SubSystems/LogSubSystem/LogSubSystem.hpp>
+#include <EndGame/Src/EndGamePCH.hpp>
 
 extern EndGame::Application *EndGame::createApplication();
 

@@ -8,8 +8,7 @@
 
 #ifndef Application_hpp
 #define Application_hpp
-#include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
-#include <EndGame/Src/SubSystems/LogSubSystem/LogSubSystem.hpp>
+#include <EndGame/Src/SubSystems/WindowSubSystem/Window.h>
 
 namespace EndGame {
 
@@ -17,10 +16,11 @@ namespace EndGame {
         public:
             Application();
             virtual ~Application();
-
             void run();
+        private:
+            std::unique_ptr<Window> window;
+            bool isRunning = true;
     };
-
     Application *createApplication();
 }
 

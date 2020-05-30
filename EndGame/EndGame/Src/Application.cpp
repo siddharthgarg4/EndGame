@@ -7,20 +7,23 @@
 //
 
 #include "Application.hpp"
+#include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
+#include <EndGame/Src/EndGamePCH.hpp>
+#include <GLFW/glfw3.h>
 
 namespace EndGame {
 
-    Application::Application() {}
+    Application::Application() {
+        window = std::unique_ptr<Window>(Window::create());
+    }
+
     Application::~Application() {}
 
     void Application::run() {
-        WindowResizeEvent event(1280, 720);
-        if (event.isEventInCategory(EventCategory::EventCategoryApplication)) {
-            EG_TRACE(event);
+        while (isRunning) {
+            glClearColor(1, 0, 1, 1);
+			glClear(GL_COLOR_BUFFER_BIT);
+			window->onUpdate();
         }
-        if (event.isEventInCategory(EventCategory::EventCategoryInput)) {
-            EG_TRACE(event);
-        }
-        while (true);
     }
 }

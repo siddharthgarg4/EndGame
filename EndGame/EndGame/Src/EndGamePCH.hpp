@@ -13,11 +13,13 @@
 #include <utility>
 #include <algorithm>
 #include <functional>
-
 #include <string>
 #include <sstream>
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+
+//EndGame Files
+#include <EndGame/Src/SubSystems/LogSubSystem/LogSubSystem.hpp>
 
 #endif

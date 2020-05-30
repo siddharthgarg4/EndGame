@@ -12,7 +12,6 @@ workspace "EndGame"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 project "EndGame"
-  location "EndGame"
   language "C++"
   kind "StaticLib"
 
@@ -32,13 +31,14 @@ project "EndGame"
   }
 
   sysincludedirs {
+    "${SRCROOT}",
     "${SRCROOT}/EndGame/vendor/spdlog/include",
-    "${SRCROOT}"
+    "${SRCROOT}/EndGame/vendor/glfw/include"
   }
 
   filter "system:macosx"
     cppdialect "C++17"
-    staticruntime "On"
+    staticruntime "on"
     systemversion "macOS 10.15"
     removefiles {"../../EndGame/vendor/**"}
 
@@ -48,18 +48,17 @@ project "EndGame"
 
     filter "configurations:Debug"
 		  defines "EG_ENGINE_DEBUG"
-		  optimize "On"
+		  optimize "on"
 
     filter "configurations:Release"
 		  defines "EG_ENGINE_RELEASE"
-		  optimize "On"
+		  optimize "on"
 
     filter "configurations:Dist"
 		  defines "EG_ENGINE_DIST"
-		  optimize "On"
+		  optimize "on"
 
 project "Sandbox"
-  location "EndGame"
   language "C++"
   kind "ConsoleApp"
 
@@ -74,17 +73,24 @@ project "Sandbox"
   }
 
   sysincludedirs {
+    "${SRCROOT}",
     "${SRCROOT}/EndGame/vendor/spdlog/include",
-    "${SRCROOT}"
+    "${SRCROOT}/EndGame/vendor/glfw/include"
+  }
+
+  libdirs {
+    "${SRCROOT}/Sandbox/vendor/glfw/binaries/lib/"
   }
 
   links {
-    "EndGame"
+    "EndGame",
+    "OpenGL.framework",
+    "glfw.3.3"
   }
 
   filter "system:macosx"
     cppdialect "C++17"
-    staticruntime "On"
+    staticruntime "on"
     systemversion "macOS 10.15"
     removefiles {"../../EndGame/vendor/**"}
 
@@ -94,12 +100,12 @@ project "Sandbox"
 
   filter "configurations:Debug"
     defines "EG_DEBUG"
-    optimize "On"
+    optimize "on"
 
   filter "configurations:Release"
     defines "EG_RELEASE"
-    optimize "On"
+    optimize "on"
 
   filter "configurations:Dist"
     defines "EG_DIST"
-    optimize "On"
+    optimize "on"
