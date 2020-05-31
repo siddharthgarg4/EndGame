@@ -15,6 +15,16 @@ namespace EndGame {
 
     Application::Application() {
         window = std::unique_ptr<Window>(Window::create());
+        window->setEventCallBack([this](Event &event) {
+            //setting event call back
+            EventDispatcher dispatcher(event);
+            dispatcher.dispatch<WindowCloseEvent>([this](WindowCloseEvent &event) {
+                //setting dispatch function to call if event is window close event
+                isRunning = false;
+                return true;
+            });
+            EG_ENGINE_TRACE("{0}", event);
+        });
     }
 
     Application::~Application() {}

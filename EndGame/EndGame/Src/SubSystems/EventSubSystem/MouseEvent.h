@@ -13,9 +13,9 @@ namespace EndGame {
     
     class MouseMovedEvent : public Event {
         public:
-            MouseMovedEvent(float x, float y) : x(x), y(y) {}
-            inline float getX() { return x; }
-            inline float getY() { return y; }
+            MouseMovedEvent(double x, double y) : x(x), y(y) {}
+            inline double getX() { return x; }
+            inline double getY() { return y; }
             std::string toString() const override { 
                 std::stringstream ss;
                 ss << "MouseMovedEvent: (x: " << x << ", y: " << y << ")";
@@ -25,24 +25,24 @@ namespace EndGame {
             EVENT_CLASS_CATEGORY(EventCategory::EventCategoryMouse | EventCategory::EventCategoryInput)
 
         private:
-            float x, y;
+            double x, y;
     };
 
     class MouseScrolledEvent : public Event {
         public:
-        MouseScrolledEvent(float xOffset, float yOffset) : xOffset(xOffset), yOffset(yOffset) {}
-        inline float getXOffset() { return xOffset; }
-        inline float getYOffset() { return yOffset; }
-        std::string toString() const override { 
-            std::stringstream ss;
-            ss << "MouseScrolledEvent: (xOffset: " << xOffset << ", yOffset: " << yOffset << ")";
-            return ss.str();
-        }
-        EVENT_CLASS_TYPE(MouseScrolled)
-        EVENT_CLASS_CATEGORY(EventCategory::EventCategoryMouse | EventCategory::EventCategoryInput)
+            MouseScrolledEvent(double xOffset, double yOffset) : xOffset(xOffset), yOffset(yOffset) {}
+            inline double getXOffset() { return xOffset; }
+            inline double getYOffset() { return yOffset; }
+            std::string toString() const override { 
+                std::stringstream ss;
+                ss << "MouseScrolledEvent: (xOffset: " << xOffset << ", yOffset: " << yOffset << ")";
+                return ss.str();
+            }
+            EVENT_CLASS_TYPE(MouseScrolled)
+            EVENT_CLASS_CATEGORY(EventCategory::EventCategoryMouse | EventCategory::EventCategoryInput)
 
         private:
-            float xOffset, yOffset;
+            double xOffset, yOffset;
     };
 
     class MouseButtonEvent : public Event {
@@ -67,13 +67,14 @@ namespace EndGame {
     };
 
     class MouseButtonReleasedEvent : public MouseButtonEvent {
-        MouseButtonReleasedEvent(int buttonCode) : MouseButtonEvent(buttonCode) {}
-        std::string toString() const override {
-            std::stringstream ss;
-            ss << "MouseButtonReleasedEvent: " << buttonCode;
-            return ss.str();
-        }
-        EVENT_CLASS_TYPE(MouseButtonReleased)
+        public:
+            MouseButtonReleasedEvent(int buttonCode) : MouseButtonEvent(buttonCode) {}
+            std::string toString() const override {
+                std::stringstream ss;
+                ss << "MouseButtonReleasedEvent: " << buttonCode;
+                return ss.str();
+            }
+            EVENT_CLASS_TYPE(MouseButtonReleased)
     };
 }
 

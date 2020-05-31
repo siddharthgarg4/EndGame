@@ -6,6 +6,9 @@
 //
 
 #include "MacOsWindow.hpp"
+#include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
+#include <EndGame/Src/SubSystems/EventSubSystem/KeyEvent.h>
+#include <EndGame/Src/SubSystems/EventSubSystem/MouseEvent.h>
 #include <EndGame/Src/EndGamePCH.hpp>
 
 namespace EndGame {
@@ -50,16 +53,85 @@ namespace EndGame {
         data.height = properties.height;
         data.width = properties.width;
         //logging
-        EG_ENGINE_INFO("Creating window {0} ({1}, {2})", properties.title, properties.width, properties.height);
+        EG_ENGINE_INFO("Creating window: {0} ({1}, {2})", properties.title, properties.width, properties.height);
         if (!isGlfwInitialized) {
+            //init once per program run
             int success = glfwInit();
             EG_ENGINE_ASSERT(success, "Could not intialize GLFW!");
+            //setting glfw error callback
+            glfwSetErrorCallback([](int error, const char* description) {
+                EG_ENGINE_ERROR("GLFW Error ({0}): {1}", error, description);
+            });
             isGlfwInitialized = true;
         }
         window = glfwCreateWindow((int)properties.width, (int)properties.height, properties.title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(window);
 		glfwSetWindowUserPointer(window, &data);
         setVSync(true);
+
+        //setting event callbacks to the window
+        glfwSetWindowSizeCallback(window, [](GLFWwindow *window, int width, int height) {
+            WindowData *data = (WindowData *)glfwGetWindowUserPointer(window);
+            data->width = width;
+            data->height = height;
+            WindowResizeEvent event(width, height);
+            data->eventCallBack(event);
+        });
+
+        glfwSetWindowCloseCallback(window, [](GLFWwindow *window) {
+            WindowData *data = (WindowData *)glfwGetWindowUserPointer(window);
+            WindowCloseEvent event;
+            data->eventCallBack(event);
+        });
+
+        glfwSetKeyCallback(window, [](GLFWwindow *window, int key, int scancode, int action, int mods) {
+            WindowData *data = (WindowData *)glfwGetWindowUserPointer(window);
+            switch(action) {
+                case GLFW_PRESS: {
+                    KeyPressedEvent event(key,0);
+                    data->eventCallBack(event);
+                    break;
+                }
+                case GLFW_RELEASE: {
+                    KeyReleasedEvent event(key);
+                    data->eventCallBack(event);
+                    break;
+                }
+                case GLFW_REPEAT: {
+                    KeyPressedEvent event(key,1);
+                    data->eventCallBack(event);
+                    break;
+                }
+            }
+        });
+
+        glfwSetMouseButtonCallback(window, [](GLFWwindow *window, int button, int action, int mods) {
+            WindowData *data = (WindowData *)glfwGetWindowUserPointer(window);
+            switch(action) {
+                case GLFW_PRESS: {
+                    MouseButtonPressedEvent event(button);
+                    data->eventCallBack(event);
+                    break;
+                }
+                case GLFW_RELEASE: {
+                    MouseButtonReleasedEvent event(button);
+                    data->eventCallBack(event);
+                    break;
+                }
+            }
+        });
+
+        glfwSetScrollCallback(window, [](GLFWwindow *window, double xOffset, double yOffset) {
+            WindowData *data = (WindowData *)glfwGetWindowUserPointer(window);
+            MouseScrolledEvent event(xOffset, yOffset);
+            data->eventCallBack(event);
+        });
+
+        glfwSetCursorPosCallback(window, [](GLFWwindow *window, double x, double y) {
+            WindowData *data = (WindowData *)glfwGetWindowUserPointer(window);
+            MouseMovedEvent event(x,y);
+            data->eventCallBack(event);
+        });
     }
 
     void MacOsWindow::shutdown() {

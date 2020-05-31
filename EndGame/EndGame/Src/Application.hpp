@@ -9,6 +9,7 @@
 #ifndef Application_hpp
 #define Application_hpp
 #include <EndGame/Src/SubSystems/WindowSubSystem/Window.h>
+#include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
 
 namespace EndGame {
 

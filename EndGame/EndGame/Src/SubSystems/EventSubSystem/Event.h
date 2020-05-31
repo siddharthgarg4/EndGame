@@ -52,7 +52,7 @@ namespace EndGame {
             EventDispatcher(Event &event) : event(event) {}
             template<typename T>
             bool dispatch(std::function<bool(T&)> func) {
-                if (event.getEventType() == T::getEventType()) {
+                if (event.getEventType() == T::getStaticEventType()) {
                     event.isHandled = func(*(T*)&event);
                     return true;
                 }
