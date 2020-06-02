@@ -18,5 +18,6 @@
 
 //MARK: Layers 
 #include <EndGame/Src/SubSystems/LayerSubSystem/Layer.h>
+#include <EndGame/Src/SubSystems/DebugSubSystem/DebugOverlay.hpp>
 
 #endif

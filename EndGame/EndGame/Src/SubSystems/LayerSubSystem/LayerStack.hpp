@@ -26,7 +26,6 @@ namespace EndGame {
         private:
             std::vector<Layer *>layers;
             std::vector<Layer *>::iterator layerBeforeOverlay;
-
     };
 }
 

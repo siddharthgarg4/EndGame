@@ -25,6 +25,7 @@ class Sandbox : public EndGame::Application {
     public:
         Sandbox() {
             pushLayer(new ExampleLayer());
+            pushOverlay(new EndGame::DebugOverlay());
         }
         ~Sandbox() {}
 };

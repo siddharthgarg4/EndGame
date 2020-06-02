@@ -19,6 +19,8 @@ namespace EndGame {
             Application();
             virtual ~Application();
             void run();
+            static inline Application &getApplication() { return *appInstance; }
+            inline Window &getWindow() { return *window; }
             //layer functions
             void pushLayer(Layer *layer);
             void pushOverlay(Layer *overlay);
@@ -26,6 +28,7 @@ namespace EndGame {
             std::unique_ptr<Window> window;
             bool isRunning = true;
             LayerStack applicationLayers;
+            static Application *appInstance;
     };
     Application *createApplication();
 }

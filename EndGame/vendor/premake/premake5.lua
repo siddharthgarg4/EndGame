@@ -34,7 +34,8 @@ project "EndGame"
     "${SRCROOT}",
     "${SRCROOT}/EndGame/vendor/spdlog/include",
     "${SRCROOT}/EndGame/vendor/glfw/include",
-    "${SRCROOT}/EndGame/vendor/glad/include"
+    "${SRCROOT}/EndGame/vendor/glad/include",
+    "${SRCROOT}/EndGame/vendor/imgui/include"
   }
 
   filter "system:macosx"
@@ -79,19 +80,22 @@ project "Sandbox"
     "${SRCROOT}",
     "${SRCROOT}/EndGame/vendor/spdlog/include",
     "${SRCROOT}/EndGame/vendor/glfw/include",
-    "${SRCROOT}/EndGame/vendor/glad/include"
+    "${SRCROOT}/EndGame/vendor/glad/include",
+    "${SRCROOT}/EndGame/vendor/imgui/include"
   }
 
   libdirs {
     "${SRCROOT}/EndGame/vendor/glfw/lib/",
-    "${SRCROOT}/EndGame/vendor/glad/lib/"
+    "${SRCROOT}/EndGame/vendor/glad/lib/",
+    "${SRCROOT}/EndGame/vendor/imgui/lib/"
   }
 
   links {
     "EndGame",
     "OpenGL.framework",
     "glfw.3.3",
-    "glad"
+    "glad",
+    "imgui"
   }
 
   filter "system:macosx"

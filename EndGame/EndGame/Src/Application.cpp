@@ -13,7 +13,12 @@
 
 namespace EndGame {
 
+    //need to declare static variables and cannot init in definitions
+    Application *Application::appInstance = nullptr;
+
     Application::Application() {
+        EG_ENGINE_ASSERT(appInstance, "Application already exists!");
+        appInstance = this;
         window = std::unique_ptr<Window>(Window::create());
         window->setEventCallBack([this](Event &event) {
             //setting event call back
@@ -53,9 +58,11 @@ namespace EndGame {
 
     void Application::pushLayer(Layer *layer) {
         applicationLayers.pushLayer(layer);
+        layer->onAttach();
     }
 
     void Application::pushOverlay(Layer *overlay) {
         applicationLayers.pushOverlay(overlay);
+        overlay->onAttach();
     }
 }

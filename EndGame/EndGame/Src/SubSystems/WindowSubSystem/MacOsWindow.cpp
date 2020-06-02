@@ -63,6 +63,13 @@ namespace EndGame {
                 EG_ENGINE_ERROR("GLFW Error ({0}): {1}", error, description);
             });
             isGlfwInitialized = true;
+
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+            #if defined(__APPLE__)
+            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+            #endif
         }
         window = glfwCreateWindow((int)properties.width, (int)properties.height, properties.title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(window);
