@@ -33,7 +33,8 @@ project "EndGame"
   sysincludedirs {
     "${SRCROOT}",
     "${SRCROOT}/EndGame/vendor/spdlog/include",
-    "${SRCROOT}/EndGame/vendor/glfw/include"
+    "${SRCROOT}/EndGame/vendor/glfw/include",
+    "${SRCROOT}/EndGame/vendor/glad/include"
   }
 
   filter "system:macosx"
@@ -41,6 +42,8 @@ project "EndGame"
     staticruntime "on"
     systemversion "macOS 10.15"
     removefiles {"../../EndGame/vendor/**"}
+
+    buildoptions {"-fvisibility=hidden", "-fvisibility-inlines-hidden"}
 
     defines {
       "EG_PLATFORM_OSX"
@@ -75,17 +78,20 @@ project "Sandbox"
   sysincludedirs {
     "${SRCROOT}",
     "${SRCROOT}/EndGame/vendor/spdlog/include",
-    "${SRCROOT}/EndGame/vendor/glfw/include"
+    "${SRCROOT}/EndGame/vendor/glfw/include",
+    "${SRCROOT}/EndGame/vendor/glad/include"
   }
 
   libdirs {
-    "${SRCROOT}/EndGame/vendor/glfw/lib/"
+    "${SRCROOT}/EndGame/vendor/glfw/lib/",
+    "${SRCROOT}/EndGame/vendor/glad/lib/"
   }
 
   links {
     "EndGame",
     "OpenGL.framework",
-    "glfw.3.3"
+    "glfw.3.3",
+    "glad"
   }
 
   filter "system:macosx"

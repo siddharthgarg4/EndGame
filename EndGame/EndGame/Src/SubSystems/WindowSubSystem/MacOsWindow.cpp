@@ -56,8 +56,8 @@ namespace EndGame {
         EG_ENGINE_INFO("Creating window: {0} ({1}, {2})", properties.title, properties.width, properties.height);
         if (!isGlfwInitialized) {
             //init once per program run
-            int success = glfwInit();
-            EG_ENGINE_ASSERT(success, "Could not intialize GLFW!");
+            int glfwInitSuccess = glfwInit();
+            EG_ENGINE_ASSERT(glfwInitSuccess, "Could not intialize GLFW!");
             //setting glfw error callback
             glfwSetErrorCallback([](int error, const char* description) {
                 EG_ENGINE_ERROR("GLFW Error ({0}): {1}", error, description);
@@ -66,6 +66,9 @@ namespace EndGame {
         }
         window = glfwCreateWindow((int)properties.width, (int)properties.height, properties.title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(window);
+        //init glad
+        int gladInitSuccess = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+        EG_ENGINE_ASSERT(gladInitSuccess, "Could not intialize Glad!");
 		glfwSetWindowUserPointer(window, &data);
         setVSync(true);
 

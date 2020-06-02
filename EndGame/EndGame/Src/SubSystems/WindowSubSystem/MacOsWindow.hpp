@@ -8,6 +8,7 @@
 #ifndef MacOsWindow_hpp
 #define MacOsWindow_hpp
 #include <EndGame/Src/SubSystems/WindowSubSystem/Window.h>
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace EndGame {
