@@ -10,9 +10,22 @@
 #define SandboxApp_hpp
 #include <EndGame/EndGame.h>
 
+class ExampleLayer : public EndGame::Layer {
+    public:
+        ExampleLayer() : Layer("Example") {}
+        void onUpdate() override {
+            EG_INFO("ExampleLayer::Update");
+        }
+        void onEvent(EndGame::Event &event) override {
+            EG_TRACE("{0}", event);
+        }
+};
+
 class Sandbox : public EndGame::Application {
     public:
-        Sandbox() {}
+        Sandbox() {
+            pushLayer(new ExampleLayer());
+        }
         ~Sandbox() {}
 };
 

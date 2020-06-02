@@ -23,7 +23,16 @@ namespace EndGame {
                 isRunning = false;
                 return true;
             });
-            EG_ENGINE_TRACE("{0}", event);
+            
+            for (auto iterator = applicationLayers.end(); iterator != applicationLayers.begin();) {
+                //since we begin from end we need to get the layer before the end
+                --iterator;
+                //we get each layer by dereferencing the iterator
+                (*iterator)->onEvent(event);
+                if (event.isHandled) {
+                    break;
+                }
+            }
         });
     }
 
@@ -33,7 +42,20 @@ namespace EndGame {
         while (isRunning) {
             glClearColor(1, 0, 1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
+            for (Layer *layer : applicationLayers) {
+                layer->onUpdate();
+            }
 			window->onUpdate();
         }
+    }
+
+    //MARK: layer functions
+
+    void Application::pushLayer(Layer *layer) {
+        applicationLayers.pushLayer(layer);
+    }
+
+    void Application::pushOverlay(Layer *overlay) {
+        applicationLayers.pushOverlay(overlay);
     }
 }

@@ -32,18 +32,14 @@ namespace EndGame {
     };
 
     class Event {
-        friend class EventDispatcher;
-
         public:
+            bool isHandled = false;
             virtual EventType getEventType() const = 0;
             virtual const char *getEventName() const = 0;
             virtual int getCategoryFlags() const = 0;
             //toString can be overriden for more details
             virtual std::string toString() const { return getEventName(); }
-            inline bool isEventInCategory(EventCategory category) { return getCategoryFlags() & category; }
-
-        protected:
-            bool isHandled = false;
+            inline bool isEventInCategory(EventCategory category) { return getCategoryFlags() & category; }      
     };
     inline std::ostream &operator<<(std::ostream &out, const Event &event) { return out << event.toString(); }
 

@@ -16,4 +16,7 @@
 //MARK: Entry Point
 #include <EndGame/Src/EntryPoint.hpp>
 
+//MARK: Layers 
+#include <EndGame/Src/SubSystems/LayerSubSystem/Layer.h>
+
 #endif
