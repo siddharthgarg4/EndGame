@@ -18,7 +18,7 @@ namespace EndGame {
         None = 0,
         WindowClose, WindowFocus, WindowLostFocus, WindowResize, WindowMoved,
         AppTick, AppRender, AppUpdate,
-        KeyPressed, KeyReleased,
+        KeyPressed, KeyReleased, KeyTyped,
         MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
     };
 

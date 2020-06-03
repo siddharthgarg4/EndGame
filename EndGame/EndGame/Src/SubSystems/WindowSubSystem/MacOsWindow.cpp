@@ -63,12 +63,14 @@ namespace EndGame {
                 EG_ENGINE_ERROR("GLFW Error ({0}): {1}", error, description);
             });
             isGlfwInitialized = true;
-
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-            #if defined(__APPLE__)
-            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+            //OSX specific glfw properties
+            #ifdef EG_PLATFORM_OSX
+                glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+                glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+                glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+                glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+                glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
+                glfwWindowHint(GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
             #endif
         }
         window = glfwCreateWindow((int)properties.width, (int)properties.height, properties.title.c_str(), nullptr, nullptr);
@@ -79,7 +81,7 @@ namespace EndGame {
 		glfwSetWindowUserPointer(window, &data);
         setVSync(true);
 
-        //setting event callbacks to the window
+        //MARK: setting event callbacks to the window
         glfwSetWindowSizeCallback(window, [](GLFWwindow *window, int width, int height) {
             WindowData *data = (WindowData *)glfwGetWindowUserPointer(window);
             data->width = width;
@@ -113,6 +115,12 @@ namespace EndGame {
                     break;
                 }
             }
+        });
+
+        glfwSetCharCallback(window, [](GLFWwindow *window, unsigned int key) {
+            WindowData *data = (WindowData *)glfwGetWindowUserPointer(window);
+            KeyTypedEvent event(key);
+            data->eventCallBack(event);
         });
 
         glfwSetMouseButtonCallback(window, [](GLFWwindow *window, int button, int action, int mods) {

@@ -10,6 +10,10 @@
 #include <EndGame/vendor/glfw/include/GLFW/glfw3.h>
 #include <EndGame/vendor/imgui/include/imgui.h>
 #include <EndGame/Src/SubSystems/DebugSubSystem/imguiOpenGlRender.h>
+#include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
+#include <EndGame/Src/SubSystems/EventSubSystem/KeyEvent.h>
+#include <EndGame/Src/SubSystems/EventSubSystem/MouseEvent.h>
+#include <EndGame/Src/Core.h>
 
 namespace EndGame {
         
@@ -46,9 +50,7 @@ namespace EndGame {
         ImGui_ImplOpenGL3_Init("#version 410");
     }
 
-    void DebugOverlay::onDetach() {
-
-    }
+    void DebugOverlay::onDetach() {}
 
     void DebugOverlay::onUpdate() {
         ImGuiIO& io = ImGui::GetIO();
@@ -66,6 +68,70 @@ namespace EndGame {
     }
 
     void DebugOverlay::onEvent(Event &event) {
-
+        EventDispatcher dispatcher(event);
+        //MARK: Key Events Callback
+        //Key Pressed
+        dispatcher.dispatch<KeyPressedEvent>([] (KeyPressedEvent &event) {
+            ImGuiIO& io = ImGui::GetIO();
+            io.KeysDown[event.getKeyCode()] = true;
+            //modifiers
+            io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
+            io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
+            io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
+            io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER] || io.KeysDown[GLFW_KEY_RIGHT_SUPER];
+            return false;
+        });
+        //Key Released
+        dispatcher.dispatch<KeyReleasedEvent>([] (KeyReleasedEvent &event) {
+            ImGuiIO& io = ImGui::GetIO();
+            io.KeysDown[event.getKeyCode()] = false;
+            //modifiers
+            io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
+            io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
+            io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
+            io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER] || io.KeysDown[GLFW_KEY_RIGHT_SUPER];
+            return false;
+        });
+        //Key Typed
+        dispatcher.dispatch<KeyTypedEvent>([] (KeyTypedEvent &event) {
+            ImGuiIO& io = ImGui::GetIO();
+            io.AddInputCharacter(event.getKeyCode());
+            return false;
+        });
+        //MARK: Mouse Events Callback
+        //Mouse Moved
+        dispatcher.dispatch<MouseMovedEvent>([this] (MouseMovedEvent &event) {
+            ImGuiIO& io = ImGui::GetIO();
+            io.MousePos = ImVec2(event.getX(), event.getY());
+            return false;
+        });
+        //Mouse Scrolled
+        dispatcher.dispatch<MouseScrolledEvent>([this] (MouseScrolledEvent &event) {
+            ImGuiIO& io = ImGui::GetIO();
+            io.MouseWheelH += event.getXOffset();
+            io.MouseWheel += event.getYOffset();
+            return false;
+        });
+        //Mouse Button Pressed
+        dispatcher.dispatch<MouseButtonPressedEvent>([this] (MouseButtonPressedEvent &event) {
+            ImGuiIO& io = ImGui::GetIO();
+            io.MouseDown[event.getMouseButtonCode()] = true;
+            return false;
+        });
+        //Mouse Button Released
+        dispatcher.dispatch<MouseButtonReleasedEvent>([this] (MouseButtonReleasedEvent &event) {
+            ImGuiIO& io = ImGui::GetIO();
+            io.MouseDown[event.getMouseButtonCode()] = false;
+            return false;
+        });
+        //MARK: Application Events Callback
+        //Window Resize
+        dispatcher.dispatch<WindowResizeEvent>([] (WindowResizeEvent &event) {
+            ImGuiIO& io = ImGui::GetIO();
+            io.DisplaySize = ImVec2(event.getWidth(), event.getHeight());
+            io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
+            glViewport(0, 0, event.getWidth(), event.getHeight());
+            return false;
+        });
     }
 }
