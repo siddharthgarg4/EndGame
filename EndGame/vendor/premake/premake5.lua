@@ -51,16 +51,19 @@ project "EndGame"
     }
 
     filter "configurations:Debug"
-		  defines "EG_ENGINE_DEBUG"
-		  optimize "on"
+      defines "EG_ENGINE_DEBUG"
+      runtime "Debug"
+      optimize "on"
 
     filter "configurations:Release"
-		  defines "EG_ENGINE_RELEASE"
-		  optimize "on"
+      defines "EG_ENGINE_RELEASE"
+      runtime "Release"
+      optimize "on"
 
     filter "configurations:Dist"
-		  defines "EG_ENGINE_DIST"
-		  optimize "on"
+      defines "EG_ENGINE_DIST"
+      runtime "Release"
+      optimize "on"
 
 project "Sandbox"
   language "C++"
@@ -110,12 +113,15 @@ project "Sandbox"
 
   filter "configurations:Debug"
     defines "EG_DEBUG"
+    runtime "Debug"
     optimize "on"
 
   filter "configurations:Release"
     defines "EG_RELEASE"
+    runtime "Release"
     optimize "on"
 
   filter "configurations:Dist"
     defines "EG_DIST"
+    runtime "Release"
     optimize "on"

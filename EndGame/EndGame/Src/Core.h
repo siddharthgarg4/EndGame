@@ -14,6 +14,11 @@
     #error EndGame currently only supports OSX
 #endif
 
+//enabling assertions only for Debug
+#ifdef EG_DEBUG
+	#define EG_ENABLE_ASSERTS
+#endif
+
 //bit function
 #define BIT(x) (1 << x)
 
