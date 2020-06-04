@@ -19,7 +19,7 @@ namespace EndGame {
             void onUpdate() override;
             inline unsigned int getWidth() override { return data.width; }
             inline unsigned int getHeight() override { return data.height; }
-            inline void *getNativeWindow() override { return window; }
+            inline void *getNativeWindow() const override { return window; }
             //window attributes
             virtual void setEventCallBack(const std::function<void(Event&)> &eventFunc) override;
             virtual void setVSync(bool enabled) override;

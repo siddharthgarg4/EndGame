@@ -1,6 +1,6 @@
 //
 //  Input.h
-//  DummyProject
+//  EndGame
 //
 //  Created by Siddharth on 04/06/20.
 //
@@ -13,6 +13,7 @@ namespace EndGame {
 
     class Input {
         public:
+            //using EG keyCodes/buttonCodes -> check the accompanying files in folder
             inline static bool isKeyPressed(int keyCode) { return nativeInputInstance->isNativeKeyPressed(keyCode); }
             inline static bool isMouseButtonPressed(int buttonCode) { return nativeInputInstance->isNativeMouseButtonPressed(buttonCode); }
             inline static std::pair<double, double> getMousePosition() { return nativeInputInstance->getNativeMousePosition(); }

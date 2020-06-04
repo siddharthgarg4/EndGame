@@ -16,8 +16,18 @@
 //MARK: Entry Point
 #include <EndGame/Src/EntryPoint.hpp>
 
+//MARK: Events
+#include <EndGame/Src/SubSystems/EventSubSystem/KeyEvent.h>
+#include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
+#include <EndGame/Src/SubSystems/EventSubSystem/MouseEvent.h>
+
 //MARK: Layers 
 #include <EndGame/Src/SubSystems/LayerSubSystem/Layer.h>
 #include <EndGame/Src/SubSystems/DebugSubSystem/DebugOverlay.hpp>
+
+//MARK: Input
+#include <EndGame/Src/SubSystems/InputSubSystem/Input.h>
+#include <EndGame/Src/SubSystems/InputSubSystem/KeyCodes.h>
+#include <EndGame/Src/SubSystems/InputSubSystem/MouseButtonCodes.h>
 
 #endif
