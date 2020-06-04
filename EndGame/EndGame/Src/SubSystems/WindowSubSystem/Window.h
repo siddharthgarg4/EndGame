@@ -27,6 +27,7 @@ namespace EndGame {
             virtual void onUpdate() = 0;
             virtual unsigned int getWidth() = 0;
             virtual unsigned int getHeight() = 0;
+            virtual void *getNativeWindow() = 0;
             //window attributes
             virtual void setEventCallBack(const std::function<void(Event&)> &eventFunc) = 0;
             virtual void setVSync(bool enabled) = 0;
