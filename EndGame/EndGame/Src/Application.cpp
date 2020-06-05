@@ -39,8 +39,8 @@ namespace EndGame {
             }
         });
         if (shouldAddDebugOverlay) {
-            debugOverlay = new DebugOverlay();
-            pushLayer(debugOverlay);
+            pushLayer(new DebugOverlay());
+            hasDebugOverlay = true;
         }
     }
 
@@ -53,20 +53,19 @@ namespace EndGame {
             for (Layer *layer : applicationLayers) {
                 layer->onUpdate();
             }
-            if (debugOverlay != nullptr) {
+            if (hasDebugOverlay) {
                 //application has debug overlay
-                debugOverlay->preRender();
+                DebugOverlay::preImguiRender();
                 for (Layer *layer : applicationLayers) {
                     layer->onImguiRender();
                 }
-                debugOverlay->postRender();
+                DebugOverlay::postImguiRender();
             }
 			window->onUpdate();
         }
     }
 
     //MARK: layer functions
-
     void Application::pushLayer(Layer *layer) {
         applicationLayers.pushLayer(layer);
         layer->onAttach();

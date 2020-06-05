@@ -15,8 +15,8 @@ namespace EndGame {
         public:
             DebugOverlay() : Layer("DebugOverlay") {}
             ~DebugOverlay() {}
-            void preRender();
-            void postRender();
+            static void preImguiRender();
+            static void postImguiRender();
             //layer methods
             void onAttach() override;
             void onDetach() override;

@@ -28,8 +28,8 @@ namespace EndGame {
         private:
             std::unique_ptr<Window> window;
             bool isRunning = true;
+            bool hasDebugOverlay = false;
             LayerStack applicationLayers;
-            DebugOverlay *debugOverlay = nullptr;
             static Application *appInstance;
     };
     Application *createApplication();

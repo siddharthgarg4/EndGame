@@ -47,14 +47,14 @@ namespace EndGame {
         ImGui::ShowDemoWindow(&showDemoWindow);
     }
 
-    void DebugOverlay::preRender() {
+    void DebugOverlay::preImguiRender() {
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
     }
 
-    void DebugOverlay::postRender() {
+    void DebugOverlay::postImguiRender() {
         ImGuiIO &io = ImGui::GetIO();
         Window &window = Application::getApplication().getWindow();
         io.DisplaySize = ImVec2(window.getWidth(), window.getHeight());

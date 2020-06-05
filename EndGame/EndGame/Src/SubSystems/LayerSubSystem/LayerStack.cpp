@@ -9,10 +9,6 @@
 
 namespace EndGame {
 
-    LayerStack::LayerStack() {
-        numberOfLayers = 0;
-    }
-
     LayerStack::~LayerStack() {
         for (Layer *layer: layers) {
             delete layer;
