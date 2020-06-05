@@ -23,16 +23,15 @@ class ExampleLayer : public EndGame::Layer {
 
 class Sandbox : public EndGame::Application {
     public:
-        Sandbox() {
+        Sandbox(bool shouldAddDebugOverlay) : Application(shouldAddDebugOverlay) {
             pushLayer(new ExampleLayer());
-            pushOverlay(new EndGame::DebugOverlay());
         }
         ~Sandbox() {}
 };
 
 //custom run the application as per the client
 EndGame::Application *EndGame::createApplication() {
-    return new Sandbox();
+    return new Sandbox(true);
 }
 
 #endif

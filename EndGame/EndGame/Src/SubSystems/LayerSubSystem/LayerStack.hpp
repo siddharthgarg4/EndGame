@@ -14,6 +14,7 @@ namespace EndGame {
     
     class LayerStack {
         public:
+            //contains layers and overlays
             LayerStack();
             ~LayerStack();
             void pushLayer(Layer *layer);
@@ -25,7 +26,8 @@ namespace EndGame {
 
         private:
             std::vector<Layer *>layers;
-            std::vector<Layer *>::iterator layerBeforeOverlay;
+            //used to find out where to insert layers so they don't overlap overlays
+            unsigned int numberOfLayers;
     };
 }
 

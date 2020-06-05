@@ -15,11 +15,12 @@ namespace EndGame {
         public:
             DebugOverlay() : Layer("DebugOverlay") {}
             ~DebugOverlay() {}
+            void preRender();
+            void postRender();
             //layer methods
             void onAttach() override;
             void onDetach() override;
-            void onUpdate() override;
-            void onEvent(Event &event) override;
+            void onImguiRender() override;
 
         private:
             double frameTime = 0.0;

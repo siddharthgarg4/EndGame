@@ -20,6 +20,8 @@ namespace EndGame {
             virtual void onAttach() {}
             virtual void onDetach() {}
             virtual void onUpdate() {}
+            //allows each layer to custom use imgui
+            virtual void onImguiRender() {}
             virtual void onEvent(Event &event) {}
             inline const std::string &getDebugName() const { return debugName; }
         protected:

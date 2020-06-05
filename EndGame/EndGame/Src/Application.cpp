@@ -16,7 +16,7 @@ namespace EndGame {
     //need to declare static variables and cannot init in definitions
     Application *Application::appInstance = nullptr;
 
-    Application::Application() {
+    Application::Application(bool shouldAddDebugOverlay) {
         EG_ENGINE_ASSERT(appInstance, "Application already exists!");
         appInstance = this;
         window = std::unique_ptr<Window>(Window::create());
@@ -28,7 +28,6 @@ namespace EndGame {
                 isRunning = false;
                 return true;
             });
-            
             for (auto iterator = applicationLayers.end(); iterator != applicationLayers.begin();) {
                 //since we begin from end we need to get the layer before the end
                 --iterator;
@@ -39,6 +38,10 @@ namespace EndGame {
                 }
             }
         });
+        if (shouldAddDebugOverlay) {
+            debugOverlay = new DebugOverlay();
+            pushLayer(debugOverlay);
+        }
     }
 
     Application::~Application() {}
@@ -49,6 +52,14 @@ namespace EndGame {
 			glClear(GL_COLOR_BUFFER_BIT);
             for (Layer *layer : applicationLayers) {
                 layer->onUpdate();
+            }
+            if (debugOverlay != nullptr) {
+                //application has debug overlay
+                debugOverlay->preRender();
+                for (Layer *layer : applicationLayers) {
+                    layer->onImguiRender();
+                }
+                debugOverlay->postRender();
             }
 			window->onUpdate();
         }

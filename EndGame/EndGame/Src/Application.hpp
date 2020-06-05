@@ -11,12 +11,13 @@
 #include <EndGame/Src/SubSystems/LayerSubSystem/LayerStack.hpp>
 #include <EndGame/Src/SubSystems/WindowSubSystem/Window.h>
 #include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
+#include <EndGame/Src/SubSystems/DebugSubSystem/DebugOverlay.hpp>
 
 namespace EndGame {
 
     class Application {
         public:
-            Application();
+            Application(bool shouldAddDebugOverlay);
             virtual ~Application();
             void run();
             static inline Application &getApplication() { return *appInstance; }
@@ -28,6 +29,7 @@ namespace EndGame {
             std::unique_ptr<Window> window;
             bool isRunning = true;
             LayerStack applicationLayers;
+            DebugOverlay *debugOverlay = nullptr;
             static Application *appInstance;
     };
     Application *createApplication();
