@@ -17,6 +17,7 @@ namespace EndGame {
 
     void LayerStack::pushLayer(Layer *layer) {
         layers.emplace(layers.begin() + numberOfLayers, layer);
+        layer->onAttach();
         numberOfLayers++;
     }
 
@@ -24,17 +25,20 @@ namespace EndGame {
         auto foundLayerLocation = std::find(layers.begin(), layers.end(), layer);
         if (foundLayerLocation != layers.end()) {
             layers.erase(foundLayerLocation);
+            layer->onDetach();
             numberOfLayers--;
         }
     }
 
     void LayerStack::pushOverlay(Layer *overlay) {
         layers.emplace_back(overlay);
+        overlay->onAttach();
     }
 
     void LayerStack::popOverlay(Layer *overlay) {
         auto foundOverlayLocation = std::find(layers.begin(), layers.end(), overlay);
         if (foundOverlayLocation != layers.end()) {
+            overlay->onDetach();
             layers.erase(foundOverlayLocation);
         }
     }

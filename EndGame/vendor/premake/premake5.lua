@@ -12,8 +12,10 @@ workspace "EndGame"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 project "EndGame"
-  language "C++"
   kind "StaticLib"
+  language "C++"
+  cppdialect "C++17"
+  staticruntime "on"
 
   location "../../"
 
@@ -30,6 +32,8 @@ project "EndGame"
     "../../EndGame/**.h"
   }
 
+  removefiles {"../../EndGame/vendor/**"}
+
   sysincludedirs {
     "${SRCROOT}",
     "${SRCROOT}/EndGame/vendor/glm",
@@ -40,21 +44,19 @@ project "EndGame"
   }
 
   filter "system:macosx"
-    cppdialect "C++17"
-    staticruntime "on"
     systemversion "macOS 10.15"
-    removefiles {"../../EndGame/vendor/**"}
 
     buildoptions {"-fvisibility=hidden", "-fvisibility-inlines-hidden"}
 
     defines {
-      "EG_PLATFORM_OSX"
+      "EG_PLATFORM_OSX",
+      "GL_SILENCE_DEPRECATION"
     }
 
     filter "configurations:Debug"
       defines "EG_ENGINE_DEBUG"
       runtime "Debug"
-      optimize "on"
+      symbols "on"
 
     filter "configurations:Release"
       defines "EG_ENGINE_RELEASE"
@@ -67,8 +69,10 @@ project "EndGame"
       optimize "on"
 
 project "Sandbox"
-  language "C++"
   kind "ConsoleApp"
+  language "C++"
+  cppdialect "C++17"
+  staticruntime "on"
 
   location "../../"
 
@@ -104,10 +108,7 @@ project "Sandbox"
   }
 
   filter "system:macosx"
-    cppdialect "C++17"
-    staticruntime "on"
     systemversion "macOS 10.15"
-    removefiles {"../../EndGame/vendor/**"}
 
   defines {
     "EG_PLATFORM_OSX"

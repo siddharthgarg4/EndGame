@@ -68,11 +68,9 @@ namespace EndGame {
     //MARK: layer functions
     void Application::pushLayer(Layer *layer) {
         applicationLayers.pushLayer(layer);
-        layer->onAttach();
     }
 
     void Application::pushOverlay(Layer *overlay) {
         applicationLayers.pushOverlay(overlay);
-        overlay->onAttach();
     }
 }
