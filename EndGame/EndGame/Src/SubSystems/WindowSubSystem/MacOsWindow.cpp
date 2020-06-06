@@ -6,10 +6,11 @@
 //
 
 #include "MacOsWindow.hpp"
-#include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
+#include <EndGame/Src/EndGamePCH.hpp>
 #include <EndGame/Src/SubSystems/EventSubSystem/KeyEvent.h>
 #include <EndGame/Src/SubSystems/EventSubSystem/MouseEvent.h>
-#include <EndGame/Src/EndGamePCH.hpp>
+#include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
+#include <EndGame/Src/SubSystems/RenderSubSystem/RenderApiFactory.hpp>
 
 namespace EndGame {
     static bool isGlfwInitialized = false;
@@ -28,7 +29,7 @@ namespace EndGame {
 
     void MacOsWindow::onUpdate() {
         glfwPollEvents();
-		glfwSwapBuffers(window);
+        context->swapBuffers();
     }
 
     void MacOsWindow::setEventCallBack(const std::function<void(Event&)> &eventFunc) {
@@ -74,10 +75,8 @@ namespace EndGame {
             #endif
         }
         window = glfwCreateWindow((int)properties.width, (int)properties.height, properties.title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(window);
-        //init glad
-        __unused int gladInitSuccess = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        EG_ENGINE_ASSERT(gladInitSuccess, "Could not intialize Glad!");
+        context = RenderApiFactory::createRenderContext(window);
+        context->init();
 		glfwSetWindowUserPointer(window, &data);
         setVSync(true);
 

@@ -7,9 +7,9 @@
 
 #ifndef MacOsWindow_hpp
 #define MacOsWindow_hpp
-#include <EndGame/Src/SubSystems/WindowSubSystem/Window.h>
-#include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <EndGame/Src/SubSystems/WindowSubSystem/Window.h>
+#include <EndGame/Src/SubSystems/RenderSubSystem/GraphicsContext.h>
 
 namespace EndGame {
     class MacOsWindow : public Window {
@@ -36,6 +36,7 @@ namespace EndGame {
                 bool isVSync;
                 std::function<void(Event&)> eventCallBack;
             };
+            GraphicsContext *context;
             WindowData data;
     };
 }

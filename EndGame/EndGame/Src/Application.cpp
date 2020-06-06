@@ -7,9 +7,10 @@
 //
 
 #include "Application.hpp"
-#include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
-#include <EndGame/Src/EndGamePCH.hpp>
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <EndGame/Src/EndGamePCH.hpp>
+#include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
 
 namespace EndGame {
 

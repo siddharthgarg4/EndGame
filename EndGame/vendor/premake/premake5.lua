@@ -50,7 +50,8 @@ project "EndGame"
 
     defines {
       "EG_PLATFORM_OSX",
-      "GL_SILENCE_DEPRECATION"
+      "GL_SILENCE_DEPRECATION",
+      "GLFW_INCLUDE_NONE"
     }
 
     filter "configurations:Debug"
