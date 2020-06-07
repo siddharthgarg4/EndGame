@@ -8,6 +8,8 @@
 
 #ifndef Application_hpp
 #define Application_hpp
+#include <EndGame/Src/EndGamePCH.hpp>
+#include <EndGame/Src/SubSystems/RenderSubSystem/Buffer.h>
 #include <EndGame/Src/SubSystems/WindowSubSystem/Window.h>
 #include <EndGame/Src/SubSystems/RenderSubSystem/Shader.h>
 #include <EndGame/Src/SubSystems/LayerSubSystem/LayerStack.hpp>
@@ -32,8 +34,10 @@ namespace EndGame {
             bool hasDebugOverlay = false;
             LayerStack applicationLayers;
             static Application *appInstance;
-            unsigned int vertexArray, vertexBuffer, indexBuffer;
-            Shader *shader;
+            unsigned int vertexArray;
+            std::unique_ptr<IndexBuffer> indexBuffer;
+            std::unique_ptr<VertexBuffer> vertexBuffer;
+            std::unique_ptr<Shader> shader;
     };
     Application *createApplication();
 }

@@ -8,6 +8,7 @@
 #ifndef MacOsWindow_hpp
 #define MacOsWindow_hpp
 #include <GLFW/glfw3.h>
+#include <EndGame/Src/EndGamePCH.hpp>
 #include <EndGame/Src/SubSystems/WindowSubSystem/Window.h>
 #include <EndGame/Src/SubSystems/RenderSubSystem/GraphicsContext.h>
 
@@ -37,7 +38,7 @@ namespace EndGame {
                 bool isVSync;
                 std::function<void(Event&)> eventCallBack;
             };
-            GraphicsContext *context;
+            std::unique_ptr<GraphicsContext> context;
             WindowData data;
     };
 }

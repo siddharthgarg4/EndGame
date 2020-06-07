@@ -25,7 +25,6 @@ namespace EndGame {
     }
 
     MacOsWindow::~MacOsWindow() {
-        delete context;
         shutdown();
     }
 
