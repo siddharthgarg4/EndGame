@@ -9,6 +9,7 @@
 #define RenderApiFactory_hpp
 #include <EndGame/Src/SubSystems/RenderSubSystem/GraphicsContext.h>
 #include <EndGame/Src/SubSystems/RenderSubSystem/OpenGlContext.hpp>
+#include <EndGame/Src/SubSystems/RenderSubSystem/Shader.h>
 
 namespace EndGame {
 
@@ -20,9 +21,10 @@ namespace EndGame {
     class RenderApiFactory {
         public:
             static GraphicsContext *createRenderContext(GLFWwindow *windowHandle);
-            inline static RenderApi getRenderingApi() { return rendererApi; }
+            static Shader *createShader(std::string &vertexSource, std::string &fragmentSource);
+            inline static RenderApi getRenderingApi() { return renderingApi; }
         private:
-            static RenderApi rendererApi;
+            static RenderApi renderingApi;
     };
 }
 

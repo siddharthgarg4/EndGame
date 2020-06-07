@@ -12,6 +12,7 @@
 #include <EndGame/Src/SubSystems/RenderSubSystem/GraphicsContext.h>
 
 namespace EndGame {
+    
     class MacOsWindow : public Window {
         public:
             MacOsWindow(const WindowProperties &properties);

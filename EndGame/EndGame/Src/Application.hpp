@@ -8,10 +8,11 @@
 
 #ifndef Application_hpp
 #define Application_hpp
-#include <EndGame/Src/SubSystems/LayerSubSystem/LayerStack.hpp>
 #include <EndGame/Src/SubSystems/WindowSubSystem/Window.h>
-#include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
+#include <EndGame/Src/SubSystems/RenderSubSystem/Shader.h>
+#include <EndGame/Src/SubSystems/LayerSubSystem/LayerStack.hpp>
 #include <EndGame/Src/SubSystems/DebugSubSystem/DebugOverlay.hpp>
+#include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
 
 namespace EndGame {
 
@@ -31,6 +32,8 @@ namespace EndGame {
             bool hasDebugOverlay = false;
             LayerStack applicationLayers;
             static Application *appInstance;
+            unsigned int vertexArray, vertexBuffer, indexBuffer;
+            Shader *shader;
     };
     Application *createApplication();
 }

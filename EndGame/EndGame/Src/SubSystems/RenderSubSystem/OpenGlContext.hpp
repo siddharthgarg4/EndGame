@@ -16,6 +16,7 @@ namespace EndGame {
     class OpenGlContext : public GraphicsContext {
         public:
             OpenGlContext(GLFWwindow *windowHandle);
+            ~OpenGlContext() {}
             void init() override;
             void swapBuffers() override;
         private:

@@ -13,6 +13,7 @@
 #include <EndGame/Src/SubSystems/RenderSubSystem/RenderApiFactory.hpp>
 
 namespace EndGame {
+    
     static bool isGlfwInitialized = false;
 
     Window *Window::create(const WindowProperties &properties) {
@@ -24,6 +25,7 @@ namespace EndGame {
     }
 
     MacOsWindow::~MacOsWindow() {
+        delete context;
         shutdown();
     }
 

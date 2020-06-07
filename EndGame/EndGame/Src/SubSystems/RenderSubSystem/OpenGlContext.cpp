@@ -19,6 +19,10 @@ namespace EndGame {
         //init glad
         __unused int gladInitSuccess = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
         EG_ENGINE_ASSERT(gladInitSuccess, "Could not intialize Glad!");
+        EG_ENGINE_INFO("OpenGL Info:");
+        EG_ENGINE_INFO("vendor: {0}", glGetString(GL_VENDOR));
+        EG_ENGINE_INFO("renderer: {0}", glGetString(GL_RENDERER));
+        EG_ENGINE_INFO("version: {0}", glGetString(GL_VERSION));
     }
 
     void OpenGlContext::swapBuffers() {

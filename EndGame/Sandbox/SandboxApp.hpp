@@ -13,9 +13,7 @@
 class ExampleLayer : public EndGame::Layer {
     public:
         ExampleLayer() : Layer("Example") {}
-        void onUpdate() override {
-            EG_INFO("ExampleLayer::Update");
-        }
+        void onUpdate() override {}
         void onEvent(EndGame::Event &event) override {
             EG_TRACE("{0}", event);
         }

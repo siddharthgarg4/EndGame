@@ -12,6 +12,7 @@
 #include <EndGame/Src/Core.h>
 
 namespace EndGame {
+    
     struct WindowProperties {
         std::string title;
         unsigned int width;
