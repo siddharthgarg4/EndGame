@@ -12,12 +12,19 @@
 
 namespace EndGame {
 
+    struct OpenGlDataType {
+        uint32_t type;
+        uint32_t count;
+        uint32_t size;
+    };
+
     class OpenGlShader : public Shader {
         public:
             OpenGlShader(std::string &vertexSource, std::string &fragmentSource);
             ~OpenGlShader();
             void bind() const override;
             void unbind() const override;
+            static OpenGlDataType shaderDataTypeToOpenGlDataType(ShaderDataType type);
         private:
             uint32_t rendererId;
     };

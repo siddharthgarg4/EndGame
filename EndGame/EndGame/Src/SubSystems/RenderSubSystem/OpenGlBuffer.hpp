@@ -18,8 +18,11 @@ namespace EndGame {
             ~OpenGlVertexBuffer();
             void bind() const override;
             void unbind() const override;
+            void setLayout(const BufferLayout &layout) override { vertexBufferLayout = layout; }
+            const BufferLayout &getLayout() const override { return vertexBufferLayout; }
         private:
             uint32_t vertexBufferId;
+            BufferLayout vertexBufferLayout;
     };
 
     class OpenGlIndexBuffer : public IndexBuffer {

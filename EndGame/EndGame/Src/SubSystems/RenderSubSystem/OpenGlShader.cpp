@@ -80,4 +80,48 @@ namespace EndGame {
     void OpenGlShader::unbind() const {
         glUseProgram(0);
     }
+
+    OpenGlDataType OpenGlShader::shaderDataTypeToOpenGlDataType(ShaderDataType type) {
+        switch(type) {
+            case ShaderDataType::None: {
+                EG_ENGINE_ASSERT(false, "None ShaderDataType not handled!");
+                return OpenGlDataType{0, 0, 0};
+            }
+            case ShaderDataType::Bool : {
+                return OpenGlDataType{GL_BOOL, 1, 1};
+            } 
+            case ShaderDataType::Mat3 : {
+                return OpenGlDataType{GL_FLOAT, 3 * 3, 4 * 3 * 3};
+            } 
+            case ShaderDataType::Mat4 : {
+                return OpenGlDataType{GL_FLOAT, 4 * 4, 4 * 4 * 4};
+            } 
+            case ShaderDataType::Int : {
+                return OpenGlDataType{GL_INT, 1, 4};
+            } 
+            case ShaderDataType::Int2 : {
+                return OpenGlDataType{GL_INT, 2, 4 * 2};
+            } 
+            case ShaderDataType::Int3 : {
+                return OpenGlDataType{GL_INT, 3, 4 * 3};
+            } 
+            case ShaderDataType::Int4 : {
+                return OpenGlDataType{GL_INT, 4, 4 * 4};
+            } 
+            case ShaderDataType::Float : {
+                return OpenGlDataType{GL_FLOAT, 1, 4};
+            } 
+            case ShaderDataType::Float2 : {
+                return OpenGlDataType{GL_FLOAT, 2, 4 * 2};
+            } 
+            case ShaderDataType::Float3 : {
+                return OpenGlDataType{GL_FLOAT, 3, 4 * 3};
+            } 
+            case ShaderDataType::Float4 : {
+                return OpenGlDataType{GL_FLOAT, 4, 4 * 4};
+            } 
+        }
+        EG_ENGINE_ASSERT(false, "Unknown ShaderDataType!");
+        return OpenGlDataType{0, 0, 0};
+    }
 }

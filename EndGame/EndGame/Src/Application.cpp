@@ -11,6 +11,8 @@
 #include <GLFW/glfw3.h>
 #include <EndGame/Src/EndGamePCH.hpp>
 #include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
+#include <EndGame/Src/SubSystems/RenderSubSystem/RenderApiUtilities.hpp>
+#include <EndGame/Src/SubSystems/RenderSubSystem/OpenGlShader.hpp>
 #include <EndGame/Src/SubSystems/RenderSubSystem/RenderApiFactory.hpp>
 
 namespace EndGame {
@@ -47,14 +49,28 @@ namespace EndGame {
         //creating a triangle
         glGenVertexArrays(1, &vertexArray);
         glBindVertexArray(vertexArray);
-        float vertices[3 * 3] = {
-            -0.5f, -0.5f, 0.0f,
-             0.5f, -0.5f, 0.0f,
-             0.0f,  0.5f, 0.0f 
+        float vertices[3 * 7] = {
+            -0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.1f, 1.0f,
+             0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
+             0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.1f, 1.0f
         };
         vertexBuffer = RenderApiFactory::createVertexBuffer(vertices, sizeof(vertices));
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+        BufferLayout createLayout = {
+            {ShaderDataType::Float3, "attrPosition"},
+            {ShaderDataType::Float4, "attrColor"}
+        };
+        vertexBuffer->setLayout(createLayout);
+        const BufferLayout &layout = vertexBuffer->getLayout();
+        uint32_t index = 0;
+        for (const auto &element : layout) {
+            glEnableVertexAttribArray(index);
+            OpenGlDataType openGlDataType = OpenGlShader::shaderDataTypeToOpenGlDataType(element.type);
+            glVertexAttribPointer(index, openGlDataType.count, 
+                openGlDataType.type,
+                element.normalized ? GL_TRUE : GL_FALSE, layout.getStride(),
+                reinterpret_cast<const void*>((intptr_t)element.offset));
+            index++;
+        }
 
         uint32_t indices[3] = { 0, 1, 2 };
         indexBuffer = RenderApiFactory::createIndexBuffer(indices, sizeof(indices)/sizeof(uint32_t));
@@ -62,19 +78,22 @@ namespace EndGame {
         std::string vertexSource = R"(
             #version 330 core
             layout(location = 0) in vec3 attrPosition;
+            layout(location = 1) in vec4 attrColor;
             out vec3 vecPosition;
+            out vec4 vecColor;
             void main() {
                 vecPosition = attrPosition;
+                vecColor = attrColor;
                 gl_Position = vec4(vecPosition, 1.0);
-
             }
         )";
         std::string fragmentSource = R"(
             #version 330 core
             layout(location = 0) out vec4 color;
             in vec3 vecPosition;
+            in vec4 vecColor;
             void main() {
-                color = vec4(vecPosition * 0.5 + 0.5, 1.0);
+                color = vecColor;
             }
         )";
         shader = RenderApiFactory::createShader(vertexSource, fragmentSource);
