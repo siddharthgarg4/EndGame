@@ -48,6 +48,8 @@ namespace EndGame {
 
     class VertexBuffer {
         public:
+            //creating vertex buffer will not bind to currently bound vertex array
+            //the returned buffer will not be in bound state
             virtual ~VertexBuffer() {}
             virtual void bind() const = 0;
             virtual void unbind() const = 0;
@@ -57,6 +59,8 @@ namespace EndGame {
 
     class IndexBuffer {
         public:
+            //creating index buffer will bind to currently bound vertex array
+            //the returned buffer will not be in bound state
             virtual ~IndexBuffer() {}
             virtual void bind() const = 0;
             virtual void unbind() const = 0;

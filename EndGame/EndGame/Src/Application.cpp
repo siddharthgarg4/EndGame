@@ -46,34 +46,27 @@ namespace EndGame {
             pushOverlay(new DebugOverlay());
             hasDebugOverlay = true;
         }
-        //creating a triangle
-        glGenVertexArrays(1, &vertexArray);
-        glBindVertexArray(vertexArray);
+        //creating vertex array
+        vertexArray = RenderApiFactory::createVertexArray();
+        //creating vertex buffer
         float vertices[3 * 7] = {
             -0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.1f, 1.0f,
              0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
              0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.1f, 1.0f
         };
-        vertexBuffer = RenderApiFactory::createVertexBuffer(vertices, sizeof(vertices));
+        std::shared_ptr<VertexBuffer> vertexBuffer = RenderApiFactory::createVertexBuffer(vertices, sizeof(vertices));
         BufferLayout createLayout = {
             {ShaderDataType::Float3, "attrPosition"},
             {ShaderDataType::Float4, "attrColor"}
         };
         vertexBuffer->setLayout(createLayout);
-        const BufferLayout &layout = vertexBuffer->getLayout();
-        uint32_t index = 0;
-        for (const auto &element : layout) {
-            glEnableVertexAttribArray(index);
-            OpenGlDataType openGlDataType = OpenGlShader::shaderDataTypeToOpenGlDataType(element.type);
-            glVertexAttribPointer(index, openGlDataType.count, 
-                openGlDataType.type,
-                element.normalized ? GL_TRUE : GL_FALSE, layout.getStride(),
-                reinterpret_cast<const void*>((intptr_t)element.offset));
-            index++;
-        }
-
+        //binding vertex buffer to vertex array
+        vertexArray->addVertexBuffer(vertexBuffer);
+        //creating index buffer
         uint32_t indices[3] = { 0, 1, 2 };
-        indexBuffer = RenderApiFactory::createIndexBuffer(indices, sizeof(indices)/sizeof(uint32_t));
+        std::shared_ptr<IndexBuffer> indexBuffer = RenderApiFactory::createIndexBuffer(indices, sizeof(indices)/sizeof(uint32_t));
+        //binding index buffer to vertex array
+        vertexArray->setIndexBuffer(indexBuffer);
 
         std::string vertexSource = R"(
             #version 330 core
@@ -107,8 +100,9 @@ namespace EndGame {
 			glClear(GL_COLOR_BUFFER_BIT);
 
             shader->bind();
-            glBindVertexArray(vertexArray);
-            glDrawElements(GL_TRIANGLES, indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
+            vertexArray->getIndexBuffer()->bind();
+            vertexArray->bind();
+            glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
 
             for (Layer *layer : applicationLayers) {
                 layer->onUpdate();

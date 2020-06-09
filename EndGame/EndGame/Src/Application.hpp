@@ -12,6 +12,7 @@
 #include <EndGame/Src/SubSystems/RenderSubSystem/Buffer.h>
 #include <EndGame/Src/SubSystems/WindowSubSystem/Window.h>
 #include <EndGame/Src/SubSystems/RenderSubSystem/Shader.h>
+#include <EndGame/Src/SubSystems/RenderSubSystem/VertexArray.h>
 #include <EndGame/Src/SubSystems/LayerSubSystem/LayerStack.hpp>
 #include <EndGame/Src/SubSystems/DebugSubSystem/DebugOverlay.hpp>
 #include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
@@ -34,10 +35,9 @@ namespace EndGame {
             bool hasDebugOverlay = false;
             LayerStack applicationLayers;
             static Application *appInstance;
-            unsigned int vertexArray;
-            std::unique_ptr<IndexBuffer> indexBuffer;
-            std::unique_ptr<VertexBuffer> vertexBuffer;
-            std::unique_ptr<Shader> shader;
+            //rendering objects
+            std::shared_ptr<Shader> shader;
+            std::shared_ptr<VertexArray> vertexArray;
     };
     Application *createApplication();
 }

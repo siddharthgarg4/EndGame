@@ -15,6 +15,7 @@ namespace EndGame {
         glGenBuffers(1, &vertexBufferId);
         glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
         glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
     OpenGlVertexBuffer::~OpenGlVertexBuffer() {
@@ -33,6 +34,7 @@ namespace EndGame {
         glGenBuffers(1, &indexBufferId);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
     OpenGlIndexBuffer::~OpenGlIndexBuffer() {
