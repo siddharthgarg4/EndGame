@@ -22,7 +22,8 @@ namespace EndGame {
     }
 
     void LayerStack::popLayer(Layer *layer) {
-        auto foundLayerLocation = std::find(layers.begin(), layers.end(), layer);
+        //search from start of layers to the end
+        auto foundLayerLocation = std::find(layers.begin(), layers.begin() + numberOfLayers, layer);
         if (foundLayerLocation != layers.end()) {
             layers.erase(foundLayerLocation);
             layer->onDetach();
@@ -36,7 +37,8 @@ namespace EndGame {
     }
 
     void LayerStack::popOverlay(Layer *overlay) {
-        auto foundOverlayLocation = std::find(layers.begin(), layers.end(), overlay);
+        //search from start of overlays to the end
+        auto foundOverlayLocation = std::find(layers.begin() + numberOfLayers, layers.end(), overlay);
         if (foundOverlayLocation != layers.end()) {
             overlay->onDetach();
             layers.erase(foundOverlayLocation);

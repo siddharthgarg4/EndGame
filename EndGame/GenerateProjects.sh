@@ -44,5 +44,7 @@ if $isQuickBuild || $isCompileRun || promptUserInput  "Do you want to compile En
 fi
 
 if $isQuickBuild || $isCompileRun || promptUserInput  "Do you want to run Sandbox Application"; then 
+    echo "Sandbox Application running..."
     bin/Debug-macosx-x86_64/EndGame/Sandbox
+    echo "Sandbox Application terminated"
 fi

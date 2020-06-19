@@ -48,12 +48,28 @@ namespace EndGame {
             pushOverlay(new DebugOverlay());
             hasDebugOverlay = true;
         }
+        //MARK: blue shader
+        blueVertexArray = RenderApiFactory::createVertexArray();
+        float squareVertices[3 * 4]  = {
+            -0.75f, -0.75f, 0.0f,
+             0.75f, -0.75f, 0.0f,
+             0.75f,  0.75f, 0.0f,
+            -0.75f,  0.75f, 0.0f
+        };
+        std::shared_ptr<VertexBuffer> blueVertexBuffer = RenderApiFactory::createVertexBuffer(squareVertices, sizeof(squareVertices));
+        blueVertexBuffer->setLayout({
+            {ShaderDataType::Float3, "attrPosition"}
+        });
+        blueVertexArray->addVertexBuffer(blueVertexBuffer);
+        uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0};
+        std::shared_ptr<IndexBuffer> blueIndexBuffer = RenderApiFactory::createIndexBuffer(squareIndices, sizeof(squareIndices)/sizeof(uint32_t));
+        blueVertexArray->setIndexBuffer(blueIndexBuffer);
         //creating vertex array
         vertexArray = RenderApiFactory::createVertexArray();
         //creating vertex buffer
         float vertices[3 * 7] = {
             -0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.1f, 1.0f,
-             0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
+             0.5f, -0.5f, 0.0f, 0.2f, 0.8f, 0.1f, 1.0f,
              0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.1f, 1.0f
         };
         std::shared_ptr<VertexBuffer> vertexBuffer = RenderApiFactory::createVertexBuffer(vertices, sizeof(vertices));
@@ -92,6 +108,24 @@ namespace EndGame {
             }
         )";
         shader = RenderApiFactory::createShader(vertexSource, fragmentSource);
+        std::string blueVertexSource = R"(
+                #version 330 core
+                layout(location = 0) in vec3 attrPosition;
+                out vec3 vecPosition;
+                void main() {
+                    vecPosition = attrPosition;
+                    gl_Position = vec4(vecPosition, 1.0);
+                }
+            )";
+        std::string blueFragmentSource = R"(
+                #version 330 core
+                layout(location = 0) out vec4 color;
+                in vec3 vecPosition;
+                void main() {
+                    color = vec4(0.2, 0.3, 0.8, 1.0);
+                }
+            )";
+        blueShader = RenderApiFactory::createShader(blueVertexSource, blueFragmentSource);
     }
 
     Application::~Application() {}
@@ -101,6 +135,9 @@ namespace EndGame {
             glClearColor(0.1, 0.1, 0.1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+            blueShader->bind();
+            blueVertexArray->bind();
+            glDrawElements(GL_TRIANGLES, blueVertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
             shader->bind();
             vertexArray->bind();
             glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);

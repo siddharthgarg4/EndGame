@@ -36,6 +36,8 @@ namespace EndGame {
             //rendering objects
             std::shared_ptr<Shader> shader;
             std::shared_ptr<VertexArray> vertexArray;
+            std::shared_ptr<Shader> blueShader;
+            std::shared_ptr<VertexArray> blueVertexArray;
     };
     Application *createApplication();
 }
