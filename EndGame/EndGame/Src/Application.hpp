@@ -11,6 +11,8 @@
 #include <EndGame/Src/EndGamePCH.hpp>
 #include <EndGame/Src/SubSystems/WindowSubSystem/Window.h>
 #include <EndGame/Src/SubSystems/LayerSubSystem/LayerStack.hpp>
+#include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
+#include <EndGame/Src/SubSystems/DebugSubSystem/DebugOverlay.hpp>
 //temporary
 #include <EndGame/Src/SubSystems/RenderSubSystem/Shader.h>
 #include <EndGame/Src/SubSystems/RenderSubSystem/VertexArray.h>
@@ -39,6 +41,7 @@ namespace EndGame {
             std::shared_ptr<Shader> blueShader;
             std::shared_ptr<VertexArray> blueVertexArray;
     };
+    //to be defined in client application
     Application *createApplication();
 }
 

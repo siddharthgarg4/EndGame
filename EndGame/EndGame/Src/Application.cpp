@@ -7,14 +7,11 @@
 //
 
 #include "Application.hpp"
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 //^ temporary
 #include <EndGame/Src/EndGamePCH.hpp>
-#include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
-#include <EndGame/Src/SubSystems/DebugSubSystem/DebugOverlay.hpp>
 //temporary
-#include <EndGame/Src/SubSystems/RenderSubSystem/RenderApiUtilities.hpp>
+#include <EndGame/Src/SubSystems/RenderSubSystem/RenderCommand.h>
+#include <EndGame/Src/SubSystems/RenderSubSystem/Renderer.hpp>
 #include <EndGame/Src/SubSystems/RenderSubSystem/RenderApiFactory.hpp>
 
 namespace EndGame {
@@ -132,15 +129,22 @@ namespace EndGame {
 
     void Application::run() {
         while (isRunning) {
-            glClearColor(0.1, 0.1, 0.1, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
+            RenderCommand::clear();
+            RenderCommand::setClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+            Renderer::beginScene();
+            // glClearColor(0.1, 0.1, 0.1, 1);
+			// glClear(GL_COLOR_BUFFER_BIT);
 
             blueShader->bind();
-            blueVertexArray->bind();
-            glDrawElements(GL_TRIANGLES, blueVertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
+            Renderer::submit(blueVertexArray);
+            // blueVertexArray->bind();
+            // glDrawElements(GL_TRIANGLES, blueVertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
             shader->bind();
-            vertexArray->bind();
-            glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
+            Renderer::submit(vertexArray);
+            // vertexArray->bind();
+            // glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
+
+            Renderer::endScene();
 
             for (Layer *layer : applicationLayers) {
                 layer->onUpdate();
