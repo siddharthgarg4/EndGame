@@ -15,7 +15,7 @@
 #endif
 
 //enabling assertions only for Debug
-#ifdef EG_DEBUG
+#ifdef EG_ENGINE_DEBUG
 	#define EG_ENABLE_ASSERTS
 #endif
 

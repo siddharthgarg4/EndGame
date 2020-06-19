@@ -6,8 +6,8 @@
 //
 
 #include "OpenGlShader.hpp"
-#include <EndGame/Src/Core.h>
 #include <glad/glad.h>
+#include <EndGame/Src/Core.h>
 
 namespace EndGame {
 

@@ -9,10 +9,12 @@
 #include "Application.hpp"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+//^ temporary
 #include <EndGame/Src/EndGamePCH.hpp>
 #include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
+#include <EndGame/Src/SubSystems/DebugSubSystem/DebugOverlay.hpp>
+//temporary
 #include <EndGame/Src/SubSystems/RenderSubSystem/RenderApiUtilities.hpp>
-#include <EndGame/Src/SubSystems/RenderSubSystem/OpenGlShader.hpp>
 #include <EndGame/Src/SubSystems/RenderSubSystem/RenderApiFactory.hpp>
 
 namespace EndGame {
@@ -21,7 +23,7 @@ namespace EndGame {
     Application *Application::appInstance = nullptr;
 
     Application::Application(bool shouldAddDebugOverlay) {
-        EG_ENGINE_ASSERT(appInstance, "Application already exists!");
+        EG_ENGINE_ASSERT(!appInstance, "Application already exists!");
         appInstance = this;
         window = std::unique_ptr<Window>(Window::create());
         window->setEventCallBack([this](Event &event) {
@@ -100,7 +102,6 @@ namespace EndGame {
 			glClear(GL_COLOR_BUFFER_BIT);
 
             shader->bind();
-            vertexArray->getIndexBuffer()->bind();
             vertexArray->bind();
             glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
 

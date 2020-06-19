@@ -6,8 +6,8 @@
 //
 
 #include "MacOsInput.hpp"
-#include <EndGame/Src/Application.hpp>
 #include <GLFW/glfw3.h>
+#include <EndGame/Src/Application.hpp>
 
 namespace EndGame {
 

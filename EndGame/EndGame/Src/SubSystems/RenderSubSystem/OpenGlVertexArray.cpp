@@ -49,8 +49,8 @@ namespace EndGame {
         vertexBuffers.push_back(vertexBuffer);
         //unbinding array if requested by client
         if (shouldUnbindAfterCall) {
-            vertexBuffer->unbind();
             glBindVertexArray(0);
+            vertexBuffer->unbind();
         }
     }
 
@@ -61,8 +61,8 @@ namespace EndGame {
         this->indexBuffer = indexBuffer;
         //unbinding array if requested by client
         if (shouldUnbindAfterCall) {
-            indexBuffer->unbind();
             glBindVertexArray(0);
+            indexBuffer->unbind();
         }
     }
 }

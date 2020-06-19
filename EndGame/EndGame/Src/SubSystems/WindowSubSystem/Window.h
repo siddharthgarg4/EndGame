@@ -7,9 +7,9 @@
 
 #ifndef Window_h
 #define Window_h
+#include <EndGame/Src/Core.h>
 #include <EndGame/Src/EndGamePCH.hpp>
 #include <EndGame/Src/SubSystems/EventSubSystem/Event.h>
-#include <EndGame/Src/Core.h>
 
 namespace EndGame {
     

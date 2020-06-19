@@ -36,6 +36,7 @@ project "EndGame"
 
   sysincludedirs {
     "${SRCROOT}",
+    "${SRCROOT}/EndGame/vendor/",
     "${SRCROOT}/EndGame/vendor/glm",
     "${SRCROOT}/EndGame/vendor/spdlog/include",
     "${SRCROOT}/EndGame/vendor/glfw/include",
@@ -87,6 +88,7 @@ project "Sandbox"
 
   sysincludedirs {
     "${SRCROOT}",
+    "${SRCROOT}/EndGame/vendor/",
     "${SRCROOT}/EndGame/vendor/glm",
     "${SRCROOT}/EndGame/vendor/spdlog/include",
     "${SRCROOT}/EndGame/vendor/glfw/include",

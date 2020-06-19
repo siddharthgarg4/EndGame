@@ -6,10 +6,10 @@
 //
 
 #include "DebugOverlay.hpp"
-#include <EndGame/Src/Application.hpp>
-#include <EndGame/vendor/glfw/include/GLFW/glfw3.h>
-#include <EndGame/vendor/imgui/include/imgui.h>
+#include <GLFW/glfw3.h>
+#include <imgui/include/imgui.h>
 #include <EndGame/Src/SubSystems/DebugSubSystem/ImguiBuild.h>
+#include <EndGame/Src/Application.hpp>
 
 namespace EndGame {
         
