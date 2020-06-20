@@ -7,19 +7,14 @@
 //
 
 #include "Application.hpp"
-//^ temporary
 #include <EndGame/Src/EndGamePCH.hpp>
-//temporary
-#include <EndGame/Src/SubSystems/RenderSubSystem/RenderCommand.h>
-#include <EndGame/Src/SubSystems/RenderSubSystem/Renderer.hpp>
-#include <EndGame/Src/SubSystems/RenderSubSystem/RenderApiFactory.hpp>
+#include <glfw/glfw3.h>
 
 namespace EndGame {
-
     //need to declare static variables and cannot init in definitions
     Application *Application::appInstance = nullptr;
 
-    Application::Application(bool shouldAddDebugOverlay) : camera(-1.6f, 1.6f, -0.9f, 0.9f) {
+    Application::Application(bool shouldAddDebugOverlay) {
         EG_ENGINE_ASSERT(!appInstance, "Application already exists!");
         appInstance = this;
         window = std::unique_ptr<Window>(Window::create());
@@ -45,102 +40,17 @@ namespace EndGame {
             pushOverlay(new DebugOverlay());
             hasDebugOverlay = true;
         }
-        //MARK: blue shader
-        blueVertexArray = RenderApiFactory::createVertexArray();
-        float squareVertices[3 * 4]  = {
-            -0.75f, -0.75f, 0.0f,
-             0.75f, -0.75f, 0.0f,
-             0.75f,  0.75f, 0.0f,
-            -0.75f,  0.75f, 0.0f
-        };
-        std::shared_ptr<VertexBuffer> blueVertexBuffer = RenderApiFactory::createVertexBuffer(squareVertices, sizeof(squareVertices));
-        blueVertexBuffer->setLayout({
-            {ShaderDataType::Float3, "attrPosition"}
-        });
-        blueVertexArray->addVertexBuffer(blueVertexBuffer);
-        uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0};
-        std::shared_ptr<IndexBuffer> blueIndexBuffer = RenderApiFactory::createIndexBuffer(squareIndices, sizeof(squareIndices)/sizeof(uint32_t));
-        blueVertexArray->setIndexBuffer(blueIndexBuffer);
-        //creating vertex array
-        vertexArray = RenderApiFactory::createVertexArray();
-        //creating vertex buffer
-        float vertices[3 * 7] = {
-            -0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.1f, 1.0f,
-             0.5f, -0.5f, 0.0f, 0.2f, 0.8f, 0.1f, 1.0f,
-             0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.1f, 1.0f
-        };
-        std::shared_ptr<VertexBuffer> vertexBuffer = RenderApiFactory::createVertexBuffer(vertices, sizeof(vertices));
-        BufferLayout createLayout = {
-            {ShaderDataType::Float3, "attrPosition"},
-            {ShaderDataType::Float4, "attrColor"}
-        };
-        vertexBuffer->setLayout(createLayout);
-        //binding vertex buffer to vertex array
-        vertexArray->addVertexBuffer(vertexBuffer);
-        //creating index buffer
-        uint32_t indices[3] = { 0, 1, 2 };
-        std::shared_ptr<IndexBuffer> indexBuffer = RenderApiFactory::createIndexBuffer(indices, sizeof(indices)/sizeof(uint32_t));
-        //binding index buffer to vertex array
-        vertexArray->setIndexBuffer(indexBuffer);
-
-        std::string vertexSource = R"(
-            #version 330 core
-            layout(location = 0) in vec3 attrPosition;
-            layout(location = 1) in vec4 attrColor;
-            uniform mat4 u_viewProjection;
-            out vec3 vecPosition;
-            out vec4 vecColor;
-            void main() {
-                vecPosition = attrPosition;
-                vecColor = attrColor;
-                gl_Position = u_viewProjection * vec4(vecPosition, 1.0);
-            }
-        )";
-        std::string fragmentSource = R"(
-            #version 330 core
-            layout(location = 0) out vec4 color;
-            in vec3 vecPosition;
-            in vec4 vecColor;
-            void main() {
-                color = vecColor;
-            }
-        )";
-        shader = RenderApiFactory::createShader(vertexSource, fragmentSource);
-        std::string blueVertexSource = R"(
-                #version 330 core
-                layout(location = 0) in vec3 attrPosition;
-                uniform mat4 u_viewProjection;
-                out vec3 vecPosition;
-                void main() {
-                    vecPosition = attrPosition;
-                    gl_Position = u_viewProjection * vec4(vecPosition, 1.0);
-                }
-            )";
-        std::string blueFragmentSource = R"(
-                #version 330 core
-                layout(location = 0) out vec4 color;
-                in vec3 vecPosition;
-                void main() {
-                    color = vec4(0.2, 0.3, 0.8, 1.0);
-                }
-            )";
-        blueShader = RenderApiFactory::createShader(blueVertexSource, blueFragmentSource);
     }
 
     Application::~Application() {}
 
     void Application::run() {
         while (isRunning) {
-            RenderCommand::clear();
-            RenderCommand::setClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-
-            Renderer::beginScene(camera);
-            Renderer::submit(blueShader, blueVertexArray);
-            Renderer::submit(shader, vertexArray);
-            Renderer::endScene();
-
+            float time = float(glfwGetTime());
+            float timestep = time - lastFrameTime;
+            lastFrameTime = time;
             for (Layer *layer : applicationLayers) {
-                layer->onUpdate();
+                layer->onUpdate(timestep);
             }
             if (hasDebugOverlay) {
                 //application has debug overlay

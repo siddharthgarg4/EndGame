@@ -30,4 +30,13 @@
 #include <EndGame/Src/SubSystems/InputSubSystem/KeyCodes.h>
 #include <EndGame/Src/SubSystems/InputSubSystem/MouseButtonCodes.h>
 
+//MARK: Rendering Components
+#include <EndGame/Src/SubSystems/RenderSubSystem/Shader.h>
+#include <EndGame/Src/SubSystems/RenderSubSystem/VertexArray.h>
+#include <EndGame/Src/SubSystems/RenderSubSystem/OrthographicCamera.hpp>
+//MARK: Rendering
+#include <EndGame/Src/SubSystems/RenderSubSystem/RenderCommand.h>
+#include <EndGame/Src/SubSystems/RenderSubSystem/Renderer.hpp>
+#include <EndGame/Src/SubSystems/RenderSubSystem/RenderApiFactory.hpp>
+
 #endif

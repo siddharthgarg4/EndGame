@@ -15,7 +15,8 @@ namespace EndGame {
     }
 
     void OrthographicCamera::recalculateMatrices() {
-        float negativeRotation = rotation * -1.0f;
+        //converting rotation from deg to radians
+        float negativeRotation = glm::radians(rotation * -1.0f);
         glm::vec3 negativePosition = position * -1.0f;
         viewMatrix = glm::translate(glm::mat4(1.0f), negativePosition) * 
             glm::rotate(glm::mat4(1.0f), negativeRotation, glm::vec3(0, 0, 1));

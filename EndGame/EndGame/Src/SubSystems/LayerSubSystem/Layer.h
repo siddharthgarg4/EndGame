@@ -19,7 +19,7 @@ namespace EndGame {
             virtual ~Layer() {}
             virtual void onAttach() {}
             virtual void onDetach() {}
-            virtual void onUpdate() {}
+            virtual void onUpdate(float timestep) {}
             //allows each layer to custom use imgui
             virtual void onImguiRender() {}
             virtual void onEvent(Event &event) {}
