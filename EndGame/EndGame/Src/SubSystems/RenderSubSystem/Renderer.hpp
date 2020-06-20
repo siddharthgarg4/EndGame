@@ -7,16 +7,24 @@
 
 #ifndef Renderer_hpp
 #define Renderer_hpp
+#include <EndGame/Src/SubSystems/RenderSubSystem/Shader.h>
 #include <EndGame/Src/SubSystems/RenderSubSystem/RendererApi.hpp>
+#include <EndGame/Src/SubSystems/RenderSubSystem/OrthographicCamera.hpp>
 
 namespace EndGame {
 
+    struct SceneData {
+        glm::mat4 cameraViewProjection;
+    };
+
     class Renderer {
         public:
-            static void beginScene();
+            static void beginScene(OrthographicCamera &camera);
             static void endScene();
-            static void submit(const std::shared_ptr<VertexArray> &vertexArray);
+            static void submit(const std::shared_ptr<Shader> &shader, const std::shared_ptr<VertexArray> &vertexArray);
             inline static RendererApi::Api getApi() { return RendererApi::getApi(); } 
+        private:
+            static std::unique_ptr<SceneData> sceneData;
     };
 }
 

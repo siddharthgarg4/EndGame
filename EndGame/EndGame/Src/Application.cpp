@@ -19,7 +19,7 @@ namespace EndGame {
     //need to declare static variables and cannot init in definitions
     Application *Application::appInstance = nullptr;
 
-    Application::Application(bool shouldAddDebugOverlay) {
+    Application::Application(bool shouldAddDebugOverlay) : camera(-1.6f, 1.6f, -0.9f, 0.9f) {
         EG_ENGINE_ASSERT(!appInstance, "Application already exists!");
         appInstance = this;
         window = std::unique_ptr<Window>(Window::create());
@@ -87,12 +87,13 @@ namespace EndGame {
             #version 330 core
             layout(location = 0) in vec3 attrPosition;
             layout(location = 1) in vec4 attrColor;
+            uniform mat4 u_viewProjection;
             out vec3 vecPosition;
             out vec4 vecColor;
             void main() {
                 vecPosition = attrPosition;
                 vecColor = attrColor;
-                gl_Position = vec4(vecPosition, 1.0);
+                gl_Position = u_viewProjection * vec4(vecPosition, 1.0);
             }
         )";
         std::string fragmentSource = R"(
@@ -108,10 +109,11 @@ namespace EndGame {
         std::string blueVertexSource = R"(
                 #version 330 core
                 layout(location = 0) in vec3 attrPosition;
+                uniform mat4 u_viewProjection;
                 out vec3 vecPosition;
                 void main() {
                     vecPosition = attrPosition;
-                    gl_Position = vec4(vecPosition, 1.0);
+                    gl_Position = u_viewProjection * vec4(vecPosition, 1.0);
                 }
             )";
         std::string blueFragmentSource = R"(
@@ -131,19 +133,10 @@ namespace EndGame {
         while (isRunning) {
             RenderCommand::clear();
             RenderCommand::setClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-            Renderer::beginScene();
-            // glClearColor(0.1, 0.1, 0.1, 1);
-			// glClear(GL_COLOR_BUFFER_BIT);
 
-            blueShader->bind();
-            Renderer::submit(blueVertexArray);
-            // blueVertexArray->bind();
-            // glDrawElements(GL_TRIANGLES, blueVertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
-            shader->bind();
-            Renderer::submit(vertexArray);
-            // vertexArray->bind();
-            // glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
-
+            Renderer::beginScene(camera);
+            Renderer::submit(blueShader, blueVertexArray);
+            Renderer::submit(shader, vertexArray);
             Renderer::endScene();
 
             for (Layer *layer : applicationLayers) {

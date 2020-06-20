@@ -16,6 +16,7 @@
 //temporary
 #include <EndGame/Src/SubSystems/RenderSubSystem/Shader.h>
 #include <EndGame/Src/SubSystems/RenderSubSystem/VertexArray.h>
+#include <EndGame/Src/SubSystems/RenderSubSystem/OrthographicCamera.hpp>
 
 namespace EndGame {
 
@@ -40,6 +41,7 @@ namespace EndGame {
             std::shared_ptr<VertexArray> vertexArray;
             std::shared_ptr<Shader> blueShader;
             std::shared_ptr<VertexArray> blueVertexArray;
+            OrthographicCamera camera;
     };
     //to be defined in client application
     Application *createApplication();

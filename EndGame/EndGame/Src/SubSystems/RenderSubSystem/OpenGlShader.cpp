@@ -7,6 +7,7 @@
 
 #include "OpenGlShader.hpp"
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 #include <EndGame/Src/Core.h>
 
 namespace EndGame {
@@ -79,6 +80,11 @@ namespace EndGame {
 
     void OpenGlShader::unbind() const {
         glUseProgram(0);
+    }
+
+    void OpenGlShader::uploadUniformMat4(const std::string &name, const glm::mat4 &matrix) {
+        GLint uniformLocation = glGetUniformLocation(rendererId, name.c_str());
+        glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrix));
     }
 
     OpenGlDataType OpenGlShader::shaderDataTypeToOpenGlDataType(ShaderDataType type) {

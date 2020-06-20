@@ -11,12 +11,17 @@
 namespace EndGame {
     //temporary
     std::unique_ptr<RendererApi> RenderCommand::rendererApi = RenderApiFactory::createRendererApi();
+    std::unique_ptr<SceneData> Renderer::sceneData = std::make_unique<SceneData>();
 
-    void Renderer::beginScene() {}
+    void Renderer::beginScene(OrthographicCamera &camera) {
+        sceneData->cameraViewProjection = camera.getViewProjectionMatrix();
+    }
 
     void Renderer::endScene() {}
 
-    void Renderer::submit(const std::shared_ptr<VertexArray> &vertexArray) {
+    void Renderer::submit(const std::shared_ptr<Shader> &shader, const std::shared_ptr<VertexArray> &vertexArray) {
+        shader->bind();
+        shader->uploadUniformMat4("u_viewProjection", sceneData->cameraViewProjection);
         vertexArray->bind();
         RenderCommand::drawIndexed(vertexArray);
     }

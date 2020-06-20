@@ -24,6 +24,7 @@ namespace EndGame {
             ~OpenGlShader();
             void bind() const override;
             void unbind() const override;
+            void uploadUniformMat4(const std::string &name, const glm::mat4 &matrix) override;
             static OpenGlDataType shaderDataTypeToOpenGlDataType(ShaderDataType type);
         private:
             uint32_t rendererId;
