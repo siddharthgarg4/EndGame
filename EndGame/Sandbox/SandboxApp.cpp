@@ -7,15 +7,16 @@
 //
 
 #include "SandboxApp.hpp"
+#include <glm/gtc/matrix_transform.hpp>
 
 ExampleLayer::ExampleLayer() : Layer("Example Layer"), camera(-1.6f, 1.6f, -0.9f, 0.9f) {
     //MARK: blue shader
     blueVertexArray = EndGame::RenderApiFactory::createVertexArray();
     float squareVertices[3 * 4]  = {
-        -0.75f, -0.75f, 0.0f,
-         0.75f, -0.75f, 0.0f,
-         0.75f,  0.75f, 0.0f,
-        -0.75f,  0.75f, 0.0f
+        -0.5f, -0.5f, 0.0f,
+         0.5f, -0.5f, 0.0f,
+         0.5f,  0.5f, 0.0f,
+        -0.5f,  0.5f, 0.0f
     };
     std::shared_ptr<EndGame::VertexBuffer> blueVertexBuffer = EndGame::RenderApiFactory::createVertexBuffer(squareVertices, sizeof(squareVertices));
     blueVertexBuffer->setLayout({
@@ -51,12 +52,13 @@ ExampleLayer::ExampleLayer() : Layer("Example Layer"), camera(-1.6f, 1.6f, -0.9f
         layout(location = 0) in vec3 attrPosition;
         layout(location = 1) in vec4 attrColor;
         uniform mat4 u_viewProjection;
+        uniform mat4 u_transform;
         out vec3 vecPosition;
         out vec4 vecColor;
         void main() {
             vecPosition = attrPosition;
             vecColor = attrColor;
-            gl_Position = u_viewProjection * vec4(vecPosition, 1.0);
+            gl_Position = u_viewProjection * u_transform * vec4(vecPosition, 1.0);
         }
     )";
     std::string fragmentSource = R"(
@@ -73,10 +75,11 @@ ExampleLayer::ExampleLayer() : Layer("Example Layer"), camera(-1.6f, 1.6f, -0.9f
             #version 330 core
             layout(location = 0) in vec3 attrPosition;
             uniform mat4 u_viewProjection;
+            uniform mat4 u_transform;
             out vec3 vecPosition;
             void main() {
                 vecPosition = attrPosition;
-                gl_Position = u_viewProjection * vec4(vecPosition, 1.0);
+                gl_Position = u_viewProjection * u_transform * vec4(vecPosition, 1.0);
             }
         )";
     std::string blueFragmentSource = R"(
@@ -127,7 +130,13 @@ void ExampleLayer::onRender(const float &alpha, const float &dtime) {
     camera.setPosition(interpolatedCameraPosition);
     camera.setRotation(interpolatedCameraRotation);
     EndGame::Renderer::beginScene(camera);
-    EndGame::Renderer::submit(blueShader, blueVertexArray);
+    glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+    for (int y=0; y<10; y++) {
+        for (int x=0; x<10; x++) {
+            glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.11f * x, 0.11f * y, 0.0f)) * scale;
+            EndGame::Renderer::submit(blueShader, blueVertexArray, transform);
+        }
+    }
     EndGame::Renderer::submit(shader, vertexArray);
     EndGame::Renderer::endScene();
 }

@@ -46,11 +46,12 @@ namespace EndGame {
 
     void Application::run() {
         //timestep setup
-        float time = 0.0f;
+        const float maxFrameTime = 0.25f;
         const float dtime = 0.01f;
+        //variables for timestep
+        float time = 0.0f;
         float currentTime = 0.0f;
         float accumulator = 0.0f;
-        const float maxFrameTime = 0.25f;
         while (isRunning) {
             float newTime = float(glfwGetTime());
             float frameTime = newTime - currentTime;
@@ -60,9 +61,7 @@ namespace EndGame {
                 frameTime = maxFrameTime;
             }
             accumulator += frameTime;
-            int counter = 0;
             while (accumulator >= dtime) {
-                counter++;
                 for (Layer *layer : applicationLayers) {
                     //updating the states per layer
                     layer->onUpdate(time, dtime);
