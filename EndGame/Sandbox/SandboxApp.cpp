@@ -90,29 +90,42 @@ ExampleLayer::ExampleLayer() : Layer("Example Layer"), camera(-1.6f, 1.6f, -0.9f
     blueShader = EndGame::RenderApiFactory::createShader(blueVertexSource, blueFragmentSource);
 }
 
-void ExampleLayer::onUpdate(float timestep) {
+std::pair<glm::vec3, float> ExampleLayer::cameraTransformAfterUpdate(const float &dtime) {
+    std::pair<glm::vec3, float> currentCameraTransform (cameraPosition, cameraRotation);
     if (EndGame::Input::isKeyPressed(EG_KEY_LEFT)) {
-        cameraPosition.x -= cameraMoveSpeed * timestep;
+        currentCameraTransform.first.x -= cameraMoveSpeed * dtime;
     } else if (EndGame::Input::isKeyPressed(EG_KEY_RIGHT)) {
-        cameraPosition.x += cameraMoveSpeed * timestep;
+        currentCameraTransform.first.x += cameraMoveSpeed * dtime;
     }
 
     if (EndGame::Input::isKeyPressed(EG_KEY_UP)) {
-        cameraPosition.y += cameraMoveSpeed * timestep;
+        currentCameraTransform.first.y += cameraMoveSpeed * dtime;
     } else if (EndGame::Input::isKeyPressed(EG_KEY_DOWN)) {
-        cameraPosition.y -= cameraMoveSpeed * timestep;
+        currentCameraTransform.first.y -= cameraMoveSpeed * dtime;
     }
     
     if (EndGame::Input::isKeyPressed(EG_KEY_A)) {
-        cameraRotation += cameraRotationSpeed * timestep;
+        currentCameraTransform.second += cameraRotationSpeed * dtime;
     } else if (EndGame::Input::isKeyPressed(EG_KEY_D)) {
-        cameraRotation -= cameraRotationSpeed * timestep;
+        currentCameraTransform.second -= cameraRotationSpeed * dtime;
     }
+    return currentCameraTransform;
+}
 
+void ExampleLayer::onUpdate(const float &timeSinceStart, const float &dtime) {
+    std::pair<glm::vec3, float> newCameraTranform = cameraTransformAfterUpdate(dtime);
+    cameraPosition = newCameraTranform.first;
+    cameraRotation = newCameraTranform.second;
+}
+
+void ExampleLayer::onRender(const float &alpha, const float &dtime) {
+    std::pair<glm::vec3, float> nextCameraTransform = cameraTransformAfterUpdate(dtime);
+    glm::vec3 interpolatedCameraPosition = (cameraPosition * (1-alpha)) + (nextCameraTransform.first * alpha);
+    float interpolatedCameraRotation = (cameraRotation * (1-alpha)) + (nextCameraTransform.second * alpha);
     EndGame::RenderCommand::clear();
     EndGame::RenderCommand::setClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-    camera.setPosition(cameraPosition);
-    camera.setRotation(cameraRotation);
+    camera.setPosition(interpolatedCameraPosition);
+    camera.setRotation(interpolatedCameraRotation);
     EndGame::Renderer::beginScene(camera);
     EndGame::Renderer::submit(blueShader, blueVertexArray);
     EndGame::Renderer::submit(shader, vertexArray);

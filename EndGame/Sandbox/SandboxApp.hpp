@@ -14,7 +14,8 @@
 class ExampleLayer : public EndGame::Layer {
     public:
         ExampleLayer();
-        void onUpdate(float timestep) override;
+        void onUpdate(const float &timeSinceStart, const float &dtime) override;
+        void onRender(const float &alpha, const float &dtime) override;
         void onEvent(EndGame::Event &event) override {}
     private:
         //rendering objects
@@ -28,7 +29,7 @@ class ExampleLayer : public EndGame::Layer {
         float cameraRotation = 0.0f;
         float cameraMoveSpeed = 5.0f;
         float cameraRotationSpeed = 180.0f;
-
+        std::pair<glm::vec3, float> cameraTransformAfterUpdate(const float &dtime);
 };
 
 class Sandbox : public EndGame::Application {

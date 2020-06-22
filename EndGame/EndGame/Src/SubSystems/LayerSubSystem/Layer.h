@@ -19,7 +19,10 @@ namespace EndGame {
             virtual ~Layer() {}
             virtual void onAttach() {}
             virtual void onDetach() {}
-            virtual void onUpdate(float timestep) {}
+            //update the state, dtime represents timestep, timeSinceStart passed in case layer wants to use
+            virtual void onUpdate(const float &timeSinceStart, const float &dtime) {}
+            //actually render, alpha represents difference between current and next state
+            virtual void onRender(const float &alpha, const float &dtime) {}
             //allows each layer to custom use imgui
             virtual void onImguiRender() {}
             virtual void onEvent(Event &event) {}

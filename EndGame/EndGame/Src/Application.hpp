@@ -32,7 +32,6 @@ namespace EndGame {
             bool hasDebugOverlay = false;
             LayerStack applicationLayers;
             static Application *appInstance;
-            float lastFrameTime = 0.0f;
     };
     //to be defined in client application
     Application *createApplication();

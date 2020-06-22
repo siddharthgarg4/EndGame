@@ -45,12 +45,37 @@ namespace EndGame {
     Application::~Application() {}
 
     void Application::run() {
+        //timestep setup
+        float time = 0.0f;
+        const float dtime = 0.01f;
+        float currentTime = 0.0f;
+        float accumulator = 0.0f;
+        const float maxFrameTime = 0.25f;
         while (isRunning) {
-            float time = float(glfwGetTime());
-            float timestep = time - lastFrameTime;
-            lastFrameTime = time;
+            float newTime = float(glfwGetTime());
+            float frameTime = newTime - currentTime;
+            currentTime = newTime;
+            if (frameTime > maxFrameTime) {
+                //prevents locking out due to slow refresh rate
+                frameTime = maxFrameTime;
+            }
+            accumulator += frameTime;
+            int counter = 0;
+            while (accumulator >= dtime) {
+                counter++;
+                for (Layer *layer : applicationLayers) {
+                    //updating the states per layer
+                    layer->onUpdate(time, dtime);
+                }
+                time += dtime;
+                accumulator -= dtime;
+            }
+            //allows interpolation, usually done with states
+            const float alpha = accumulator / dtime;
+            //actual rendering
             for (Layer *layer : applicationLayers) {
-                layer->onUpdate(timestep);
+                //passing alpha and timestep to allow interpolation during rendering
+                layer->onRender(alpha, dtime);
             }
             if (hasDebugOverlay) {
                 //application has debug overlay
