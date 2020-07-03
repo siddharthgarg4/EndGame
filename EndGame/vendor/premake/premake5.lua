@@ -105,9 +105,11 @@ project "Sandbox"
   links {
     "EndGame",
     "OpenGL.framework",
-    "glfw.3.3",
+    "glfw3",
     "glad",
-    "imgui"
+    "imgui",
+    "Cocoa.framework",
+    "IOKit.framework"
   }
 
   filter "system:macosx"

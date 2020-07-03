@@ -20,12 +20,19 @@ namespace EndGame {
 
     class OpenGlShader : public Shader {
         public:
+            static OpenGlDataType shaderDataTypeToOpenGlDataType(ShaderDataType type);
             OpenGlShader(std::string &vertexSource, std::string &fragmentSource);
             ~OpenGlShader();
             void bind() const override;
             void unbind() const override;
-            void uploadUniformMat4(const std::string &name, const glm::mat4 &matrix) override;
-            static OpenGlDataType shaderDataTypeToOpenGlDataType(ShaderDataType type);
+            //overloaded uniform functions
+            void uploadUniform(const std::string &name, const int &data) override;
+            void uploadUniform(const std::string &name, const float &data) override;
+            void uploadUniform(const std::string &name, const glm::vec2 &data) override;
+            void uploadUniform(const std::string &name, const glm::vec3 &data) override;
+            void uploadUniform(const std::string &name, const glm::vec4 &data) override;
+            void uploadUniform(const std::string &name, const glm::mat3 &data) override;
+            void uploadUniform(const std::string &name, const glm::mat4 &data) override;
         private:
             uint32_t rendererId;
     };

@@ -12,6 +12,50 @@
 
 namespace EndGame {
 
+        OpenGlDataType OpenGlShader::shaderDataTypeToOpenGlDataType(ShaderDataType type) {
+        switch(type) {
+            case ShaderDataType::None: {
+                EG_ENGINE_ASSERT(false, "None ShaderDataType not handled!");
+                return OpenGlDataType{0, 0, 0};
+            }
+            case ShaderDataType::Bool : {
+                return OpenGlDataType{GL_BOOL, 1, 1};
+            } 
+            case ShaderDataType::Mat3 : {
+                return OpenGlDataType{GL_FLOAT, 3 * 3, 4 * 3 * 3};
+            } 
+            case ShaderDataType::Mat4 : {
+                return OpenGlDataType{GL_FLOAT, 4 * 4, 4 * 4 * 4};
+            } 
+            case ShaderDataType::Int : {
+                return OpenGlDataType{GL_INT, 1, 4};
+            } 
+            case ShaderDataType::Int2 : {
+                return OpenGlDataType{GL_INT, 2, 4 * 2};
+            } 
+            case ShaderDataType::Int3 : {
+                return OpenGlDataType{GL_INT, 3, 4 * 3};
+            } 
+            case ShaderDataType::Int4 : {
+                return OpenGlDataType{GL_INT, 4, 4 * 4};
+            } 
+            case ShaderDataType::Float : {
+                return OpenGlDataType{GL_FLOAT, 1, 4};
+            } 
+            case ShaderDataType::Float2 : {
+                return OpenGlDataType{GL_FLOAT, 2, 4 * 2};
+            } 
+            case ShaderDataType::Float3 : {
+                return OpenGlDataType{GL_FLOAT, 3, 4 * 3};
+            } 
+            case ShaderDataType::Float4 : {
+                return OpenGlDataType{GL_FLOAT, 4, 4 * 4};
+            } 
+        }
+        EG_ENGINE_ASSERT(false, "Unknown ShaderDataType!");
+        return OpenGlDataType{0, 0, 0};
+    }
+
     OpenGlShader::OpenGlShader(std::string &vertexSource, std::string &fragmentSource) {
         GLint shaderDidCompile = 0;
         GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -82,52 +126,38 @@ namespace EndGame {
         glUseProgram(0);
     }
 
-    void OpenGlShader::uploadUniformMat4(const std::string &name, const glm::mat4 &matrix) {
+    void OpenGlShader::uploadUniform(const std::string &name, const int &data) {
         GLint uniformLocation = glGetUniformLocation(rendererId, name.c_str());
-        glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrix));
+        glUniform1i(uniformLocation, data);
     }
 
-    OpenGlDataType OpenGlShader::shaderDataTypeToOpenGlDataType(ShaderDataType type) {
-        switch(type) {
-            case ShaderDataType::None: {
-                EG_ENGINE_ASSERT(false, "None ShaderDataType not handled!");
-                return OpenGlDataType{0, 0, 0};
-            }
-            case ShaderDataType::Bool : {
-                return OpenGlDataType{GL_BOOL, 1, 1};
-            } 
-            case ShaderDataType::Mat3 : {
-                return OpenGlDataType{GL_FLOAT, 3 * 3, 4 * 3 * 3};
-            } 
-            case ShaderDataType::Mat4 : {
-                return OpenGlDataType{GL_FLOAT, 4 * 4, 4 * 4 * 4};
-            } 
-            case ShaderDataType::Int : {
-                return OpenGlDataType{GL_INT, 1, 4};
-            } 
-            case ShaderDataType::Int2 : {
-                return OpenGlDataType{GL_INT, 2, 4 * 2};
-            } 
-            case ShaderDataType::Int3 : {
-                return OpenGlDataType{GL_INT, 3, 4 * 3};
-            } 
-            case ShaderDataType::Int4 : {
-                return OpenGlDataType{GL_INT, 4, 4 * 4};
-            } 
-            case ShaderDataType::Float : {
-                return OpenGlDataType{GL_FLOAT, 1, 4};
-            } 
-            case ShaderDataType::Float2 : {
-                return OpenGlDataType{GL_FLOAT, 2, 4 * 2};
-            } 
-            case ShaderDataType::Float3 : {
-                return OpenGlDataType{GL_FLOAT, 3, 4 * 3};
-            } 
-            case ShaderDataType::Float4 : {
-                return OpenGlDataType{GL_FLOAT, 4, 4 * 4};
-            } 
-        }
-        EG_ENGINE_ASSERT(false, "Unknown ShaderDataType!");
-        return OpenGlDataType{0, 0, 0};
+    void OpenGlShader::uploadUniform(const std::string &name, const float &data) {
+        GLint uniformLocation = glGetUniformLocation(rendererId, name.c_str());
+        glUniform1f(uniformLocation, data);
+    }
+
+    void OpenGlShader::uploadUniform(const std::string &name, const glm::vec2 &data) {
+        GLint uniformLocation = glGetUniformLocation(rendererId, name.c_str());
+        glUniform2f(uniformLocation, data.x, data.y);
+    }
+
+    void OpenGlShader::uploadUniform(const std::string &name, const glm::vec3 &data) {
+        GLint uniformLocation = glGetUniformLocation(rendererId, name.c_str());
+        glUniform3f(uniformLocation, data.x, data.y, data.z);
+    }
+
+    void OpenGlShader::uploadUniform(const std::string &name, const glm::vec4 &data) {
+        GLint uniformLocation = glGetUniformLocation(rendererId, name.c_str());
+        glUniform4f(uniformLocation, data.x, data.y, data.z, data.w);
+    }
+
+    void OpenGlShader::uploadUniform(const std::string &name, const glm::mat3 &data) {
+        GLint uniformLocation = glGetUniformLocation(rendererId, name.c_str());
+        glUniformMatrix3fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(data));
+    }
+
+    void OpenGlShader::uploadUniform(const std::string &name, const glm::mat4 &data) {
+        GLint uniformLocation = glGetUniformLocation(rendererId, name.c_str());
+        glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(data));
     }
 }

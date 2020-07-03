@@ -8,24 +8,26 @@
 
 #include "SandboxApp.hpp"
 #include <glm/gtc/matrix_transform.hpp>
+#include <imgui/include/imgui.h>
+#include <glm/gtc/type_ptr.hpp>
 
 ExampleLayer::ExampleLayer() : Layer("Example Layer"), camera(-1.6f, 1.6f, -0.9f, 0.9f) {
-    //MARK: blue shader
-    blueVertexArray = EndGame::RenderApiFactory::createVertexArray();
+    //MARK: flat color shader
+    flatColorVertexArray = EndGame::RenderApiFactory::createVertexArray();
     float squareVertices[3 * 4]  = {
         -0.5f, -0.5f, 0.0f,
          0.5f, -0.5f, 0.0f,
          0.5f,  0.5f, 0.0f,
         -0.5f,  0.5f, 0.0f
     };
-    std::shared_ptr<EndGame::VertexBuffer> blueVertexBuffer = EndGame::RenderApiFactory::createVertexBuffer(squareVertices, sizeof(squareVertices));
-    blueVertexBuffer->setLayout({
+    std::shared_ptr<EndGame::VertexBuffer> flatColorVertexBuffer = EndGame::RenderApiFactory::createVertexBuffer(squareVertices, sizeof(squareVertices));
+    flatColorVertexBuffer->setLayout({
         {EndGame::ShaderDataType::Float3, "attrPosition"}
     });
-    blueVertexArray->addVertexBuffer(blueVertexBuffer);
+    flatColorVertexArray->addVertexBuffer(flatColorVertexBuffer);
     uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0};
-    std::shared_ptr<EndGame::IndexBuffer> blueIndexBuffer = EndGame::RenderApiFactory::createIndexBuffer(squareIndices, sizeof(squareIndices)/sizeof(uint32_t));
-    blueVertexArray->setIndexBuffer(blueIndexBuffer);
+    std::shared_ptr<EndGame::IndexBuffer> flatColorIndexBuffer = EndGame::RenderApiFactory::createIndexBuffer(squareIndices, sizeof(squareIndices)/sizeof(uint32_t));
+    flatColorVertexArray->setIndexBuffer(flatColorIndexBuffer);
     //creating vertex array
     vertexArray = EndGame::RenderApiFactory::createVertexArray();
     //creating vertex buffer
@@ -71,7 +73,7 @@ ExampleLayer::ExampleLayer() : Layer("Example Layer"), camera(-1.6f, 1.6f, -0.9f
         }
     )";
     shader = EndGame::RenderApiFactory::createShader(vertexSource, fragmentSource);
-    std::string blueVertexSource = R"(
+    std::string flatColorVertexSource = R"(
             #version 330 core
             layout(location = 0) in vec3 attrPosition;
             uniform mat4 u_viewProjection;
@@ -82,15 +84,16 @@ ExampleLayer::ExampleLayer() : Layer("Example Layer"), camera(-1.6f, 1.6f, -0.9f
                 gl_Position = u_viewProjection * u_transform * vec4(vecPosition, 1.0);
             }
         )";
-    std::string blueFragmentSource = R"(
+    std::string flatColorFragmentSource = R"(
             #version 330 core
             layout(location = 0) out vec4 color;
             in vec3 vecPosition;
+            uniform vec3 u_flatColor;
             void main() {
-                color = vec4(0.2, 0.3, 0.8, 1.0);
+                color = vec4(u_flatColor, 1.0);
             }
         )";
-    blueShader = EndGame::RenderApiFactory::createShader(blueVertexSource, blueFragmentSource);
+    flatColorShader = EndGame::RenderApiFactory::createShader(flatColorVertexSource, flatColorFragmentSource);
 }
 
 std::pair<glm::vec3, float> ExampleLayer::cameraTransformAfterUpdate(const float &dtime) {
@@ -131,12 +134,21 @@ void ExampleLayer::onRender(const float &alpha, const float &dtime) {
     camera.setRotation(interpolatedCameraRotation);
     EndGame::Renderer::beginScene(camera);
     glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+    flatColorShader->bind();
+    flatColorShader->uploadUniform("u_flatColor", flatColor);
+    flatColorShader->unbind();
     for (int y=0; y<10; y++) {
         for (int x=0; x<10; x++) {
             glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.11f * x, 0.11f * y, 0.0f)) * scale;
-            EndGame::Renderer::submit(blueShader, blueVertexArray, transform);
+            EndGame::Renderer::submit(flatColorShader, flatColorVertexArray, transform);
         }
     }
     EndGame::Renderer::submit(shader, vertexArray);
     EndGame::Renderer::endScene();
+}
+
+void ExampleLayer::onImguiRender() {
+    ImGui::Begin("Settings");
+    ImGui::ColorEdit3("Color", glm::value_ptr(flatColor));
+    ImGui::End();
 }

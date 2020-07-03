@@ -21,8 +21,8 @@ namespace EndGame {
 
     void Renderer::submit(const std::shared_ptr<Shader> &shader, const std::shared_ptr<VertexArray> &vertexArray, const glm::mat4 &transform) {
         shader->bind();
-        shader->uploadUniformMat4("u_viewProjection", sceneData->cameraViewProjection);
-        shader->uploadUniformMat4("u_transform", transform);
+        shader->uploadUniform("u_viewProjection", sceneData->cameraViewProjection);
+        shader->uploadUniform("u_transform", transform);
         vertexArray->bind();
         RenderCommand::drawIndexed(vertexArray);
     }

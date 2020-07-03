@@ -24,7 +24,15 @@ namespace EndGame {
             virtual ~Shader() {}
             virtual void bind() const = 0;
             virtual void unbind() const = 0;
-            virtual void uploadUniformMat4(const std::string &name, const glm::mat4 &matrix) = 0;
+            //upload uniform methods overloaded for different types
+            //vec and mat is assumed to be of type float
+            virtual void uploadUniform(const std::string &name, const int &data) = 0;
+            virtual void uploadUniform(const std::string &name, const float &data) = 0;
+            virtual void uploadUniform(const std::string &name, const glm::vec2 &data) = 0;
+            virtual void uploadUniform(const std::string &name, const glm::vec3 &data) = 0;
+            virtual void uploadUniform(const std::string &name, const glm::vec4 &data) = 0;
+            virtual void uploadUniform(const std::string &name, const glm::mat3 &data) = 0;
+            virtual void uploadUniform(const std::string &name, const glm::mat4 &data) = 0;
     };
 }
 
