@@ -49,51 +49,8 @@ ExampleLayer::ExampleLayer() : Layer("Example Layer"), camera(-1.6f, 1.6f, -0.9f
     std::shared_ptr<EndGame::IndexBuffer> indexBuffer = EndGame::RenderApiFactory::createIndexBuffer(indices, sizeof(indices)/sizeof(uint32_t));
     //binding index buffer to vertex array
     vertexArray->setIndexBuffer(indexBuffer);
-    std::string vertexSource = R"(
-        #version 330 core
-        layout(location = 0) in vec3 attrPosition;
-        layout(location = 1) in vec4 attrColor;
-        uniform mat4 u_viewProjection;
-        uniform mat4 u_transform;
-        out vec3 vecPosition;
-        out vec4 vecColor;
-        void main() {
-            vecPosition = attrPosition;
-            vecColor = attrColor;
-            gl_Position = u_viewProjection * u_transform * vec4(vecPosition, 1.0);
-        }
-    )";
-    std::string fragmentSource = R"(
-        #version 330 core
-        layout(location = 0) out vec4 color;
-        in vec3 vecPosition;
-        in vec4 vecColor;
-        void main() {
-            color = vecColor;
-        }
-    )";
-    shader = EndGame::RenderApiFactory::createShader(vertexSource, fragmentSource);
-    std::string flatColorVertexSource = R"(
-            #version 330 core
-            layout(location = 0) in vec3 attrPosition;
-            uniform mat4 u_viewProjection;
-            uniform mat4 u_transform;
-            out vec3 vecPosition;
-            void main() {
-                vecPosition = attrPosition;
-                gl_Position = u_viewProjection * u_transform * vec4(vecPosition, 1.0);
-            }
-        )";
-    std::string flatColorFragmentSource = R"(
-            #version 330 core
-            layout(location = 0) out vec4 color;
-            in vec3 vecPosition;
-            uniform vec3 u_flatColor;
-            void main() {
-                color = vec4(u_flatColor, 1.0);
-            }
-        )";
-    flatColorShader = EndGame::RenderApiFactory::createShader(flatColorVertexSource, flatColorFragmentSource);
+    shader = EndGame::RenderApiFactory::createShader("Sandbox/Triangle.glsl");
+    flatColorShader = EndGame::RenderApiFactory::createShader("Sandbox/Grid.glsl");
 }
 
 std::pair<glm::vec3, float> ExampleLayer::cameraTransformAfterUpdate(const float &dtime) {

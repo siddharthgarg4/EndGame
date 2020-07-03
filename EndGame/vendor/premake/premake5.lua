@@ -104,10 +104,10 @@ project "Sandbox"
 
   links {
     "EndGame",
-    "OpenGL.framework",
     "glfw3",
     "glad",
     "imgui",
+    "OpenGL.framework",
     "Cocoa.framework",
     "IOKit.framework"
   }

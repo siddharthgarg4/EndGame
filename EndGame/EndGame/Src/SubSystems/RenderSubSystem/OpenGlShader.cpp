@@ -56,62 +56,40 @@ namespace EndGame {
         return OpenGlDataType{0, 0, 0};
     }
 
+    static GLenum shaderTypeToOpenGlType(ShaderType type) {
+        switch(type) {
+            case fragment:
+                return GL_FRAGMENT_SHADER;
+            case vertex:
+                return GL_VERTEX_SHADER;
+            case unknown:
+                break;
+        }
+        EG_ENGINE_ASSERT(false, "Unknown ShaderType!");
+        return 0;
+    }
+
+    static ShaderType shaderTypeFromString(std::string type) {
+        if (type == "vertex") {
+            return ShaderType::vertex;
+        } else if (type == "fragment" || type == "pixel") {
+            return ShaderType::fragment;
+        }
+        EG_ENGINE_ASSERT(false, "Unknown ShaderType!");
+        return ShaderType::unknown;
+    }
+
     OpenGlShader::OpenGlShader(std::string &vertexSource, std::string &fragmentSource) {
-        GLint shaderDidCompile = 0;
-        GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        const GLchar* vertexShaderSource = vertexSource.c_str();
-        glShaderSource(vertexShader, 1, &vertexShaderSource, 0);
-        glCompileShader(vertexShader);
-        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &shaderDidCompile);
-        if (shaderDidCompile == GL_FALSE) {
-            //vertex shader did not compile
-            GLint logLength = 0;
-            glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &logLength);
-            std::vector<GLchar> infoLog(logLength);
-            glGetShaderInfoLog(vertexShader, logLength, &logLength, &infoLog[0]);
-            glDeleteShader(vertexShader);
-            EG_ENGINE_ERROR("{0}", infoLog.data());
-            EG_ENGINE_ASSERT(false, "OpenGl Vertex Shader failed to compile");
-            return;
-        }
-        GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        const GLchar* fragmentShaderSource = fragmentSource.c_str();
-        glShaderSource(fragmentShader, 1, &fragmentShaderSource, 0);
-        glCompileShader(fragmentShader);
-        glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &shaderDidCompile);
-        if (shaderDidCompile == GL_FALSE) {
-            //fragment shader did not compile
-            GLint logLength = 0;
-            glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &logLength);
-            std::vector<GLchar> infoLog(logLength);
-            glGetShaderInfoLog(fragmentShader, logLength, &logLength, &infoLog[0]);
-            glDeleteShader(vertexShader);
-            glDeleteShader(fragmentShader);
-            EG_ENGINE_ERROR("{0}", infoLog.data());
-            EG_ENGINE_ASSERT(false, "OpenGl Fragment Shader failed to compile");
-            return;
-        }
-        rendererId = glCreateProgram();
-        glAttachShader(rendererId, vertexShader);
-        glAttachShader(rendererId, fragmentShader);
-        glLinkProgram(rendererId);
-        GLint programDidLink = 0;
-        glGetProgramiv(rendererId, GL_LINK_STATUS, &programDidLink);
-        if (programDidLink == GL_FALSE) {
-            //program did not link
-            GLint logLength = 0;
-            glGetProgramiv(rendererId, GL_INFO_LOG_LENGTH, &logLength);
-            std::vector<GLchar> infoLog(logLength);
-            glGetProgramInfoLog(rendererId, logLength, &logLength, &infoLog[0]);
-            glDeleteProgram(rendererId);
-            glDeleteShader(vertexShader);
-            glDeleteShader(fragmentShader);
-            EG_ENGINE_ERROR("{0}", infoLog.data());
-            EG_ENGINE_ASSERT(false, "OpenGl Program failed to link");
-            return;
-        }
-        glDetachShader(rendererId, vertexShader);
-        glDetachShader(rendererId, fragmentShader);
+        std::unordered_map<ShaderType, std::string> shaderSources;
+        shaderSources[ShaderType::vertex] = vertexSource;
+        shaderSources[ShaderType::fragment] = fragmentSource;
+        compileShader(shaderSources);
+    }
+
+    OpenGlShader::OpenGlShader(const std::string &filepath) {
+        std::string fileContents = readContentsFile(filepath);
+        std::unordered_map<ShaderType, std::string> shaderSources = preprocessShaderSource(fileContents);
+        compileShader(shaderSources);
     }
 
     OpenGlShader::~OpenGlShader() {
@@ -159,5 +137,102 @@ namespace EndGame {
     void OpenGlShader::uploadUniform(const std::string &name, const glm::mat4 &data) {
         GLint uniformLocation = glGetUniformLocation(rendererId, name.c_str());
         glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(data));
+    }
+
+    //MARK: OpenGl Shader Compilation
+    std::string OpenGlShader::readContentsFile(const std::string &filepath) {
+        std::ifstream input(filepath, std::ios::in | std::ios::binary);
+        std::string fileContents;
+        std::cout << input.rdbuf();
+        if (input) {
+            input.seekg(0, std::ios::end);
+            fileContents.resize(input.tellg());
+            input.seekg(0, std::ios::beg);
+            input.read(&fileContents[0], fileContents.size());
+            input.close();
+        } else {
+            EG_ENGINE_ERROR("Could not open file '{0}'", filepath);
+        }
+        return fileContents;
+    }
+
+    std::unordered_map<ShaderType, std::string> OpenGlShader::preprocessShaderSource(std::string &shaderSourceString) {
+        std::unordered_map<ShaderType, std::string> shaderSources;
+        std::string token = "#type";
+        const size_t typeTokenLength = token.length();
+        size_t startShader = shaderSourceString.find(token, 0);
+        while(startShader != std::string::npos) {
+            size_t endShaderType = shaderSourceString.find_first_of("\r\n", startShader);
+            size_t startShaderType = typeTokenLength + startShader + 1;
+            size_t startShaderSource = shaderSourceString.find_first_not_of("\r\n", endShaderType);
+            //if true means no error
+            bool shaderSyntaxError = endShaderType != std::string::npos && startShaderType != std::string::npos;
+            EG_ENGINE_ASSERT(shaderSyntaxError, "Shader File Sytax Error!");
+            std::string stringShaderType = shaderSourceString.substr(startShaderType, endShaderType - startShaderType);
+            ShaderType shaderType = shaderTypeFromString(stringShaderType);
+            EG_ENGINE_ASSERT(shaderType, "Shader File Sytax Error!");
+            startShader = shaderSourceString.find(token, startShaderSource);
+            //check this
+            shaderSources[shaderType] = shaderSourceString.substr(startShaderSource, startShader - 
+                (startShaderSource == std::string::npos ? shaderSourceString.size() - 1 : startShaderSource));
+        }
+        return shaderSources;
+    }
+
+    void OpenGlShader::compileShader(const std::unordered_map<ShaderType, std::string> &shaderSources) {
+        GLuint program = glCreateProgram();
+        std::vector<GLenum> glShaderIds;
+        glShaderIds.reserve(shaderSources.size());
+        //compiling and attaching all the shaders
+        for (auto &&[shaderType, shaderSource]: shaderSources) {
+            GLenum openGlShaderType = shaderTypeToOpenGlType(shaderType);
+            const GLchar* constShaderSource = shaderSource.c_str();
+            GLuint shader = glCreateShader(openGlShaderType);
+            glShaderSource(shader, 1, &constShaderSource, 0);
+            glCompileShader(shader);
+            GLint shaderDidCompile = 0;
+            glGetShaderiv(shader, GL_COMPILE_STATUS, &shaderDidCompile);
+            if (shaderDidCompile == GL_FALSE) {
+                //shader did not compile
+                GLint logLength = 0;
+                glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
+                std::vector<GLchar> infoLog(logLength);
+                glGetShaderInfoLog(shader, logLength, &logLength, &infoLog[0]);
+                glDeleteShader(shader);
+                EG_ENGINE_ERROR("{0}", infoLog.data());
+                EG_ENGINE_ASSERT(false, "OpenGl Shader failed to compile");
+                for (auto shaderId: glShaderIds) {
+                    //current shader compilation failed so delete all previous shaders
+                    glDeleteShader(shaderId);
+                }
+                glDeleteProgram(program);
+                return;
+            }
+            glAttachShader(program, shader);
+            glShaderIds.push_back(shader);
+        }
+        //linking the program
+        glLinkProgram(program);
+        GLint programDidLink = 0;
+        glGetProgramiv(program, GL_LINK_STATUS, &programDidLink);
+        if (programDidLink == GL_FALSE) {
+            //program did not link
+            GLint logLength = 0;
+            glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
+            std::vector<GLchar> infoLog(logLength);
+            glGetProgramInfoLog(program, logLength, &logLength, &infoLog[0]);
+            glDeleteProgram(program);
+            for (auto shaderId: glShaderIds) {
+                glDeleteShader(shaderId);
+            }
+            EG_ENGINE_ERROR("{0}", infoLog.data());
+            EG_ENGINE_ASSERT(false, "OpenGl Program failed to link");
+            return;
+        }
+        for (auto shaderId: glShaderIds) {
+            glDetachShader(program, shaderId);
+        }
+        //successfully compiled/linked the program
+        rendererId = program;
     }
 }

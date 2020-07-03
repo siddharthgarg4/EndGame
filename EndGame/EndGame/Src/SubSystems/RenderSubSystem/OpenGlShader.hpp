@@ -18,10 +18,15 @@ namespace EndGame {
         uint32_t size;
     };
 
+    enum ShaderType {
+         unknown, fragment, vertex
+    };
+
     class OpenGlShader : public Shader {
         public:
             static OpenGlDataType shaderDataTypeToOpenGlDataType(ShaderDataType type);
             OpenGlShader(std::string &vertexSource, std::string &fragmentSource);
+            OpenGlShader(const std::string &filepath);
             ~OpenGlShader();
             void bind() const override;
             void unbind() const override;
@@ -35,6 +40,10 @@ namespace EndGame {
             void uploadUniform(const std::string &name, const glm::mat4 &data) override;
         private:
             uint32_t rendererId;
+            std::string readContentsFile(const std::string &filepath);
+            std::unordered_map<ShaderType, std::string> preprocessShaderSource(std::string &shaderSourceString);
+            //map includes opengl glenum type linked with the source code
+            void compileShader(const std::unordered_map<ShaderType, std::string> &shaderSources);
     };
 }
 

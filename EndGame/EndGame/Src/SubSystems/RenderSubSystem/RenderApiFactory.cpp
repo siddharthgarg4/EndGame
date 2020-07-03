@@ -56,6 +56,20 @@ namespace EndGame {
 		return nullptr;
     }
 
+    std::shared_ptr<Shader> RenderApiFactory::createShader(const std::string &filepath) {
+        switch(RendererApi::getApi()) {
+            case RendererApi::Api::None: {
+                EG_ENGINE_ASSERT(false, "RenderApi::Api::None is currently not supported!");
+                return nullptr;
+            }
+            case RendererApi::Api::OpenGl: {
+                return std::make_shared<OpenGlShader>(filepath);
+            }
+        }
+        EG_ENGINE_ASSERT(false, "Unknown RendererAPI::Api!");
+		return nullptr;
+    }
+
     std::shared_ptr<VertexBuffer> RenderApiFactory::createVertexBuffer(float *vertices, uint32_t size) {
         switch(RendererApi::getApi()) {
             case RendererApi::Api::None: {

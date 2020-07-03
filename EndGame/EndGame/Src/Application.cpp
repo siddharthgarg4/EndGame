@@ -8,7 +8,7 @@
 
 #include "Application.hpp"
 #include <EndGame/Src/EndGamePCH.hpp>
-#include <glfw/glfw3.h>
+#include <GLFW/glfw3.h>
 
 namespace EndGame {
     //need to declare static variables and cannot init in definitions
