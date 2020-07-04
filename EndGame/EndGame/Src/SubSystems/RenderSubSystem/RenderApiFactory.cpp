@@ -42,14 +42,14 @@ namespace EndGame {
 		return nullptr;
     }
 
-    std::shared_ptr<Shader> RenderApiFactory::createShader(std::string &vertexSource, std::string &fragmentSource) {
+    std::shared_ptr<Shader> RenderApiFactory::createShader(std::string &name, std::string &vertexSource, std::string &fragmentSource) {
         switch(RendererApi::getApi()) {
             case RendererApi::Api::None: {
                 EG_ENGINE_ASSERT(false, "RenderApi::Api::None is currently not supported!");
                 return nullptr;
             }
             case RendererApi::Api::OpenGl: {
-                return std::make_shared<OpenGlShader>(vertexSource, fragmentSource);
+                return std::make_shared<OpenGlShader>(name, vertexSource, fragmentSource);
             }
         }
         EG_ENGINE_ASSERT(false, "Unknown RendererAPI::Api!");

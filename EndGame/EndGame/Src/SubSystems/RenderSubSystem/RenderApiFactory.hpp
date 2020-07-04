@@ -9,7 +9,7 @@
 #define RenderApiFactory_hpp
 #include <EndGame/Src/SubSystems/RenderSubSystem/GraphicsContext.h>
 #include <EndGame/Src/SubSystems/RenderSubSystem/OpenGlContext.hpp>
-#include <EndGame/Src/SubSystems/RenderSubSystem/Shader.h>
+#include <EndGame/Src/SubSystems/RenderSubSystem/Shader.hpp>
 #include <EndGame/Src/SubSystems/RenderSubSystem/Buffer.h>
 #include <EndGame/Src/SubSystems/RenderSubSystem/VertexArray.h>
 #include <EndGame/Src/SubSystems/RenderSubSystem/RendererApi.hpp>
@@ -21,7 +21,7 @@ namespace EndGame {
             static std::unique_ptr<GraphicsContext> createRenderContext(GLFWwindow *windowHandle);
             static std::unique_ptr<RendererApi> createRendererApi();
             //these objects are passed around and thus should be shared pointers
-            static std::shared_ptr<Shader> createShader(std::string &vertexSource, std::string &fragmentSource);
+            static std::shared_ptr<Shader> createShader(std::string &name, std::string &vertexSource, std::string &fragmentSource);
             static std::shared_ptr<Shader> createShader(const std::string &filepath);
             static std::shared_ptr<VertexBuffer> createVertexBuffer(float *vertices, uint32_t size);
             static std::shared_ptr<IndexBuffer> createIndexBuffer(uint32_t *indices, uint32_t count);

@@ -8,7 +8,7 @@
 #ifndef Buffer_h
 #define Buffer_h
 #include <EndGame/Src/EndGamePCH.hpp>
-#include <EndGame/Src/SubSystems/RenderSubSystem/Shader.h>
+#include <EndGame/Src/SubSystems/RenderSubSystem/Shader.hpp>
 #include <EndGame/Src/SubSystems/RenderSubSystem/RenderApiUtilities.hpp>
 
 namespace EndGame {

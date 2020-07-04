@@ -7,7 +7,7 @@
 
 #ifndef Renderer_hpp
 #define Renderer_hpp
-#include <EndGame/Src/SubSystems/RenderSubSystem/Shader.h>
+#include <EndGame/Src/SubSystems/RenderSubSystem/Shader.hpp>
 #include <EndGame/Src/SubSystems/RenderSubSystem/RendererApi.hpp>
 #include <EndGame/Src/SubSystems/RenderSubSystem/OrthographicCamera.hpp>
 

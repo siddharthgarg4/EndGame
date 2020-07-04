@@ -7,7 +7,7 @@
 
 #ifndef RenderApiUtilities_hpp
 #define RenderApiUtilities_hpp
-#include <EndGame/Src/SubSystems/RenderSubSystem/Shader.h>
+#include <EndGame/Src/SubSystems/RenderSubSystem/Shader.hpp>
 
 namespace EndGame {
 

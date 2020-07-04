@@ -33,7 +33,7 @@ fi
 
 echo "Welcome to EndGame"
 if $isQuickBuild || ( [ $isCompileRun != true ] && promptUserInput  "Do you want to remove any old projects?" ); then
-    rm -rf Sandbox.* EndGame.* bin *.ini
+    rm -rf bin Sandbox.* EndGame.* *.ini
     vendor/premake/premake5 xcode4 --file="vendor/premake/premake5.lua"
 fi
 
@@ -45,6 +45,7 @@ fi
 
 if $isQuickBuild || $isCompileRun || promptUserInput  "Do you want to run Sandbox Application"; then 
     echo "Sandbox Application running..."
-    bin/Debug-macosx-x86_64/EndGame/Sandbox
+    cd bin/Debug-macosx-x86_64/EndGame
+    ./Sandbox
     echo "Sandbox Application terminated"
 fi

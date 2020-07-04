@@ -8,7 +8,7 @@
 #ifndef OpenGlShader_hpp
 #define OpenGlShader_hpp
 #include <EndGame/Src/EndGamePCH.hpp>
-#include <EndGame/Src/SubSystems/RenderSubSystem/Shader.h>
+#include <EndGame/Src/SubSystems/RenderSubSystem/Shader.hpp>
 
 namespace EndGame {
 
@@ -25,11 +25,12 @@ namespace EndGame {
     class OpenGlShader : public Shader {
         public:
             static OpenGlDataType shaderDataTypeToOpenGlDataType(ShaderDataType type);
-            OpenGlShader(std::string &vertexSource, std::string &fragmentSource);
+            OpenGlShader(std::string &name, std::string &vertexSource, std::string &fragmentSource);
             OpenGlShader(const std::string &filepath);
             ~OpenGlShader();
             void bind() const override;
             void unbind() const override;
+            const std::string &getName() const override { return name; }
             //overloaded uniform functions
             void uploadUniform(const std::string &name, const int &data) override;
             void uploadUniform(const std::string &name, const float &data) override;
@@ -40,6 +41,7 @@ namespace EndGame {
             void uploadUniform(const std::string &name, const glm::mat4 &data) override;
         private:
             uint32_t rendererId;
+            std::string name;
             std::string readContentsFile(const std::string &filepath);
             std::unordered_map<ShaderType, std::string> preprocessShaderSource(std::string &shaderSourceString);
             //map includes opengl glenum type linked with the source code

@@ -79,7 +79,22 @@ namespace EndGame {
         return ShaderType::unknown;
     }
 
-    OpenGlShader::OpenGlShader(std::string &vertexSource, std::string &fragmentSource) {
+    static std::string getFileNameFromPath(const std::string &filepath) {
+        size_t lastDot = filepath.find_last_of(".");
+        size_t lastSlash = filepath.find_last_of("\\/");
+        size_t startFileName = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+        // std::cout << "*******" << std::endl;
+        // std::cout << lastDot << std::endl;
+        // std::cout << lastSlash << std::endl;
+        // std::cout << startFileName << std::endl;
+        // std::cout <<  (lastDot == std::string::npos ? filepath.size() : lastDot) - startFileName << std::endl;
+        // std::cout << "*******" << std::endl;
+        std::string fileName = filepath.substr(startFileName, 
+            (lastDot == std::string::npos ? filepath.size() : lastDot) - startFileName);
+            return fileName;
+    }
+
+    OpenGlShader::OpenGlShader(std::string &name, std::string &vertexSource, std::string &fragmentSource) : name(name) {
         std::unordered_map<ShaderType, std::string> shaderSources;
         shaderSources[ShaderType::vertex] = vertexSource;
         shaderSources[ShaderType::fragment] = fragmentSource;
@@ -87,9 +102,12 @@ namespace EndGame {
     }
 
     OpenGlShader::OpenGlShader(const std::string &filepath) {
+        //getting the files name to set it as the shader name
+        name = getFileNameFromPath(filepath);
         std::string fileContents = readContentsFile(filepath);
         std::unordered_map<ShaderType, std::string> shaderSources = preprocessShaderSource(fileContents);
         compileShader(shaderSources);
+        // std::cout << name << std::endl;
     }
 
     OpenGlShader::~OpenGlShader() {
@@ -141,9 +159,9 @@ namespace EndGame {
 
     //MARK: OpenGl Shader Compilation
     std::string OpenGlShader::readContentsFile(const std::string &filepath) {
-        std::ifstream input(filepath, std::ios::in | std::ios::binary);
+        std::string pathRelativeToExe = "../../../" + filepath;
+        std::ifstream input(pathRelativeToExe, std::ios::in | std::ios::binary);
         std::string fileContents;
-        std::cout << input.rdbuf();
         if (input) {
             input.seekg(0, std::ios::end);
             fileContents.resize(input.tellg());
@@ -151,7 +169,7 @@ namespace EndGame {
             input.read(&fileContents[0], fileContents.size());
             input.close();
         } else {
-            EG_ENGINE_ERROR("Could not open file '{0}'", filepath);
+            EG_ENGINE_ERROR("Could not open file '{0}'", pathRelativeToExe);
         }
         return fileContents;
     }
@@ -166,15 +184,15 @@ namespace EndGame {
             size_t startShaderType = typeTokenLength + startShader + 1;
             size_t startShaderSource = shaderSourceString.find_first_not_of("\r\n", endShaderType);
             //if true means no error
-            bool shaderSyntaxError = endShaderType != std::string::npos && startShaderType != std::string::npos;
+            bool shaderSyntaxError = endShaderType != std::string::npos && startShaderType != std::string::npos && 
+                startShaderSource != std::string::npos;
             EG_ENGINE_ASSERT(shaderSyntaxError, "Shader File Sytax Error!");
             std::string stringShaderType = shaderSourceString.substr(startShaderType, endShaderType - startShaderType);
             ShaderType shaderType = shaderTypeFromString(stringShaderType);
             EG_ENGINE_ASSERT(shaderType, "Shader File Sytax Error!");
             startShader = shaderSourceString.find(token, startShaderSource);
-            //check this
-            shaderSources[shaderType] = shaderSourceString.substr(startShaderSource, startShader - 
-                (startShaderSource == std::string::npos ? shaderSourceString.size() - 1 : startShaderSource));
+            shaderSources[shaderType] = shaderSourceString.substr(startShaderSource,
+                (startShader == std::string::npos ? shaderSourceString.size() : startShader) - startShaderSource);
         }
         return shaderSources;
     }

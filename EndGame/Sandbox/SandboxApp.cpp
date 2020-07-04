@@ -49,8 +49,8 @@ ExampleLayer::ExampleLayer() : Layer("Example Layer"), camera(-1.6f, 1.6f, -0.9f
     std::shared_ptr<EndGame::IndexBuffer> indexBuffer = EndGame::RenderApiFactory::createIndexBuffer(indices, sizeof(indices)/sizeof(uint32_t));
     //binding index buffer to vertex array
     vertexArray->setIndexBuffer(indexBuffer);
-    shader = EndGame::RenderApiFactory::createShader("Sandbox/Triangle.glsl");
-    flatColorShader = EndGame::RenderApiFactory::createShader("Sandbox/Grid.glsl");
+    shaderLib.load("Sandbox/Triangle.glsl");
+    shaderLib.load("Sandbox/Grid.glsl");
 }
 
 std::pair<glm::vec3, float> ExampleLayer::cameraTransformAfterUpdate(const float &dtime) {
@@ -91,6 +91,8 @@ void ExampleLayer::onRender(const float &alpha, const float &dtime) {
     camera.setRotation(interpolatedCameraRotation);
     EndGame::Renderer::beginScene(camera);
     glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+    std::shared_ptr<EndGame::Shader> flatColorShader = shaderLib.get("Grid");
+    std::shared_ptr<EndGame::Shader> shader = shaderLib.get("Triangle");
     flatColorShader->bind();
     flatColorShader->uploadUniform("u_flatColor", flatColor);
     flatColorShader->unbind();

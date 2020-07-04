@@ -20,9 +20,8 @@ class ExampleLayer : public EndGame::Layer {
         void onImguiRender() override;
     private:
         //rendering objects
-        std::shared_ptr<EndGame::Shader> shader;
+        EndGame::ShaderLibrary shaderLib;
         std::shared_ptr<EndGame::VertexArray> vertexArray;
-        std::shared_ptr<EndGame::Shader> flatColorShader;
         std::shared_ptr<EndGame::VertexArray> flatColorVertexArray;
         EndGame::OrthographicCamera camera;
         //event objects
