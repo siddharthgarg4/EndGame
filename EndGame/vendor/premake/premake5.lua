@@ -1,5 +1,6 @@
 workspace "EndGame"
   architecture "x64"
+  startproject "Sandbox"
 
   location "../../"
 
@@ -7,6 +8,10 @@ workspace "EndGame"
     "Debug",
     "Release",
     "Dist"
+  }
+
+  flags {
+    "MultiProcessorCompile"
   }
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"

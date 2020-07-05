@@ -7,8 +7,9 @@
 //
 
 #include "Application.hpp"
-#include <EndGame/Src/EndGamePCH.hpp>
 #include <GLFW/glfw3.h>
+#include <EndGame/Src/EndGamePCH.hpp>
+#include <EndGame/Src/SubSystems/RenderSubSystem/Renderer.hpp>
 
 namespace EndGame {
     //need to declare static variables and cannot init in definitions
@@ -36,6 +37,8 @@ namespace EndGame {
                 }
             }
         });
+        //initalizing the renderer
+        Renderer::init();
         if (shouldAddDebugOverlay) {
             pushOverlay(new DebugOverlay());
             hasDebugOverlay = true;

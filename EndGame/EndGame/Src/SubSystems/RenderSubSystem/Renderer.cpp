@@ -13,6 +13,10 @@ namespace EndGame {
     std::unique_ptr<RendererApi> RenderCommand::rendererApi = RenderApiFactory::createRendererApi();
     std::unique_ptr<SceneData> Renderer::sceneData = std::make_unique<SceneData>();
 
+    void Renderer::init() {
+        RenderCommand::init();
+    }
+
     void Renderer::beginScene(OrthographicCamera &camera) {
         sceneData->cameraViewProjection = camera.getViewProjectionMatrix();
     }

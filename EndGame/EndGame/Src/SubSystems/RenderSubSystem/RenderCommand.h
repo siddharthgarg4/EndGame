@@ -14,6 +14,7 @@ namespace EndGame {
 
     class RenderCommand {
         public:
+            inline static void init() { rendererApi->init(); }
             inline static void clear() { rendererApi->clear(); }
             inline static void setClearColor(const glm::vec4 &color) { rendererApi->setClearColor(color); }
             inline static void drawIndexed(const std::shared_ptr<VertexArray> &vertexArray) { rendererApi->drawIndexed(vertexArray); }

@@ -23,6 +23,7 @@ namespace EndGame {
             virtual const std::shared_ptr<IndexBuffer> &getIndexBuffer() const override { return indexBuffer; }
         private:
             uint32_t vertexArrayId;
+            uint32_t vertexBufferIndex = 0;
             std::vector<std::shared_ptr<VertexBuffer>> vertexBuffers;
             std::shared_ptr<IndexBuffer> indexBuffer;
     };

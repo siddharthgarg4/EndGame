@@ -35,16 +35,15 @@ namespace EndGame {
         glBindVertexArray(vertexArrayId);
         vertexBuffer->bind();
         //binding layout and vertex buffer to the vertex array
-        uint32_t index = 0;
         for (const auto &layout : bufferLayout) {
-            glEnableVertexAttribArray(index);
+            glEnableVertexAttribArray(vertexBufferIndex);
             //converting EndGame type to OpenGl Type containing size and count of elements
             OpenGlDataType openGlDataType = OpenGlShader::shaderDataTypeToOpenGlDataType(layout.type);
-            glVertexAttribPointer(index, openGlDataType.count, openGlDataType.type,
+            glVertexAttribPointer(vertexBufferIndex, openGlDataType.count, openGlDataType.type,
                 layout.normalized ? GL_TRUE : GL_FALSE, bufferLayout.getStride(),
                 //converting layout.offset to required const void *
                 reinterpret_cast<const void *>((intptr_t)layout.offset));
-            index++;
+            vertexBufferIndex++;
         }
         vertexBuffers.push_back(vertexBuffer);
         //unbinding array if requested by client

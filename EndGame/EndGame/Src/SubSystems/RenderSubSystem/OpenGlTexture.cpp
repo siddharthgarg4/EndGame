@@ -18,13 +18,17 @@ namespace EndGame {
         stbi_set_flip_vertically_on_load(1);
         stbi_uc *imageData = stbi_load(filepathRelativeToExe.c_str(), &width, &height, &channels, 0);
         EG_ENGINE_ASSERT(imageData, "Failed to load image!");
+        //initializing class members
         this->height = height;
         this->width = width;
+        //checking data format based on channels
+        std::pair<uint32_t, uint32_t> imageFormat = numChannelsToDataFormat(channels);
+        //texture start
         glGenTextures(1, &rendererId);
         //binding texture
         glBindTexture(GL_TEXTURE_2D, rendererId);
         //creating image data buffer
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, this->width, this->height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+        glTexImage2D(GL_TEXTURE_2D, 0, imageFormat.first, this->width, this->height, 0, imageFormat.second, GL_UNSIGNED_BYTE, imageData);
         //setting parameters for magnification and minimization
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -33,6 +37,24 @@ namespace EndGame {
         //freeing image data and unbinding texture
         stbi_image_free(imageData);
         glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+    std::pair<uint32_t, uint32_t> OpenGlTexture2D::numChannelsToDataFormat(const int &numChannels) {
+        uint32_t internalFormat = 0, dataFormat = 0;
+        switch(numChannels) {
+            case 3:
+                internalFormat = GL_RGB8;
+                dataFormat = GL_RGB;
+                break;
+            case 4:
+                internalFormat = GL_RGBA8;
+                dataFormat = GL_RGBA;
+                break;
+            default:
+                EG_ENGINE_ASSERT(false, "Image format not yet supported!");
+                break;
+        }
+        return std::make_pair(internalFormat, dataFormat);
     }
 
     OpenGlTexture2D::~OpenGlTexture2D() {

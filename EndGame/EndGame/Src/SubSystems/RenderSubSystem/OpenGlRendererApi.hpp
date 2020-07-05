@@ -13,7 +13,8 @@ namespace EndGame {
 
     class OpenGlRendererApi : public RendererApi {
         public:
-            ~OpenGlRendererApi() {}
+            void init() override;
+            ~OpenGlRendererApi() = default;
             void clear() override;
             void setClearColor(const glm::vec4 &color) override;
             void drawIndexed(const std::shared_ptr<VertexArray> &vertexArray) override;
