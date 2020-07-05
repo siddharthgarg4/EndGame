@@ -13,6 +13,7 @@
 #include <EndGame/Src/SubSystems/RenderSubSystem/Buffer.h>
 #include <EndGame/Src/SubSystems/RenderSubSystem/VertexArray.h>
 #include <EndGame/Src/SubSystems/RenderSubSystem/RendererApi.hpp>
+#include <EndGame/Src/SubSystems/RenderSubSystem/Texture.h>
 
 namespace EndGame {
 
@@ -26,6 +27,7 @@ namespace EndGame {
             static std::shared_ptr<VertexBuffer> createVertexBuffer(float *vertices, uint32_t size);
             static std::shared_ptr<IndexBuffer> createIndexBuffer(uint32_t *indices, uint32_t count);
             static std::shared_ptr<VertexArray> createVertexArray();
+            static std::shared_ptr<Texture2D> createTexture2D(const std::string &filepath);
     };
 }
 

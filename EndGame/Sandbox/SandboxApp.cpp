@@ -14,15 +14,16 @@
 ExampleLayer::ExampleLayer() : Layer("Example Layer"), camera(-1.6f, 1.6f, -0.9f, 0.9f) {
     //MARK: flat color shader
     flatColorVertexArray = EndGame::RenderApiFactory::createVertexArray();
-    float squareVertices[3 * 4]  = {
-        -0.5f, -0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f,
-         0.5f,  0.5f, 0.0f,
-        -0.5f,  0.5f, 0.0f
+    float squareVertices[5 * 4]  = {
+        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+         0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+         0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+        -0.5f,  0.5f, 0.0f, 0.0f, 1.0f
     };
     std::shared_ptr<EndGame::VertexBuffer> flatColorVertexBuffer = EndGame::RenderApiFactory::createVertexBuffer(squareVertices, sizeof(squareVertices));
     flatColorVertexBuffer->setLayout({
-        {EndGame::ShaderDataType::Float3, "attrPosition"}
+        {EndGame::ShaderDataType::Float3, "attrPosition"},
+        {EndGame::ShaderDataType::Float2, "attrTextureCoord"}
     });
     flatColorVertexArray->addVertexBuffer(flatColorVertexBuffer);
     uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0};
@@ -51,6 +52,10 @@ ExampleLayer::ExampleLayer() : Layer("Example Layer"), camera(-1.6f, 1.6f, -0.9f
     vertexArray->setIndexBuffer(indexBuffer);
     shaderLib.load("Sandbox/Triangle.glsl");
     shaderLib.load("Sandbox/Grid.glsl");
+    shaderLib.load("Sandbox/Texture.glsl");
+    texture = EndGame::RenderApiFactory::createTexture2D("Sandbox/assets/spongebob.png");
+    auto textureShader = shaderLib.get("Texture");
+    textureShader->uploadUniform("u_texture", 0);
 }
 
 std::pair<glm::vec3, float> ExampleLayer::cameraTransformAfterUpdate(const float &dtime) {
@@ -93,6 +98,7 @@ void ExampleLayer::onRender(const float &alpha, const float &dtime) {
     glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
     std::shared_ptr<EndGame::Shader> flatColorShader = shaderLib.get("Grid");
     std::shared_ptr<EndGame::Shader> shader = shaderLib.get("Triangle");
+    std::shared_ptr<EndGame::Shader> textureShader = shaderLib.get("Texture");
     flatColorShader->bind();
     flatColorShader->uploadUniform("u_flatColor", flatColor);
     flatColorShader->unbind();
@@ -102,7 +108,10 @@ void ExampleLayer::onRender(const float &alpha, const float &dtime) {
             EndGame::Renderer::submit(flatColorShader, flatColorVertexArray, transform);
         }
     }
-    EndGame::Renderer::submit(shader, vertexArray);
+    EndGame::Renderer::submit(shader, vertexArray, glm::translate(glm::mat4(1.0f), glm::vec3(1.5f, 1.5f, 0.0f)));
+    texture->bind();
+    EndGame::Renderer::submit(textureShader, flatColorVertexArray);
+    texture->unbind();
     EndGame::Renderer::endScene();
 }
 

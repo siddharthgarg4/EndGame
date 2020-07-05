@@ -9,6 +9,7 @@
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <EndGame/Src/Core.h>
+#include <EndGame/Src/SubSystems/RenderSubSystem/RenderApiUtilities.hpp>
 
 namespace EndGame {
 
@@ -69,7 +70,7 @@ namespace EndGame {
         return 0;
     }
 
-    static ShaderType shaderTypeFromString(std::string type) {
+    static ShaderType shaderTypeFromString(const std::string &type) {
         if (type == "vertex") {
             return ShaderType::vertex;
         } else if (type == "fragment" || type == "pixel") {
@@ -77,21 +78,6 @@ namespace EndGame {
         }
         EG_ENGINE_ASSERT(false, "Unknown ShaderType!");
         return ShaderType::unknown;
-    }
-
-    static std::string getFileNameFromPath(const std::string &filepath) {
-        size_t lastDot = filepath.find_last_of(".");
-        size_t lastSlash = filepath.find_last_of("\\/");
-        size_t startFileName = lastSlash == std::string::npos ? 0 : lastSlash + 1;
-        // std::cout << "*******" << std::endl;
-        // std::cout << lastDot << std::endl;
-        // std::cout << lastSlash << std::endl;
-        // std::cout << startFileName << std::endl;
-        // std::cout <<  (lastDot == std::string::npos ? filepath.size() : lastDot) - startFileName << std::endl;
-        // std::cout << "*******" << std::endl;
-        std::string fileName = filepath.substr(startFileName, 
-            (lastDot == std::string::npos ? filepath.size() : lastDot) - startFileName);
-            return fileName;
     }
 
     OpenGlShader::OpenGlShader(std::string &name, std::string &vertexSource, std::string &fragmentSource) : name(name) {
@@ -103,11 +89,10 @@ namespace EndGame {
 
     OpenGlShader::OpenGlShader(const std::string &filepath) {
         //getting the files name to set it as the shader name
-        name = getFileNameFromPath(filepath);
-        std::string fileContents = readContentsFile(filepath);
+        name = RenderApiUtilities::getFileNameFromPath(filepath);
+        std::string fileContents = RenderApiUtilities::readContentsFile(filepath);
         std::unordered_map<ShaderType, std::string> shaderSources = preprocessShaderSource(fileContents);
         compileShader(shaderSources);
-        // std::cout << name << std::endl;
     }
 
     OpenGlShader::~OpenGlShader() {
@@ -158,22 +143,6 @@ namespace EndGame {
     }
 
     //MARK: OpenGl Shader Compilation
-    std::string OpenGlShader::readContentsFile(const std::string &filepath) {
-        std::string pathRelativeToExe = "../../../" + filepath;
-        std::ifstream input(pathRelativeToExe, std::ios::in | std::ios::binary);
-        std::string fileContents;
-        if (input) {
-            input.seekg(0, std::ios::end);
-            fileContents.resize(input.tellg());
-            input.seekg(0, std::ios::beg);
-            input.read(&fileContents[0], fileContents.size());
-            input.close();
-        } else {
-            EG_ENGINE_ERROR("Could not open file '{0}'", pathRelativeToExe);
-        }
-        return fileContents;
-    }
-
     std::unordered_map<ShaderType, std::string> OpenGlShader::preprocessShaderSource(std::string &shaderSourceString) {
         std::unordered_map<ShaderType, std::string> shaderSources;
         std::string token = "#type";

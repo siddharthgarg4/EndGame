@@ -32,6 +32,7 @@
 
 //MARK: Rendering Components
 #include <EndGame/Src/SubSystems/RenderSubSystem/Shader.hpp>
+#include <EndGame/Src/SubSystems/RenderSubSystem/Texture.h>
 #include <EndGame/Src/SubSystems/RenderSubSystem/VertexArray.h>
 #include <EndGame/Src/SubSystems/RenderSubSystem/OrthographicCamera.hpp>
 //MARK: Rendering

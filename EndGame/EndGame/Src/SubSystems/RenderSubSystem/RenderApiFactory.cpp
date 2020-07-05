@@ -9,6 +9,7 @@
 #include <EndGame/Src/SubSystems/RenderSubSystem/RendererApi.hpp>
 #include <EndGame/Src/SubSystems/RenderSubSystem/OpenGlShader.hpp>
 #include <EndGame/Src/SubSystems/RenderSubSystem/OpenGlBuffer.hpp>
+#include <EndGame/Src/SubSystems/RenderSubSystem/OpenGlTexture.hpp>
 #include <EndGame/Src/SubSystems/RenderSubSystem/OpenGlRendererApi.hpp>
 #include <EndGame/Src/SubSystems/RenderSubSystem/OpenGlVertexArray.hpp>
 
@@ -106,6 +107,20 @@ namespace EndGame {
             }
             case RendererApi::Api::OpenGl: {
                 return std::make_shared<OpenGlVertexArray>();
+            }
+        }
+        EG_ENGINE_ASSERT(false, "Unknown RendererAPI::Api!");
+		return nullptr;
+    }
+
+    std::shared_ptr<Texture2D> RenderApiFactory::createTexture2D(const std::string &filepath) {
+        switch(RendererApi::getApi()) {
+            case RendererApi::Api::None: {
+                EG_ENGINE_ASSERT(false, "RenderApi::Api::None is currently not supported!");
+                return nullptr;
+            }
+            case RendererApi::Api::OpenGl: {
+                return std::make_shared<OpenGlTexture2D>(filepath);
             }
         }
         EG_ENGINE_ASSERT(false, "Unknown RendererAPI::Api!");

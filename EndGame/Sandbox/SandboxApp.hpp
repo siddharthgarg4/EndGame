@@ -24,6 +24,7 @@ class ExampleLayer : public EndGame::Layer {
         std::shared_ptr<EndGame::VertexArray> vertexArray;
         std::shared_ptr<EndGame::VertexArray> flatColorVertexArray;
         EndGame::OrthographicCamera camera;
+        std::shared_ptr<EndGame::Texture2D> texture;
         //event objects
         float cameraRotation = 0.0f;
         float cameraMoveSpeed = 5.0f;

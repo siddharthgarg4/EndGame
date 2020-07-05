@@ -42,7 +42,6 @@ namespace EndGame {
         private:
             uint32_t rendererId;
             std::string name;
-            std::string readContentsFile(const std::string &filepath);
             std::unordered_map<ShaderType, std::string> preprocessShaderSource(std::string &shaderSourceString);
             //map includes opengl glenum type linked with the source code
             void compileShader(const std::unordered_map<ShaderType, std::string> &shaderSources);
