@@ -20,14 +20,16 @@ namespace EndGame {
         shaders[name] = shader;
     }
 
-    void ShaderLibrary::load(const std::string &filepath) {
+    std::shared_ptr<Shader> ShaderLibrary::load(const std::string &filepath) {
         std::shared_ptr<Shader> shader = RenderApiFactory::createShader(filepath);
         add(shader);
+        return shader;
     }
 
-    void ShaderLibrary::load(std::string &name, std::string &vertexSource, std::string &fragmentSource) {
+    std::shared_ptr<Shader> ShaderLibrary::load(const std::string &name, std::string &vertexSource, std::string &fragmentSource) {
         std::shared_ptr<Shader> shader = RenderApiFactory::createShader(name, vertexSource, fragmentSource);
         add(name, shader);
+        return shader;
     }
 
     bool ShaderLibrary::exists(const std::string &name) {

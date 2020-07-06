@@ -50,12 +50,11 @@ ExampleLayer::ExampleLayer() : Layer("Example Layer"), camera(-1.6f, 1.6f, -0.9f
     std::shared_ptr<EndGame::IndexBuffer> indexBuffer = EndGame::RenderApiFactory::createIndexBuffer(indices, sizeof(indices)/sizeof(uint32_t));
     //binding index buffer to vertex array
     vertexArray->setIndexBuffer(indexBuffer);
-    shaderLib.load("Sandbox/Triangle.glsl");
-    shaderLib.load("Sandbox/Grid.glsl");
-    shaderLib.load("Sandbox/Texture.glsl");
+    auto shader = shaderLib.load("Sandbox/Triangle.glsl");
+    auto gridShader = shaderLib.load("Sandbox/Grid.glsl");
+    auto textureShader = shaderLib.load("Sandbox/Texture.glsl");
     texture = EndGame::RenderApiFactory::createTexture2D("Sandbox/assets/spongebob.png");
     semiTexture = EndGame::RenderApiFactory::createTexture2D("Sandbox/assets/apple.png");
-    auto textureShader = shaderLib.get("Texture");
     textureShader->uploadUniform("u_texture", 0);
 }
 

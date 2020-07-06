@@ -80,7 +80,7 @@ namespace EndGame {
         return ShaderType::unknown;
     }
 
-    OpenGlShader::OpenGlShader(std::string &name, std::string &vertexSource, std::string &fragmentSource) : name(name) {
+    OpenGlShader::OpenGlShader(const std::string &name, std::string &vertexSource, std::string &fragmentSource) : name(name) {
         std::unordered_map<ShaderType, std::string> shaderSources;
         shaderSources[ShaderType::vertex] = vertexSource;
         shaderSources[ShaderType::fragment] = fragmentSource;

@@ -25,7 +25,7 @@ namespace EndGame {
     class OpenGlShader : public Shader {
         public:
             static OpenGlDataType shaderDataTypeToOpenGlDataType(ShaderDataType type);
-            OpenGlShader(std::string &name, std::string &vertexSource, std::string &fragmentSource);
+            OpenGlShader(const std::string &name, std::string &vertexSource, std::string &fragmentSource);
             OpenGlShader(const std::string &filepath);
             ~OpenGlShader();
             void bind() const override;

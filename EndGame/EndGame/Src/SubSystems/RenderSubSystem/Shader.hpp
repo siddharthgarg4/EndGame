@@ -41,8 +41,8 @@ namespace EndGame {
         public:
             void add(const std::shared_ptr<Shader> &shader);
             void add(const std::string &name, const std::shared_ptr<Shader> &shader);
-            void load(const std::string &filepath);
-            void load(std::string &name, std::string &vertexSource, std::string &fragmentSource);
+            std::shared_ptr<Shader> load(const std::string &filepath);
+            std::shared_ptr<Shader> load(const std::string &name, std::string &vertexSource, std::string &fragmentSource);
             bool exists(const std::string &name);
             std::shared_ptr<Shader> get(const std::string &name);
         private:

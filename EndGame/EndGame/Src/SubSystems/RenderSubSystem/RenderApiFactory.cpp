@@ -43,7 +43,7 @@ namespace EndGame {
 		return nullptr;
     }
 
-    std::shared_ptr<Shader> RenderApiFactory::createShader(std::string &name, std::string &vertexSource, std::string &fragmentSource) {
+    std::shared_ptr<Shader> RenderApiFactory::createShader(const std::string &name, std::string &vertexSource, std::string &fragmentSource) {
         switch(RendererApi::getApi()) {
             case RendererApi::Api::None: {
                 EG_ENGINE_ASSERT(false, "RenderApi::Api::None is currently not supported!");
