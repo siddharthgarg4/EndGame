@@ -21,7 +21,7 @@ namespace EndGame {
                 ss << "MouseMovedEvent: (x: " << x << ", y: " << y << ")";
                 return ss.str();
             }
-            EVENT_CLASS_TYPE(MouseMoved)
+            EVENT_CLASS_TYPE(EventType::MouseMoved)
             EVENT_CLASS_CATEGORY(EventCategory::EventCategoryMouse | EventCategory::EventCategoryInput)
 
         private:
@@ -38,7 +38,7 @@ namespace EndGame {
                 ss << "MouseScrolledEvent: (xOffset: " << xOffset << ", yOffset: " << yOffset << ")";
                 return ss.str();
             }
-            EVENT_CLASS_TYPE(MouseScrolled)
+            EVENT_CLASS_TYPE(EventType::MouseScrolled)
             EVENT_CLASS_CATEGORY(EventCategory::EventCategoryMouse | EventCategory::EventCategoryInput)
 
         private:
@@ -63,7 +63,7 @@ namespace EndGame {
                 ss << "MouseButtonPressedEvent: " << buttonCode;
                 return ss.str();
             }
-            EVENT_CLASS_TYPE(MouseButtonPressed)
+            EVENT_CLASS_TYPE(EventType::MouseButtonPressed)
     };
 
     class MouseButtonReleasedEvent : public MouseButtonEvent {
@@ -74,7 +74,7 @@ namespace EndGame {
                 ss << "MouseButtonReleasedEvent: " << buttonCode;
                 return ss.str();
             }
-            EVENT_CLASS_TYPE(MouseButtonReleased)
+            EVENT_CLASS_TYPE(EventType::MouseButtonReleased)
     };
 }
 

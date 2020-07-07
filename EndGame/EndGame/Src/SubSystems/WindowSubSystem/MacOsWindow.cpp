@@ -29,7 +29,11 @@ namespace EndGame {
     }
 
     void MacOsWindow::onUpdate() {
-        glfwPollEvents();
+        if (data.isMinimized) {
+            glfwWaitEvents();
+        } else {
+            glfwPollEvents();
+        }
         context->swapBuffers();
     }
 
@@ -44,10 +48,6 @@ namespace EndGame {
             glfwSwapInterval(0);
         }
         data.isVSync = enabled;
-    }
-
-    bool MacOsWindow::isVSync() const {
-        return data.isVSync;
     }
 
     void MacOsWindow::init(const WindowProperties &properties) {
@@ -80,6 +80,8 @@ namespace EndGame {
         context->init();
 		glfwSetWindowUserPointer(window, &data);
         setVSync(true);
+        //setting initial value of window minimization to false
+        data.isMinimized = false;
 
         //MARK: setting event callbacks to the window
         glfwSetWindowSizeCallback(window, [](GLFWwindow *window, int width, int height) {
@@ -93,6 +95,17 @@ namespace EndGame {
         glfwSetWindowCloseCallback(window, [](GLFWwindow *window) {
             WindowData *data = (WindowData *)glfwGetWindowUserPointer(window);
             WindowCloseEvent event;
+            data->eventCallBack(event);
+        });
+
+        glfwSetWindowIconifyCallback(window, [](GLFWwindow *window, int iconified) {
+            WindowData *data = (WindowData *)glfwGetWindowUserPointer(window);
+            if (iconified) {
+                data->isMinimized = true;
+            } else {
+                data->isMinimized = false;
+            }
+            WindowMinimizeEvent event(data->isMinimized);
             data->eventCallBack(event);
         });
 

@@ -33,6 +33,7 @@ namespace EndGame {
             virtual void setEventCallBack(const std::function<void(Event&)> &eventFunc) = 0;
             virtual void setVSync(bool enabled) = 0;
             virtual bool isVSync() const = 0;
+            virtual const bool isMinimized() const = 0;
             static Window *create(const WindowProperties &properties = WindowProperties());
     };
 }

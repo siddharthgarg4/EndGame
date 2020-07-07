@@ -23,9 +23,10 @@ namespace EndGame {
             inline unsigned int getHeight() override { return data.height; }
             inline void *getNativeWindow() const override { return window; }
             //window attributes
-            virtual void setEventCallBack(const std::function<void(Event&)> &eventFunc) override;
-            virtual void setVSync(bool enabled) override;
-            virtual bool isVSync() const override;
+            void setEventCallBack(const std::function<void(Event&)> &eventFunc) override;
+            void setVSync(bool enabled) override;
+            bool isVSync() const override { return data.isVSync; }
+            const bool isMinimized() const override { return data.isMinimized; }
 
         private:
             virtual void init(const WindowProperties &properties);
@@ -35,6 +36,7 @@ namespace EndGame {
             struct WindowData {
                 std::string title;
                 unsigned int width, height;
+                bool isMinimized;
                 bool isVSync;
                 std::function<void(Event&)> eventCallBack;
             };

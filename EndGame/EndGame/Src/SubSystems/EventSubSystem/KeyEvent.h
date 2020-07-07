@@ -30,7 +30,7 @@ namespace EndGame {
                 ss << "KeyPressedEvent: " << keyCode << " (repeats: " << repeatCount << ")";
                 return ss.str();
             }
-            EVENT_CLASS_TYPE(KeyPressed)
+            EVENT_CLASS_TYPE(EventType::KeyPressed)
             
         private:
             int repeatCount;
@@ -44,7 +44,7 @@ namespace EndGame {
                 ss << "KeyPressedEvent: " << keyCode;
                 return ss.str();
             }
-            EVENT_CLASS_TYPE(KeyReleased)
+            EVENT_CLASS_TYPE(EventType::KeyReleased)
     };
 
     class KeyTypedEvent : public KeyEvent {
@@ -55,7 +55,7 @@ namespace EndGame {
                 ss << "KeyTypedEvent: " << keyCode;
                 return ss.str();
             }
-            EVENT_CLASS_TYPE(KeyTyped)
+            EVENT_CLASS_TYPE(EventType::KeyTyped)
     };
 }
 

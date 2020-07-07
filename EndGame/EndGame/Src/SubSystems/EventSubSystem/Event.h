@@ -16,7 +16,7 @@ namespace EndGame {
 
     enum class EventType {
         None = 0,
-        WindowClose, WindowFocus, WindowLostFocus, WindowResize, WindowMoved,
+        WindowMinimize, WindowClose, WindowFocus, WindowLostFocus, WindowResize, WindowMoved,
         AppTick, AppRender, AppUpdate,
         KeyPressed, KeyReleased, KeyTyped,
         MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
@@ -61,7 +61,7 @@ namespace EndGame {
 
 //MARK: Event Macros
 #define EVENT_CLASS_TYPE(type)                                                       \
-    static EventType getStaticEventType() { return EventType::type; }                \
+    static EventType getStaticEventType() { return type; }                \
     virtual EventType getEventType() const override { return getStaticEventType(); } \
     virtual const char *getEventName() const override { return #type; }
 

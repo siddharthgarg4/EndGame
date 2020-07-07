@@ -18,6 +18,7 @@ namespace EndGame {
             inline static void clear() { rendererApi->clear(); }
             inline static void setClearColor(const glm::vec4 &color) { rendererApi->setClearColor(color); }
             inline static void drawIndexed(const std::shared_ptr<VertexArray> &vertexArray) { rendererApi->drawIndexed(vertexArray); }
+            inline static void setViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) { rendererApi->setViewport(x, y, width, height); }
         private:
             //gets created in renderer.cpp
             static std::unique_ptr<RendererApi> rendererApi;

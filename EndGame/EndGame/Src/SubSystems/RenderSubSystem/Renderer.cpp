@@ -23,6 +23,11 @@ namespace EndGame {
 
     void Renderer::endScene() {}
 
+
+    void Renderer::onWindowResize(uint32_t width, uint32_t height) {
+        RenderCommand::setViewport(0, 0, width, height);
+    }
+
     void Renderer::submit(const std::shared_ptr<Shader> &shader, const std::shared_ptr<VertexArray> &vertexArray, const glm::mat4 &transform) {
         shader->bind();
         shader->uploadUniform("u_viewProjection", sceneData->cameraViewProjection);

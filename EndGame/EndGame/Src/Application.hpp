@@ -29,6 +29,7 @@ namespace EndGame {
         private:
             std::unique_ptr<Window> window;
             bool isRunning = true;
+            bool isMinimized = false;
             bool hasDebugOverlay = false;
             LayerStack applicationLayers;
             static Application *appInstance;
