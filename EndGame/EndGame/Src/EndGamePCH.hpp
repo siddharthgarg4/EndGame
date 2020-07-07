@@ -20,6 +20,7 @@
 #include <unordered_set>
 #include <csignal>
 #include <fstream>
+#include <tuple>
 
 //EndGame Files
 #include <EndGame/Src/SubSystems/LogSubSystem/LogSubSystem.hpp>

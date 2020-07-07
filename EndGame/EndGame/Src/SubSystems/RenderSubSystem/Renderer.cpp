@@ -17,7 +17,7 @@ namespace EndGame {
         RenderCommand::init();
     }
 
-    void Renderer::beginScene(OrthographicCamera &camera) {
+    void Renderer::beginScene(const OrthographicCamera &camera) {
         sceneData->cameraViewProjection = camera.getViewProjectionMatrix();
     }
 

@@ -35,6 +35,7 @@
 #include <EndGame/Src/SubSystems/RenderSubSystem/Texture.h>
 #include <EndGame/Src/SubSystems/RenderSubSystem/VertexArray.h>
 #include <EndGame/Src/SubSystems/RenderSubSystem/OrthographicCamera.hpp>
+#include <EndGame/Src/SubSystems/RenderSubSystem/OrthographicCameraController.hpp>
 //MARK: Rendering
 #include <EndGame/Src/SubSystems/RenderSubSystem/RenderCommand.h>
 #include <EndGame/Src/SubSystems/RenderSubSystem/Renderer.hpp>

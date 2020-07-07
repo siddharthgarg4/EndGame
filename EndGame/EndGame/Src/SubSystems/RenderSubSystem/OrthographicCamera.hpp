@@ -15,6 +15,7 @@ namespace EndGame {
         public:
             OrthographicCamera(float left, float right, float bottom, float top);
             //setters
+            void setProjection(float left, float right, float bottom, float top);
             inline void setRotation(float rotation) { this->rotation = rotation; recalculateMatrices(); }
             inline void setPosition(glm::vec3 position) { this->position = position; recalculateMatrices(); }
             //getters

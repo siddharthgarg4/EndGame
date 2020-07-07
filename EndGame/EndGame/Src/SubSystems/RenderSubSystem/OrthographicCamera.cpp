@@ -14,6 +14,12 @@ namespace EndGame {
         viewProjectionMatrix = projectionMatrix * viewMatrix;
     }
 
+
+    void OrthographicCamera::setProjection(float left, float right, float bottom, float top) {
+        projectionMatrix = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
+        viewProjectionMatrix = projectionMatrix * viewMatrix;
+    }
+
     void OrthographicCamera::recalculateMatrices() {
         //converting rotation from deg to radians
         float negativeRotation = glm::radians(rotation * -1.0f);

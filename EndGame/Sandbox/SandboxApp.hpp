@@ -16,23 +16,18 @@ class ExampleLayer : public EndGame::Layer {
         ExampleLayer();
         void onUpdate(const float &timeSinceStart, const float &dtime) override;
         void onRender(const float &alpha, const float &dtime) override;
-        void onEvent(EndGame::Event &event) override {}
+        void onEvent(EndGame::Event &event) override;
         void onImguiRender() override;
     private:
         //rendering objects
         EndGame::ShaderLibrary shaderLib;
         std::shared_ptr<EndGame::VertexArray> vertexArray;
         std::shared_ptr<EndGame::VertexArray> flatColorVertexArray;
-        EndGame::OrthographicCamera camera;
+        EndGame::OrthographicCameraController cameraController;
         std::shared_ptr<EndGame::Texture2D> texture;
         std::shared_ptr<EndGame::Texture2D> semiTexture;
         //event objects
-        float cameraRotation = 0.0f;
-        float cameraMoveSpeed = 5.0f;
-        float cameraRotationSpeed = 180.0f;
-        glm::vec3 cameraPosition = {0.0f, 0.0f, 0.0f};
         glm::vec3 flatColor = {0.2f, 0.3f, 0.8f};
-        std::pair<glm::vec3, float> cameraTransformAfterUpdate(const float &dtime);
 };
 
 class Sandbox : public EndGame::Application {

@@ -11,7 +11,7 @@
 #include <imgui/include/imgui.h>
 #include <glm/gtc/type_ptr.hpp>
 
-ExampleLayer::ExampleLayer() : Layer("Example Layer"), camera(-1.6f, 1.6f, -0.9f, 0.9f) {
+ExampleLayer::ExampleLayer() : Layer("Example Layer"), cameraController((1280.0f/720.0f)) {
     //MARK: flat color shader
     flatColorVertexArray = EndGame::RenderApiFactory::createVertexArray();
     float squareVertices[5 * 4]  = {
@@ -58,43 +58,19 @@ ExampleLayer::ExampleLayer() : Layer("Example Layer"), camera(-1.6f, 1.6f, -0.9f
     textureShader->uploadUniform("u_texture", 0);
 }
 
-std::pair<glm::vec3, float> ExampleLayer::cameraTransformAfterUpdate(const float &dtime) {
-    std::pair<glm::vec3, float> currentCameraTransform (cameraPosition, cameraRotation);
-    if (EndGame::Input::isKeyPressed(EG_KEY_LEFT)) {
-        currentCameraTransform.first.x -= cameraMoveSpeed * dtime;
-    } else if (EndGame::Input::isKeyPressed(EG_KEY_RIGHT)) {
-        currentCameraTransform.first.x += cameraMoveSpeed * dtime;
-    }
-
-    if (EndGame::Input::isKeyPressed(EG_KEY_UP)) {
-        currentCameraTransform.first.y += cameraMoveSpeed * dtime;
-    } else if (EndGame::Input::isKeyPressed(EG_KEY_DOWN)) {
-        currentCameraTransform.first.y -= cameraMoveSpeed * dtime;
-    }
-    
-    if (EndGame::Input::isKeyPressed(EG_KEY_A)) {
-        currentCameraTransform.second += cameraRotationSpeed * dtime;
-    } else if (EndGame::Input::isKeyPressed(EG_KEY_D)) {
-        currentCameraTransform.second -= cameraRotationSpeed * dtime;
-    }
-    return currentCameraTransform;
+void ExampleLayer::onUpdate(const float &timeSinceStart, const float &dtime) {
+    cameraController.onUpdate(timeSinceStart, dtime);
 }
 
-void ExampleLayer::onUpdate(const float &timeSinceStart, const float &dtime) {
-    std::pair<glm::vec3, float> newCameraTranform = cameraTransformAfterUpdate(dtime);
-    cameraPosition = newCameraTranform.first;
-    cameraRotation = newCameraTranform.second;
+void ExampleLayer::onEvent(EndGame::Event &event) {
+    cameraController.onEvent(event);
 }
 
 void ExampleLayer::onRender(const float &alpha, const float &dtime) {
-    std::pair<glm::vec3, float> nextCameraTransform = cameraTransformAfterUpdate(dtime);
-    glm::vec3 interpolatedCameraPosition = (cameraPosition * (1-alpha)) + (nextCameraTransform.first * alpha);
-    float interpolatedCameraRotation = (cameraRotation * (1-alpha)) + (nextCameraTransform.second * alpha);
+    cameraController.onRender(alpha, dtime);
     EndGame::RenderCommand::clear();
     EndGame::RenderCommand::setClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-    camera.setPosition(interpolatedCameraPosition);
-    camera.setRotation(interpolatedCameraRotation);
-    EndGame::Renderer::beginScene(camera);
+    EndGame::Renderer::beginScene(cameraController.getCamera());
     glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
     std::shared_ptr<EndGame::Shader> flatColorShader = shaderLib.get("Grid");
     std::shared_ptr<EndGame::Shader> shader = shaderLib.get("Triangle");
