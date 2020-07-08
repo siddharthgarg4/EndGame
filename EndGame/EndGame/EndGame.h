@@ -13,9 +13,6 @@
 //MARK: Application
 #include <EndGame/Src/Application.hpp>
 
-//MARK: Entry Point
-#include <EndGame/Src/EntryPoint.hpp>
-
 //MARK: Events
 #include <EndGame/Src/SubSystems/EventSubSystem/KeyEvent.h>
 #include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>

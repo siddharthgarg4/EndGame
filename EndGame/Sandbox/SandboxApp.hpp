@@ -10,6 +10,9 @@
 #define SandboxApp_hpp
 #include <glm/glm.hpp>
 #include <EndGame/EndGame.h>
+//need to include main only once thus user needs to include it
+#include <EndGame/Src/EntryPoint.hpp>
+#include <Sandbox/Sandbox2D.hpp>
 
 class ExampleLayer : public EndGame::Layer {
     public:
@@ -33,7 +36,7 @@ class ExampleLayer : public EndGame::Layer {
 class Sandbox : public EndGame::Application {
     public:
         Sandbox(bool shouldAddDebugOverlay) : Application(shouldAddDebugOverlay) {
-            pushLayer(new ExampleLayer());
+            pushLayer(new Sandbox2D());
         }
         ~Sandbox() {}
 };

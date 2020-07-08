@@ -21,9 +21,6 @@ namespace EndGame {
             void onAttach() override;
             void onDetach() override;
             void onImguiRender() override;
-
-        private:
-            double frameTime = 0.0;
     };
 }
 

@@ -49,6 +49,7 @@ namespace EndGame {
         });
         //initalizing the renderer
         Renderer::init();
+        //whether imGui renders
         if (shouldAddDebugOverlay) {
             pushOverlay(new DebugOverlay());
             hasDebugOverlay = true;
