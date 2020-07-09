@@ -34,8 +34,9 @@
 #include <EndGame/Src/SubSystems/RenderSubSystem/OrthographicCamera.hpp>
 #include <EndGame/Src/SubSystems/RenderSubSystem/OrthographicCameraController.hpp>
 //MARK: Rendering
-#include <EndGame/Src/SubSystems/RenderSubSystem/RenderCommand.h>
 #include <EndGame/Src/SubSystems/RenderSubSystem/Renderer.hpp>
+#include <EndGame/Src/SubSystems/RenderSubSystem/Renderer2D.hpp>
+#include <EndGame/Src/SubSystems/RenderSubSystem/RenderCommand.h>
 #include <EndGame/Src/SubSystems/RenderSubSystem/RenderApiFactory.hpp>
 
 #endif

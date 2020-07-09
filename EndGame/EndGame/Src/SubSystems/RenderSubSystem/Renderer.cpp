@@ -6,6 +6,7 @@
 //
 
 #include "Renderer.hpp"
+#include <EndGame/Src/SubSystems/RenderSubSystem/Renderer2D.hpp>
 #include <EndGame/Src/SubSystems/RenderSubSystem/RenderCommand.h>
 
 namespace EndGame {
@@ -15,9 +16,12 @@ namespace EndGame {
 
     void Renderer::init() {
         RenderCommand::init();
+        Renderer2D::init();
     }
 
     void Renderer::beginScene(const OrthographicCamera &camera) {
+        //need to store this data since multiple submit calls can be made 
+        //3d renderer has multiple shaders unlike 2d
         sceneData->cameraViewProjection = camera.getViewProjectionMatrix();
     }
 
