@@ -11,87 +11,71 @@
 #include <EndGame/Src/SubSystems/EventSubSystem/ApplicationEvent.h>
 
 namespace EndGame {
-    OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool canCameraRotate, bool canCameraZoom,
-        float cameraZoomSpeed, float cameraRotationSpeed, float cameraTranslationSpeed, float cameraMaxZoom,
-        float startingCameraZoom, float startingCameraRotation, glm::vec3 startingCameraPosition) :
-            aspectRatio(aspectRatio), canCameraRotate(canCameraRotate), canCameraZoom(canCameraZoom), cameraZoomSpeed(cameraZoomSpeed), cameraRotationSpeed(cameraRotationSpeed),
-            cameraTranslationSpeed(cameraTranslationSpeed), cameraMaxZoom(cameraMaxZoom), cameraZoom(startingCameraZoom), cameraRotation(startingCameraRotation),
-            cameraPosition(startingCameraPosition), camera(-aspectRatio*cameraZoom, aspectRatio*cameraZoom, -cameraZoom, cameraZoom) {
+    OrthographicCameraController::OrthographicCameraController(OrthoCamControllerData data, OrthoCamControllerKeys keys) :
+        data(data), keys(keys), camera((-data.aspectRatio)*data.cameraZoom, data.aspectRatio*data.cameraZoom, -data.cameraZoom, data.cameraZoom) {
     }
 
     void OrthographicCameraController::onEvent(Event &event) {
         EventDispatcher dispatcher(event);
-        if (canCameraZoom) {
+        if (data.canCameraZoom) {
             //taking care of mouse scrolled events if zoom enabled
             dispatcher.dispatch<MouseScrolledEvent>([this](MouseScrolledEvent &event) {
-                cameraZoom -= event.getYOffset() * cameraZoomSpeed;
-                cameraZoom = std::max(cameraZoom, cameraMaxZoom);
-                camera.setProjection(-aspectRatio*cameraZoom, aspectRatio*cameraZoom, -cameraZoom, cameraZoom);
+                data.cameraZoom -= event.getYOffset() * data.cameraZoomSpeed;
+                data.cameraZoom = std::max(data.cameraZoom, data.cameraMaxZoom);
+                camera.setProjection((-data.aspectRatio)*data.cameraZoom, data.aspectRatio*data.cameraZoom, -data.cameraZoom, data.cameraZoom);
                 return false;
             });
         }
         //taking care of window resize events
         dispatcher.dispatch<WindowResizeEvent>([this](WindowResizeEvent &event) {
-            aspectRatio = (float)event.getWidth()/(float)event.getHeight();
-            camera.setProjection(-aspectRatio*cameraZoom, aspectRatio*cameraZoom, -cameraZoom, cameraZoom);
+            data.aspectRatio = (float)event.getWidth()/(float)event.getHeight();
+            camera.setProjection((-data.aspectRatio)*data.cameraZoom, data.aspectRatio*data.cameraZoom, -data.cameraZoom, data.cameraZoom);
             return false;
         });
     }
 
     void OrthographicCameraController::onUpdate(const float &timeSinceStart, const float &dtime) {
         std::pair<glm::vec3, float> newCameraTransform = nextFrame(dtime);
-        cameraPosition = newCameraTransform.first;
-        if (canCameraRotate) {
-            cameraRotation = newCameraTransform.second;
+        data.cameraPosition = newCameraTransform.first;
+        if (data.canCameraRotate) {
+            data.cameraRotation = newCameraTransform.second;
         }
         //making translation slower/faster based on zoom
-        cameraTranslationSpeed = cameraZoom;
+        data.cameraTranslationSpeed = data.cameraZoom;
     }
 
     void OrthographicCameraController::onRender(const float &alpha, const float &dtime) {
         std::pair<glm::vec3, float> nextUpdateCameraTransform = nextFrame(dtime);
-        glm::vec3 interpolatedCameraPosition = (cameraPosition * (1-alpha)) + (nextUpdateCameraTransform.first * alpha);
-        float interpolatedCameraRotation = (cameraRotation * (1-alpha)) + (nextUpdateCameraTransform.second * alpha);
+        glm::vec3 interpolatedCameraPosition = (data.cameraPosition * (1-alpha)) + (nextUpdateCameraTransform.first * alpha);
+        float interpolatedCameraRotation = (data.cameraRotation * (1-alpha)) + (nextUpdateCameraTransform.second * alpha);
         //finally updating the camera
         camera.setPosition(interpolatedCameraPosition);
         camera.setRotation(interpolatedCameraRotation);
     }
 
     std::pair<glm::vec3, float> OrthographicCameraController::nextFrame(const float &dtime) {
-        glm::vec3 position = cameraPosition;
-        float rotation = cameraRotation;
+        glm::vec3 position = data.cameraPosition;
+        float rotation = data.cameraRotation;
         //movement
-        if (EndGame::Input::isKeyPressed(moveLeftKeyCode)) {
-            position.x -= cameraTranslationSpeed * dtime;
-        } else if (EndGame::Input::isKeyPressed(moveRightKeyCode)) {
-            position.x += cameraTranslationSpeed * dtime;
+        if (EndGame::Input::isKeyPressed(keys.left)) {
+            position.x -= data.cameraTranslationSpeed * dtime;
+        } else if (EndGame::Input::isKeyPressed(keys.right)) {
+            position.x += data.cameraTranslationSpeed * dtime;
         }
 
-        if (EndGame::Input::isKeyPressed(moveUpKeyCode)) {
-            position.y += cameraTranslationSpeed * dtime;
-        } else if (EndGame::Input::isKeyPressed(moveDownKeyCode)) {
-            position.y -= cameraTranslationSpeed * dtime;
+        if (EndGame::Input::isKeyPressed(keys.up)) {
+            position.y += data.cameraTranslationSpeed * dtime;
+        } else if (EndGame::Input::isKeyPressed(keys.down)) {
+            position.y -= data.cameraTranslationSpeed * dtime;
         }
         //rotation
-        if (canCameraRotate) {
-            if (EndGame::Input::isKeyPressed(rotateLeftKeyCode)) {
-                rotation += cameraRotationSpeed * dtime;
-            } else if (EndGame::Input::isKeyPressed(rotateRightKeyCode)) {
-                rotation -= cameraRotationSpeed * dtime;
+        if (data.canCameraRotate) {
+            if (EndGame::Input::isKeyPressed(keys.rotateLeft)) {
+                rotation += data.cameraRotationSpeed * dtime;
+            } else if (EndGame::Input::isKeyPressed(keys.rotateRight)) {
+                rotation -= data.cameraRotationSpeed * dtime;
             }
         }
-        return std::make_tuple(position, rotation);
-    }
-
-    void OrthographicCameraController::setCameraRotateKeyCodes(const uint32_t &rotateRightKeyCode, const uint32_t &rotateLeftKeyCode) {
-        this->rotateRightKeyCode = rotateRightKeyCode; 
-        this->rotateLeftKeyCode = rotateLeftKeyCode;
-    }
-
-    void OrthographicCameraController::setCameraMoveKeyCodes(const uint32_t &upKeyCode, const uint32_t &downKeyCode, const uint32_t &rightKeyCode, const uint32_t &leftKeyCode) {
-        moveUpKeyCode = upKeyCode;
-        moveDownKeyCode = downKeyCode;
-        moveRightKeyCode = rightKeyCode;
-        moveLeftKeyCode = leftKeyCode;
+        return std::make_pair(position, rotation);
     }
 }
