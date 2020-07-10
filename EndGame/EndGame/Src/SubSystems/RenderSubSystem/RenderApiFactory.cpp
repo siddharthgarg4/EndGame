@@ -26,7 +26,7 @@ namespace EndGame {
             } 
         }
         EG_ENGINE_ASSERT(false, "Unknown RendererAPI::Api!");
-		return nullptr;
+        return nullptr;
     }
 
     std::unique_ptr<RendererApi> RenderApiFactory::createRendererApi() {
@@ -40,7 +40,7 @@ namespace EndGame {
             } 
         }
         EG_ENGINE_ASSERT(false, "Unknown RendererAPI::Api!");
-		return nullptr;
+        return nullptr;
     }
 
     std::shared_ptr<Shader> RenderApiFactory::createShader(const std::string &name, std::string &vertexSource, std::string &fragmentSource) {
@@ -54,7 +54,7 @@ namespace EndGame {
             }
         }
         EG_ENGINE_ASSERT(false, "Unknown RendererAPI::Api!");
-		return nullptr;
+        return nullptr;
     }
 
     std::shared_ptr<Shader> RenderApiFactory::createShader(const std::string &filepath) {
@@ -68,7 +68,7 @@ namespace EndGame {
             }
         }
         EG_ENGINE_ASSERT(false, "Unknown RendererAPI::Api!");
-		return nullptr;
+        return nullptr;
     }
 
     std::shared_ptr<VertexBuffer> RenderApiFactory::createVertexBuffer(float *vertices, uint32_t size) {
@@ -82,7 +82,7 @@ namespace EndGame {
             }
         }
         EG_ENGINE_ASSERT(false, "Unknown RendererAPI::Api!");
-		return nullptr;
+        return nullptr;
     }
 
     std::shared_ptr<IndexBuffer> RenderApiFactory::createIndexBuffer(uint32_t *indices, uint32_t count) {
@@ -96,7 +96,7 @@ namespace EndGame {
             }
         }
         EG_ENGINE_ASSERT(false, "Unknown RendererAPI::Api!");
-		return nullptr;
+        return nullptr;
     }
 
     std::shared_ptr<VertexArray> RenderApiFactory::createVertexArray() {
@@ -110,7 +110,7 @@ namespace EndGame {
             }
         }
         EG_ENGINE_ASSERT(false, "Unknown RendererAPI::Api!");
-		return nullptr;
+        return nullptr;
     }
 
     std::shared_ptr<Texture2D> RenderApiFactory::createTexture2D(const std::string &filepath) {
@@ -124,6 +124,20 @@ namespace EndGame {
             }
         }
         EG_ENGINE_ASSERT(false, "Unknown RendererAPI::Api!");
-		return nullptr;
+        return nullptr;
+    }
+
+    std::shared_ptr<Texture2D> RenderApiFactory::createTexture2D(const uint32_t &width, const uint32_t &height, const void *data) {
+        switch(RendererApi::getApi()) {
+            case RendererApi::Api::None: {
+                EG_ENGINE_ASSERT(false, "RenderApi::Api::None is currently not supported!");
+                return nullptr;
+            }
+            case RendererApi::Api::OpenGl: {
+                return std::make_shared<OpenGlTexture2D>(width, height, data);
+            }
+        }
+        EG_ENGINE_ASSERT(false, "Unknown RendererAPI::Api!");
+        return nullptr;
     }
 }

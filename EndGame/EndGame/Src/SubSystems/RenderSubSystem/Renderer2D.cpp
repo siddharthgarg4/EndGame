@@ -33,7 +33,13 @@ namespace EndGame {
         uint32_t quadIndices[6] = { 0, 1, 2, 2, 3, 0};
         std::shared_ptr<IndexBuffer> quadIndexBuffer = RenderApiFactory::createIndexBuffer(quadIndices, sizeof(quadIndices)/sizeof(uint32_t));
         storage->quadVertexArray->setIndexBuffer(quadIndexBuffer);
+        //white texture
+        uint32_t whiteTextureData = 0xffffffff;
+        storage->whiteTexture = RenderApiFactory::createTexture2D(1, 1, &whiteTextureData);
+        //shader
         storage->quadShader = RenderApiFactory::createShader("Sandbox/Quad.glsl");
+        storage->quadShader->bind();
+        storage->quadShader->uploadUniform("u_texture", 0);
     }
 
     void Renderer2D::shutdown() {
@@ -43,14 +49,27 @@ namespace EndGame {
     void Renderer2D::beginScene(const OrthographicCamera &camera) {
         storage->quadShader->bind();
         storage->quadShader->uploadUniform("u_viewProjection", camera.getViewProjectionMatrix());
-        storage->quadShader->uploadUniform("u_transform", glm::mat4(1.0f));
     }
 
     void Renderer2D::endScene() {}
 
-    void Renderer2D::drawQuad(QuadRendererData data) {
+    void Renderer2D::drawQuad(QuadRendererData data, bool shouldRotate) {
         storage->quadShader->bind();
+        // //color and texture
         storage->quadShader->uploadUniform("u_color", data.color);
+        if (data.texture == nullptr) {
+            storage->whiteTexture->bind();
+        } else {
+            data.texture->bind();
+        }
+        //transforms
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), data.position);
+        if (shouldRotate) {
+            transform *= glm::rotate(glm::mat4(1.0f), glm::radians(data.rotation), {0, 0, 1});
+        }
+        transform *= glm::scale(glm::mat4(1.0f), {data.size.x, data.size.y, 1.0f});
+        storage->quadShader->uploadUniform("u_transform", transform);
+        //actual drawing
         storage->quadVertexArray->bind();
         RenderCommand::drawIndexed(storage->quadVertexArray);
     }

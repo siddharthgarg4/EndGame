@@ -18,6 +18,7 @@ namespace EndGame {
             virtual uint32_t getHeight() = 0;
             virtual void bind(uint32_t slot = 0) = 0;
             virtual void unbind() = 0;
+            virtual void setData(uint32_t size, void *data) = 0;
     };
 
     class Texture2D : public Texture {

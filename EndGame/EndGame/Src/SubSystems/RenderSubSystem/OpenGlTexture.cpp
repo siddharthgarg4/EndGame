@@ -21,14 +21,14 @@ namespace EndGame {
         //initializing class members
         this->height = height;
         this->width = width;
-        //checking data format based on channels
-        std::pair<uint32_t, uint32_t> imageFormat = numChannelsToDataFormat(channels);
+        //setting data format based on channels
+        setTextureFormatForChannels(channels);
         //texture start
         glGenTextures(1, &rendererId);
         //binding texture
         glBindTexture(GL_TEXTURE_2D, rendererId);
         //creating image data buffer
-        glTexImage2D(GL_TEXTURE_2D, 0, imageFormat.first, this->width, this->height, 0, imageFormat.second, GL_UNSIGNED_BYTE, imageData);
+        glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, this->width, this->height, 0, dataFormat, GL_UNSIGNED_BYTE, imageData);
         //setting parameters for magnification and minimization
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -39,8 +39,20 @@ namespace EndGame {
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 
-    std::pair<uint32_t, uint32_t> OpenGlTexture2D::numChannelsToDataFormat(const int &numChannels) {
-        uint32_t internalFormat = 0, dataFormat = 0;
+    OpenGlTexture2D::OpenGlTexture2D(const uint32_t &width, const uint32_t &height, const void *data) : width(width), height(height) {
+        //default rgba
+        setTextureFormatForChannels(4);
+        glGenTextures(1, &rendererId);
+        glBindTexture(GL_TEXTURE_2D, rendererId);
+        glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, dataFormat, GL_UNSIGNED_BYTE, data);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+    void OpenGlTexture2D::setTextureFormatForChannels(const int &numChannels) {
         switch(numChannels) {
             case 3:
                 internalFormat = GL_RGB8;
@@ -54,7 +66,19 @@ namespace EndGame {
                 EG_ENGINE_ASSERT(false, "Image format not yet supported!");
                 break;
         }
-        return std::make_pair(internalFormat, dataFormat);
+    }
+
+    uint32_t OpenGlTexture2D::bytesPerPixelForFormat(const uint32_t &format) {
+        switch(format) {
+            case GL_RGB8: case GL_RGB:
+                return 3;
+            case GL_RGBA8: case GL_RGBA:
+                return 4;
+            default:
+                EG_ENGINE_ASSERT(false, "Image format not yet supported!");
+                break;
+        }
+        return 0;
     }
 
     OpenGlTexture2D::~OpenGlTexture2D() {
@@ -67,6 +91,13 @@ namespace EndGame {
     }
 
     void OpenGlTexture2D::unbind() {
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+    void OpenGlTexture2D::setData(uint32_t size, void *data) {
+        EG_ENGINE_ASSERT(size == width * height * bytesPerPixelForFormat(dataFormat), "Data must span entire texture!");
+        glBindTexture(GL_TEXTURE_2D, rendererId);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, dataFormat, GL_UNSIGNED_BYTE, data);
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 }

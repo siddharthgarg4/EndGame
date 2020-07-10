@@ -15,18 +15,20 @@ namespace EndGame {
     class OpenGlTexture2D : public Texture2D {
         public:
             OpenGlTexture2D(const std::string &filepath);
+            OpenGlTexture2D(const uint32_t &width, const uint32_t &height, const void *data);
             ~OpenGlTexture2D();
             uint32_t getWidth() override { return width; };
             uint32_t getHeight() override { return height; }
             void bind(uint32_t slot = 0) override;
             void unbind() override;
+            void setData(uint32_t size, void *data) override;
         private:
-            uint32_t height;
-            uint32_t width;
+            uint32_t height, width;
+            uint32_t internalFormat, dataFormat;
             uint32_t rendererId;
             std::string filepath;
-            //first is internal format, second is data format
-            std::pair<uint32_t, uint32_t> numChannelsToDataFormat(const int &numChannels);
+            void setTextureFormatForChannels(const int &numChannels);
+            uint32_t bytesPerPixelForFormat(const uint32_t &format);
     };
 }
 

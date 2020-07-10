@@ -28,6 +28,7 @@ namespace EndGame {
             static std::shared_ptr<IndexBuffer> createIndexBuffer(uint32_t *indices, uint32_t count);
             static std::shared_ptr<VertexArray> createVertexArray();
             static std::shared_ptr<Texture2D> createTexture2D(const std::string &filepath);
+            static std::shared_ptr<Texture2D> createTexture2D(const uint32_t &width, const uint32_t &height, const void *data);
     };
 }
 
