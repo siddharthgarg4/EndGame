@@ -23,8 +23,9 @@ namespace EndGame {
         glClearColor(color.r, color.g, color.b, color.a);
     }
 
-    void OpenGlRendererApi::drawIndexed(const std::shared_ptr<VertexArray> &vertexArray) {
-        glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
+    void OpenGlRendererApi::drawIndexed(const std::shared_ptr<VertexArray> &vertexArray, uint32_t count) {
+        uint32_t indexCount = count ? count : (vertexArray->getIndexBuffer()->getSize()/sizeof(uint32_t));
+        glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
     }
     
     void OpenGlRendererApi::setViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) {

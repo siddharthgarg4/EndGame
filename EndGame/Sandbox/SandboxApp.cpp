@@ -20,14 +20,14 @@ ExampleLayer::ExampleLayer() : Layer("Example Layer"), cameraController((1280.0f
          0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
         -0.5f,  0.5f, 0.0f, 0.0f, 1.0f
     };
-    std::shared_ptr<EndGame::VertexBuffer> flatColorVertexBuffer = EndGame::RenderApiFactory::createVertexBuffer(squareVertices, sizeof(squareVertices));
+    std::shared_ptr<EndGame::VertexBuffer> flatColorVertexBuffer = EndGame::RenderApiFactory::createVertexBuffer(sizeof(squareVertices), squareVertices);
     flatColorVertexBuffer->setLayout({
         {EndGame::ShaderDataType::Float3, "attrPosition"},
         {EndGame::ShaderDataType::Float2, "attrTextureCoord"}
     });
     flatColorVertexArray->addVertexBuffer(flatColorVertexBuffer);
     uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0};
-    std::shared_ptr<EndGame::IndexBuffer> flatColorIndexBuffer = EndGame::RenderApiFactory::createIndexBuffer(squareIndices, sizeof(squareIndices)/sizeof(uint32_t));
+    std::shared_ptr<EndGame::IndexBuffer> flatColorIndexBuffer = EndGame::RenderApiFactory::createIndexBuffer(sizeof(squareIndices), squareIndices);
     flatColorVertexArray->setIndexBuffer(flatColorIndexBuffer);
     //creating vertex array
     vertexArray = EndGame::RenderApiFactory::createVertexArray();
@@ -37,7 +37,7 @@ ExampleLayer::ExampleLayer() : Layer("Example Layer"), cameraController((1280.0f
          0.5f, -0.5f, 0.0f, 0.2f, 0.8f, 0.1f, 1.0f,
          0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.1f, 1.0f
     };
-    std::shared_ptr<EndGame::VertexBuffer> vertexBuffer = EndGame::RenderApiFactory::createVertexBuffer(vertices, sizeof(vertices));
+    std::shared_ptr<EndGame::VertexBuffer> vertexBuffer = EndGame::RenderApiFactory::createVertexBuffer(sizeof(vertices), vertices);
     EndGame::BufferLayout createLayout = {
         {EndGame::ShaderDataType::Float3, "attrPosition"},
         {EndGame::ShaderDataType::Float4, "attrColor"}
@@ -47,7 +47,7 @@ ExampleLayer::ExampleLayer() : Layer("Example Layer"), cameraController((1280.0f
     vertexArray->addVertexBuffer(vertexBuffer);
     //creating index buffer
     uint32_t indices[3] = { 0, 1, 2 };
-    std::shared_ptr<EndGame::IndexBuffer> indexBuffer = EndGame::RenderApiFactory::createIndexBuffer(indices, sizeof(indices)/sizeof(uint32_t));
+    std::shared_ptr<EndGame::IndexBuffer> indexBuffer = EndGame::RenderApiFactory::createIndexBuffer(sizeof(indices), indices);
     //binding index buffer to vertex array
     vertexArray->setIndexBuffer(indexBuffer);
     auto shader = shaderLib.load("Sandbox/Triangle.glsl");

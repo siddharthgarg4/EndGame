@@ -11,28 +11,36 @@
 #include <EndGame/Src/SubSystems/RenderSubSystem/RenderApiFactory.hpp>
 
 namespace EndGame {
-    //initializing the storage
-    Renderer2DStorage *Renderer2D::storage = new Renderer2DStorage();
+    Renderer2DStorage *Renderer2D::storage = nullptr;
 
     void Renderer2D::init() {
+        //init storage
+        storage = new Renderer2DStorage();
         storage->quadVertexArray = RenderApiFactory::createVertexArray();
         //vertex buffer
-        float quadVertices[5 * 4]  = {
-            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-             0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-             0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
-            -0.5f,  0.5f, 0.0f, 0.0f, 1.0f
-        };
-        std::shared_ptr<VertexBuffer> quadVertexBuffer = RenderApiFactory::createVertexBuffer(quadVertices, sizeof(quadVertices));
-        quadVertexBuffer->setLayout({
+        storage->quadVertexBuffer = RenderApiFactory::createVertexBuffer(storage->maxQuadVerticesPerDraw * sizeof(QuadVertexData));
+        storage->quadVertexBuffer->setLayout({
             {ShaderDataType::Float3, "attrPosition"},
+            {ShaderDataType::Float4, "attrColor"},
             {ShaderDataType::Float2, "attrTextureCoord"}
         });
-        storage->quadVertexArray->addVertexBuffer(quadVertexBuffer);
+        storage->quadVertexArray->addVertexBuffer(storage->quadVertexBuffer);
+        //batch rendering setup
+        storage->quadVertexBufferDataBase = new QuadVertexData[storage->maxQuadVerticesPerDraw];
         //index buffer
-        uint32_t quadIndices[6] = { 0, 1, 2, 2, 3, 0};
-        std::shared_ptr<IndexBuffer> quadIndexBuffer = RenderApiFactory::createIndexBuffer(quadIndices, sizeof(quadIndices)/sizeof(uint32_t));
+        uint32_t *quadIndices = new uint32_t[storage->maxQuadIndicesPerDraw];
+        for (uint32_t offset=0, i=0; i<storage->maxQuadIndicesPerDraw; i+=6) {
+            quadIndices[i+0] = offset+0;
+            quadIndices[i+1] = offset+1;
+            quadIndices[i+2] = offset+2;
+            quadIndices[i+3] = offset+2;
+            quadIndices[i+4] = offset+3;
+            quadIndices[i+5] = offset+0;
+            offset+=4;
+        }
+        std::shared_ptr<IndexBuffer> quadIndexBuffer = RenderApiFactory::createIndexBuffer(storage->maxQuadIndicesPerDraw * sizeof(uint32_t), quadIndices);
         storage->quadVertexArray->setIndexBuffer(quadIndexBuffer);
+        delete[] quadIndices;
         //white texture
         uint32_t whiteTextureData = 0xffffffff;
         storage->whiteTexture = RenderApiFactory::createTexture2D(1, 1, &whiteTextureData);
@@ -43,34 +51,46 @@ namespace EndGame {
     }
 
     void Renderer2D::shutdown() {
+        delete[] storage->quadVertexBufferDataBase;
         delete storage;
     }
 
     void Renderer2D::beginScene(const OrthographicCamera &camera) {
         storage->quadShader->bind();
         storage->quadShader->uploadUniform("u_viewProjection", camera.getViewProjectionMatrix());
+        beginNewBatch();
     }
 
-    void Renderer2D::endScene() {}
+    void Renderer2D::endScene() {
+        flushVertexBuffer();
+    }
+
+    void Renderer2D::flushVertexBuffer() {
+        storage->quadShader->bind();
+        storage->quadVertexBuffer->setData(storage->quadVertexBufferDataSize * sizeof(QuadVertexData), storage->quadVertexBufferDataBase);
+        uint32_t numberOfQuads = storage->quadVertexBufferDataSize/4;
+        storage->quadVertexArray->bind();
+        //each quad is 6 indices (2 triangles)
+        RenderCommand::drawIndexed(storage->quadVertexArray, numberOfQuads*6);
+    }
 
     void Renderer2D::drawQuad(QuadRendererData data, bool shouldRotate) {
-        storage->quadShader->bind();
-        // //color and texture
-        storage->quadShader->uploadUniform("u_color", data.color);
-        if (data.texture == nullptr) {
-            storage->whiteTexture->bind();
-        } else {
-            data.texture->bind();
+        if (storage->quadVertexBufferDataSize >= storage->maxQuadVerticesPerDraw) {
+            flushVertexBuffer();
+            beginNewBatch();
         }
-        //transforms
-        glm::mat4 transform = glm::translate(glm::mat4(1.0f), data.position);
-        if (shouldRotate) {
-            transform *= glm::rotate(glm::mat4(1.0f), glm::radians(data.rotation), {0, 0, 1});
-        }
-        transform *= glm::scale(glm::mat4(1.0f), {data.size.x, data.size.y, 1.0f});
-        storage->quadShader->uploadUniform("u_transform", transform);
-        //actual drawing
-        storage->quadVertexArray->bind();
-        RenderCommand::drawIndexed(storage->quadVertexArray);
+        addQuadVertexData(QuadVertexData(data.position, data.color, {0.0f, 0.0f}));
+        addQuadVertexData(QuadVertexData({data.position.x + data.size.x, data.position.y, 0.0f}, data.color, {1.0f, 0.0f}));
+        addQuadVertexData(QuadVertexData({data.position.x + data.size.x, data.position.y + data.size.y, 0.0f}, data.color, {1.0f, 1.0f}));
+        addQuadVertexData(QuadVertexData({data.position.x, data.position.y + data.size.y, 0.0f}, data.color, {0.0f, 1.0f}));
+    }
+
+    void Renderer2D::beginNewBatch() {
+        storage->quadVertexBufferDataSize = 0;
+    }
+
+    void Renderer2D::addQuadVertexData(const QuadVertexData &data) {
+        storage->quadVertexBufferDataBase[storage->quadVertexBufferDataSize] = data;
+        storage->quadVertexBufferDataSize++;
     }
 }

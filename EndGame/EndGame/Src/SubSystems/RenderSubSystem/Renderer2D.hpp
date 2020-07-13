@@ -14,17 +14,38 @@
 
 namespace EndGame {
 
+    struct QuadVertexData {
+        //how data is arranged in vertex buffers
+        glm::vec3 position;
+        glm::vec4 color;
+        glm::vec2 textureCoords;
+        //constructors
+        QuadVertexData() {}
+        QuadVertexData(glm::vec3 position, glm::vec4 color, glm::vec2 textureCoords) : 
+            position(position), color(color), textureCoords(textureCoords) {}
+    };
+
+    struct Renderer2DStorage {
+        static const uint32_t maxQuadPerDraw = 10000;
+        static const uint32_t maxQuadVerticesPerDraw = maxQuadPerDraw * 4;
+        static const uint32_t maxQuadIndicesPerDraw = maxQuadPerDraw * 6;
+        //shading assets
+        std::shared_ptr<Shader> quadShader = nullptr;
+        std::shared_ptr<VertexBuffer> quadVertexBuffer = nullptr;
+        std::shared_ptr<VertexArray> quadVertexArray = nullptr;
+        std::shared_ptr<Texture2D> whiteTexture = nullptr;
+        //render data for batch rendering
+        uint32_t quadVertexBufferDataSize = 0;
+        QuadVertexData *quadVertexBufferDataBase = nullptr;
+    };
+
     struct QuadRendererData {
-        //default position is 0 on all axes
+         //data as taken in by renderer to draw the quads
         //z represents priority towards the screen with 1.0 being max, 0.0 min, ties are broken with what is drawn first is on top
         glm::vec3 position = glm::vec3(0.0f);
-        //default rotation is 0
         float rotation = 0.0f;
-        //default size is 100%
         glm::vec2 size = glm::vec2(1.0f);
-        //default color is white
         glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
-        //default use whiteTexture
         std::shared_ptr<Texture2D> texture = nullptr;
         //constructors
         QuadRendererData() {}
@@ -42,23 +63,20 @@ namespace EndGame {
             position(glm::vec3{position.x, position.y, 0.0f}), rotation(rotation), size(size), color(color), texture(texture) {}
     };
 
-    struct Renderer2DStorage {
-        std::shared_ptr<Shader> quadShader = nullptr;
-        std::shared_ptr<VertexArray> quadVertexArray = nullptr;
-        std::shared_ptr<Texture2D> whiteTexture = nullptr;
-    };
-
     class Renderer2D {
         public:
             static void init();
             static void shutdown();
             static void beginScene(const OrthographicCamera &camera);
             static void endScene();
+            static void flushVertexBuffer();
             //primitives
             static void drawQuad(QuadRendererData data = QuadRendererData(), bool shouldRotate = false);
         private:
             //raw pointer for explicit handling
             static Renderer2DStorage *storage;
+            static void beginNewBatch();
+            static void addQuadVertexData(const QuadVertexData &data);
     };
 }
 

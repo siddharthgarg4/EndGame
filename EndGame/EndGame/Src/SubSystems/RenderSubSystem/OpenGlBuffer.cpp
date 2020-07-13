@@ -11,10 +11,16 @@
 
 namespace EndGame {
     //MARK: Vertex Buffer Implementation
-    OpenGlVertexBuffer::OpenGlVertexBuffer(float *vertices, uint32_t size) {
+    OpenGlVertexBuffer::OpenGlVertexBuffer(uint32_t size, float *vertices) {
         glGenBuffers(1, &vertexBufferId);
         glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
-        glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+        if (vertices == nullptr) {
+            //dynamic draw
+            glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+        } else {
+            //static draw
+            glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+        }
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
@@ -29,11 +35,16 @@ namespace EndGame {
     void OpenGlVertexBuffer::unbind() const {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     } 
+
+    void OpenGlVertexBuffer::setData(uint32_t size, const void *data) {
+        glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
+    }
     //MARK: Index Buffer Implementation
-    OpenGlIndexBuffer::OpenGlIndexBuffer(uint32_t *indices, uint32_t count) : count(count) {
+    OpenGlIndexBuffer::OpenGlIndexBuffer(uint32_t size, uint32_t *indices) : size(size) {
         glGenBuffers(1, &indexBufferId);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
@@ -49,7 +60,7 @@ namespace EndGame {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
-    uint32_t OpenGlIndexBuffer::getCount() const {
-        return count;
+    uint32_t OpenGlIndexBuffer::getSize() const {
+        return size;
     }
 }

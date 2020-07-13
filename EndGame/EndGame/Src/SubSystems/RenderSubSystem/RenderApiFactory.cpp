@@ -71,28 +71,28 @@ namespace EndGame {
         return nullptr;
     }
 
-    std::shared_ptr<VertexBuffer> RenderApiFactory::createVertexBuffer(float *vertices, uint32_t size) {
+    std::shared_ptr<VertexBuffer> RenderApiFactory::createVertexBuffer(uint32_t size, float *vertices) {
         switch(RendererApi::getApi()) {
             case RendererApi::Api::None: {
                 EG_ENGINE_ASSERT(false, "RenderApi::Api::None is currently not supported!");
                 return nullptr;
             }
             case RendererApi::Api::OpenGl: {
-                return std::make_shared<OpenGlVertexBuffer>(vertices, size);
+                return std::make_shared<OpenGlVertexBuffer>(size, vertices);
             }
         }
         EG_ENGINE_ASSERT(false, "Unknown RendererAPI::Api!");
         return nullptr;
     }
 
-    std::shared_ptr<IndexBuffer> RenderApiFactory::createIndexBuffer(uint32_t *indices, uint32_t count) {
+    std::shared_ptr<IndexBuffer> RenderApiFactory::createIndexBuffer(uint32_t size, uint32_t *indices) {
         switch(RendererApi::getApi()) {
             case RendererApi::Api::None: {
                 EG_ENGINE_ASSERT(false, "RenderApi::Api::None is currently not supported!");
                 return nullptr;
             }
             case RendererApi::Api::OpenGl: {
-                return std::make_shared<OpenGlIndexBuffer>(indices, count);
+                return std::make_shared<OpenGlIndexBuffer>(size, indices);
             }
         }
         EG_ENGINE_ASSERT(false, "Unknown RendererAPI::Api!");
