@@ -37,6 +37,13 @@ namespace EndGame {
         std::shared_ptr<VertexBuffer> quadVertexBuffer = nullptr;
         std::shared_ptr<VertexArray> quadVertexArray = nullptr;
         std::shared_ptr<Texture2D> whiteTexture = nullptr;
+        //batch rendering data
+        glm::vec4 quadVertexDefaultPositions[4] = {
+            {-0.5f, -0.5f, 0.0f, 1.0f},
+            { 0.5f, -0.5f, 0.0f, 1.0f},
+            { 0.5f,  0.5f, 0.0f, 1.0f},
+            {-0.5f,  0.5f, 0.0f, 1.0f}
+        };
         //render data for batch rendering (raw pointers for speed)
         uint32_t quadVertexBufferDataSize = 0;
         std::array<QuadVertexData, maxQuadVerticesPerDraw> quadVertexBufferData;
