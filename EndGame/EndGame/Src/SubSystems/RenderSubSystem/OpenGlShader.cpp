@@ -142,6 +142,11 @@ namespace EndGame {
         glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(data));
     }
 
+    void OpenGlShader::uploadUniform(const std::string &name, const std::shared_ptr<int> data, uint32_t count) {
+        GLint uniformLocation = glGetUniformLocation(rendererId, name.c_str());
+        glUniform1iv(uniformLocation, count, data.get());
+    }
+
     //MARK: OpenGl Shader Compilation
     std::unordered_map<ShaderType, std::string> OpenGlShader::preprocessShaderSource(std::string &shaderSourceString) {
         std::unordered_map<ShaderType, std::string> shaderSources;

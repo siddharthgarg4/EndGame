@@ -22,6 +22,7 @@ namespace EndGame {
             void bind(uint32_t slot = 0) override;
             void unbind() override;
             void setData(uint32_t size, void *data) override;
+            bool operator==(const Texture &other) const override { return this->rendererId == ((OpenGlTexture2D &)other).rendererId; }
         private:
             uint32_t height, width;
             uint32_t internalFormat, dataFormat;

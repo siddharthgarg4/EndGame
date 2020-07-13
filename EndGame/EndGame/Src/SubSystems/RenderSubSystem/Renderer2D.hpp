@@ -19,13 +19,16 @@ namespace EndGame {
         glm::vec3 position;
         glm::vec4 color;
         glm::vec2 textureCoords;
+        float textureIndex;
+        float tilingFactor;
         //constructors
         QuadVertexData() {}
-        QuadVertexData(glm::vec3 position, glm::vec4 color, glm::vec2 textureCoords) : 
-            position(position), color(color), textureCoords(textureCoords) {}
+        QuadVertexData(glm::vec3 position, glm::vec4 color, glm::vec2 textureCoords, float textureIndex, float tilingFactor) : 
+            position(position), color(color), textureCoords(textureCoords), textureIndex(textureIndex), tilingFactor(tilingFactor) {}
     };
 
     struct Renderer2DStorage {
+        static const uint32_t maxFragmentTextureSlots = 16; //todo: RenderCommand::getMaxFragmentTextureSlots();
         static const uint32_t maxQuadPerDraw = 10000;
         static const uint32_t maxQuadVerticesPerDraw = maxQuadPerDraw * 4;
         static const uint32_t maxQuadIndicesPerDraw = maxQuadPerDraw * 6;
@@ -34,9 +37,11 @@ namespace EndGame {
         std::shared_ptr<VertexBuffer> quadVertexBuffer = nullptr;
         std::shared_ptr<VertexArray> quadVertexArray = nullptr;
         std::shared_ptr<Texture2D> whiteTexture = nullptr;
-        //render data for batch rendering
+        //render data for batch rendering (raw pointers for speed)
         uint32_t quadVertexBufferDataSize = 0;
-        QuadVertexData *quadVertexBufferDataBase = nullptr;
+        std::array<QuadVertexData, maxQuadVerticesPerDraw> quadVertexBufferData;
+        uint32_t textureSlotsDataSize = 0;
+        std::array<std::shared_ptr<Texture2D>, maxFragmentTextureSlots> textureSlots;
     };
 
     struct QuadRendererData {
@@ -76,6 +81,7 @@ namespace EndGame {
             //raw pointer for explicit handling
             static Renderer2DStorage *storage;
             static void beginNewBatch();
+            static void addTextureSlot(std::shared_ptr<Texture2D> texture);
             static void addQuadVertexData(const QuadVertexData &data);
     };
 }

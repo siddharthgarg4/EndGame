@@ -35,6 +35,7 @@ namespace EndGame {
             virtual void uploadUniform(const std::string &name, const glm::vec4 &data) = 0;
             virtual void uploadUniform(const std::string &name, const glm::mat3 &data) = 0;
             virtual void uploadUniform(const std::string &name, const glm::mat4 &data) = 0;
+            virtual void uploadUniform(const std::string &name, const std::shared_ptr<int> data, uint32_t count) = 0;
     };
 
     class ShaderLibrary {

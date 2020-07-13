@@ -39,6 +39,7 @@ namespace EndGame {
             void uploadUniform(const std::string &name, const glm::vec4 &data) override;
             void uploadUniform(const std::string &name, const glm::mat3 &data) override;
             void uploadUniform(const std::string &name, const glm::mat4 &data) override;
+            void uploadUniform(const std::string &name, const std::shared_ptr<int> data, uint32_t count) override;
         private:
             uint32_t rendererId;
             std::string name;
