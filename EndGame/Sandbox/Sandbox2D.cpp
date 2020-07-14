@@ -49,16 +49,16 @@ void Sandbox2D::onRender(const float &alpha, const float &dtime) {
     EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({-5.5f, 0.5f, 0.6f}, 0.0f, {1.5f, 0.5f}, {0.2f, 0.3f, 0.9f, 1.0f}));
 
     static float rotation = 0.0f;
-    EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({-15.5f, 0.5f, 0.6f}, rotation, {2.5f, 2.5f}, {1.0f, 0.0f, 1.0f, 1.0f}), true);
+    EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({-15.5f, 0.5f, 0.6f}, rotation, {2.5f, 2.5f}, texture, 2.0f), true);
     rotation+=1.0f;
 
     int counter = 0;
     for (float y= -10.0f; y<10.0f; y+=0.5f) {
         for (float x= -10.0f; x<10.0f; x+=0.5f) {
             if (counter%2 == 0) {
-                EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({x, y, 0.9}, 0.0f, {0.9f, 0.9f}, appleTexture));
+                EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({x, y, 0.9}, 0.0f, {0.45f, 0.45f}, texture, 4.0f, {0.2f, 0.9f, 0.3f, 1.0f}));
             } else {
-                EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({x, y, 0.9}, 0.0f, {0.9f, 0.9f}, texture));
+                EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({x, y, 0.9}, 0.0f, {0.45f, 0.45f}, {0.2f, 0.3f, 0.9f, 1.0f}));
             }
             counter++;
             // EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({x, y}, 0.0f, {0.45f, 0.45f}, {0.2f, 0.3f, 0.9f, 1.0f}));

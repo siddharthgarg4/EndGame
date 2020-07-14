@@ -51,8 +51,8 @@ void main() {
         case 13: texColor *= texture(u_textures[13], vecTextureCoord * vecTilingFactor); break;
         case 14: texColor *= texture(u_textures[14], vecTextureCoord * vecTilingFactor); break;
         case 15: texColor *= texture(u_textures[15], vecTextureCoord * vecTilingFactor); break;
-        //default attach to white texture
-        default: texColor *= texture(u_textures[0],  vecTextureCoord * vecTilingFactor); break;
+        //default no texture
+        default: break;
     }
     color = texColor;
 }

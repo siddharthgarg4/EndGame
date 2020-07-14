@@ -50,10 +50,6 @@ namespace EndGame {
             samplers.get()[i] = i;
         }
         storage->quadShader->uploadUniform("u_textures", samplers, storage->maxFragmentTextureSlots);
-        //white texture
-        uint32_t whiteTextureData = 0xffffffff;
-        storage->whiteTexture = RenderApiFactory::createTexture2D(1, 1, &whiteTextureData);
-        addTextureSlot(storage->whiteTexture);
     }
 
     void Renderer2D::shutdown() {
@@ -97,33 +93,31 @@ namespace EndGame {
                 transform *= glm::rotate(glm::mat4(1.0f), glm::radians(data.rotation), {0, 0, 1});
         }
         transform *= glm::scale(glm::mat4(1.0f), {data.size.x, data.size.y, 1.0f});
-        //textures - default to white
-        float textureIndex = 0.0f;
+        //textures - switch in shader defaults to no texture
+        float textureIndex = -1.0f;
         if (data.texture != nullptr) {
                 //if quad has texture
-            for (uint32_t i=1; i<storage->textureSlotsDataSize; i++) {
+            for (uint32_t i=0; i<storage->textureSlotsDataSize; i++) {
                     if (*storage->textureSlots[i].get() == *data.texture.get()) {
                         textureIndex = (float)i;
                     break;
                 }
             }
             //texture hasn't been used before
-            if (textureIndex == 0.0f) {
-                     textureIndex = (float)storage->textureSlotsDataSize;
-                 addTextureSlot(data.texture);
-             }
+            if (textureIndex == -1.0f) {
+                textureIndex = (float)storage->textureSlotsDataSize;
+                addTextureSlot(data.texture);
+            }
         }
-        //temporary - tiling factor
-        const static float tilingFactor = 1.0f;
-        addQuadVertexData(QuadVertexData(transform * storage->quadVertexDefaultPositions[0], data.color, {0.0f, 0.0f}, textureIndex, tilingFactor));
-        addQuadVertexData(QuadVertexData(transform * storage->quadVertexDefaultPositions[1], data.color, {1.0f, 0.0f}, textureIndex, tilingFactor));
-        addQuadVertexData(QuadVertexData(transform * storage->quadVertexDefaultPositions[2], data.color, {1.0f, 1.0f}, textureIndex, tilingFactor));
-        addQuadVertexData(QuadVertexData(transform * storage->quadVertexDefaultPositions[3], data.color, {0.0f, 1.0f}, textureIndex, tilingFactor));
+        addQuadVertexData(QuadVertexData(transform * storage->quadVertexDefaultPositions[0], data.color, {0.0f, 0.0f}, textureIndex, data.tilingFactor));
+        addQuadVertexData(QuadVertexData(transform * storage->quadVertexDefaultPositions[1], data.color, {1.0f, 0.0f}, textureIndex, data.tilingFactor));
+        addQuadVertexData(QuadVertexData(transform * storage->quadVertexDefaultPositions[2], data.color, {1.0f, 1.0f}, textureIndex, data.tilingFactor));
+        addQuadVertexData(QuadVertexData(transform * storage->quadVertexDefaultPositions[3], data.color, {0.0f, 1.0f}, textureIndex, data.tilingFactor));
     }
 
     void Renderer2D::beginNewBatch() {
         storage->quadVertexBufferDataSize = 0;
-        storage->textureSlotsDataSize = 1;
+        storage->textureSlotsDataSize = 0;
     }
 
     void Renderer2D::addQuadVertexData(const QuadVertexData &data) {

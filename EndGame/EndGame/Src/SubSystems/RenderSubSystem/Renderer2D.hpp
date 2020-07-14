@@ -36,7 +36,6 @@ namespace EndGame {
         std::shared_ptr<Shader> quadShader = nullptr;
         std::shared_ptr<VertexBuffer> quadVertexBuffer = nullptr;
         std::shared_ptr<VertexArray> quadVertexArray = nullptr;
-        std::shared_ptr<Texture2D> whiteTexture = nullptr;
         //batch rendering data
         glm::vec4 quadVertexDefaultPositions[4] = {
             {-0.5f, -0.5f, 0.0f, 1.0f},
@@ -59,20 +58,21 @@ namespace EndGame {
         glm::vec2 size = glm::vec2(1.0f);
         glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
         std::shared_ptr<Texture2D> texture = nullptr;
+        float tilingFactor = 1.0f;
         //constructors
         QuadRendererData() {}
         QuadRendererData(const glm::vec3 &position, const float &rotation, const glm::vec2 &size, const glm::vec4 &color) : 
             position(position), rotation(rotation), size(size), color(color) {}
         QuadRendererData(const glm::vec2 &position, const float &rotation, const glm::vec2 &size, const glm::vec4 &color) : 
             position(glm::vec3{position.x, position.y, 0.0f}), rotation(rotation), size(size), color(color) {}
-        QuadRendererData(const glm::vec3 &position, const float &rotation, const glm::vec2 &size, const std::shared_ptr<Texture2D> &texture) : 
-            position(position), rotation(rotation), size(size), texture(texture) {}
-        QuadRendererData(const glm::vec2 &position, const float &rotation, const glm::vec2 &size, const std::shared_ptr<Texture2D> &texture) : 
-            position(glm::vec3{position.x, position.y, 0.0f}), rotation(rotation), size(size), texture(texture) {}
-        QuadRendererData(const glm::vec3 &position, const float &rotation, const glm::vec2 &size, const glm::vec4 &color, const std::shared_ptr<Texture2D> &texture) : 
-            position(position), rotation(rotation), size(size), color(color), texture(texture) {}
-        QuadRendererData(const glm::vec2 &position, const float &rotation, const glm::vec2 &size, const glm::vec4 &color, const std::shared_ptr<Texture2D> &texture) : 
-            position(glm::vec3{position.x, position.y, 0.0f}), rotation(rotation), size(size), color(color), texture(texture) {}
+        QuadRendererData(const glm::vec3 &position, const float &rotation, const glm::vec2 &size, const std::shared_ptr<Texture2D> &texture, const float &tilingFactor) : 
+            position(position), rotation(rotation), size(size), texture(texture), tilingFactor(tilingFactor) {}
+        QuadRendererData(const glm::vec2 &position, const float &rotation, const glm::vec2 &size, const std::shared_ptr<Texture2D> &texture, const float &tilingFactor) : 
+            position(glm::vec3{position.x, position.y, 0.0f}), rotation(rotation), size(size), texture(texture), tilingFactor(tilingFactor) {}
+        QuadRendererData(const glm::vec3 &position, const float &rotation, const glm::vec2 &size, const std::shared_ptr<Texture2D> &texture, const float &tilingFactor, const glm::vec4 &tintColor) : 
+            position(position), rotation(rotation), size(size), color(tintColor), texture(texture), tilingFactor(tilingFactor) {}
+        QuadRendererData(const glm::vec2 &position, const float &rotation, const glm::vec2 &size, const std::shared_ptr<Texture2D> &texture, const float &tilingFactor, const glm::vec4 &tintColor) : 
+            position(glm::vec3{position.x, position.y, 0.0f}), rotation(rotation), size(size), color(tintColor), texture(texture), tilingFactor(tilingFactor) {}
     };
 
     class Renderer2D {
