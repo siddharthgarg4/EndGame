@@ -15,7 +15,6 @@ namespace EndGame {
         public:
             inline int getKeyCode() const { return keyCode; }
             EVENT_CLASS_CATEGORY(EventCategory::EventCategoryKeyboard | EventCategory::EventCategoryInput)
-
         protected:
             KeyEvent(int keyCode) : keyCode(keyCode) {}
             int keyCode;
@@ -30,8 +29,7 @@ namespace EndGame {
                 ss << "KeyPressedEvent: " << keyCode << " (repeats: " << repeatCount << ")";
                 return ss.str();
             }
-            EVENT_CLASS_TYPE(EventType::KeyPressed)
-            
+            EVENT_CLASS_TYPE(EventType::KeyPressed) 
         private:
             int repeatCount;
     };

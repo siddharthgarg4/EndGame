@@ -13,6 +13,7 @@
 //need to include main only once thus user needs to include it
 #include <EndGame/Src/EntryPoint.hpp>
 #include <Sandbox/Sandbox2D.hpp>
+#include <Sandbox/PacMan/PacManLayer.hpp>
 
 class ExampleLayer : public EndGame::Layer {
     public:
@@ -36,7 +37,7 @@ class ExampleLayer : public EndGame::Layer {
 class Sandbox : public EndGame::Application {
     public:
         Sandbox(bool shouldAddDebugOverlay) : Application(shouldAddDebugOverlay) {
-            pushLayer(new Sandbox2D());
+            pushLayer(new PacManLayer());
         }
         ~Sandbox() {}
 };
