@@ -7,6 +7,7 @@
 //
 
 #include "PacManBoard.hpp"
+#include <math.h>
 #include <glm/glm.hpp>
 #include <EndGame/EndGame.h>
 
@@ -22,8 +23,8 @@ void PacManBoard::reset() {
         'o', 'f', 'o', 'f', 'o', 'o', 'o', 'f', 'o', 'f', 'o', 'f', 'f', 'o', 'o', 'o', 'o', 'f', 'f', 'f',
         'o', 'f', 'f', 'f', 'f', 'f', 'o', 'f', 'o', 'f', 'f', 'f', 'o', 'o', 'o', 'o', 'o', 'f', 'o', 's',
         'o', 'o', 'o', 'f', 'o', 'f', 'o', 'f', 'f', 'f', 'o', 'o', 'f', 'f', 'f', 'f', 'f', 'f', 'o', 'f',
-        'o', 'o', 'o', 'f', 'f', 'f', 'f', 'f', 'o', 'f', 'o', 'o', 'f', 'o', 'o', 'o', 'o', 'f', 'o', 'f',
-        'o', 'o', 'o', 'f', 'o', 'o', 'f', 'f', 'o', 'f', 'f', 'o', 'f', 'f', 'f', 'o', 'o', 'f', 'f', 'f',
+        'o', 'o', 'o', 'f', 'o', 'f', 'o', 'f', 'o', 'f', 'o', 'o', 'f', 'o', 'o', 'o', 'o', 'f', 'o', 'f',
+        'o', 'o', 'o', 'f', 'f', 'f', 'f', 'f', 'o', 'f', 'f', 'o', 'f', 'f', 'f', 'o', 'o', 'f', 'f', 'f',
         'o', 'o', 'o', 'f', 'o', 'o', 'f', 'o', 'o', 'o', 'f', 'o', 'o', 'o', 'f', 'o', 'o', 'o', 'f', 'o',
         'o', 'f', 'f', 'f', 'o', 'o', 'f', 'o', 'f', 'f', 'f', 'c', 'f', 'f', 'f', 'f', 'o', 'o', 'f', 'o',
         'o', 'f', 'o', 'f', 'o', 'o', 'f', 'o', 'f', 'o', 'e', 'o', 'o', 'o', 'o', 'f', 'o', 'o', 'f', 'o',
@@ -48,20 +49,35 @@ void PacManBoard::reset() {
     }
 }
 
-bool PacManBoard::isValidMove(int x, int y) {
-    if (0 <= x && x < rowCellSize && 0 <= y && y < rowCellSize) {
-        char currentCellItem = board[(y*rowCellSize)+x];
-        switch(currentCellItem) {
-            case 'o':
-                break;
-            case 'f': case 's': case 'c':
-                board[(y*rowCellSize)+x] = 'e';
-                numOfFoodLeft--;
-                return true;
-            case 'e':
-                return true;
+bool PacManBoard::isValidMove(float x, float y) {
+    if (0.0f <= x && x < (float)rowCellSize && 0.0f <= y && y < (float)rowCellSize) {
+        //valid values
+        int xfloor = floor(x);
+        int xceil = ceil(x);
+        int yfloor = floor(y);
+        int yceil = ceil(y);
+        //cells to check
+        std::array<char, cellsToCheck> cellObjects;
+        for(int i=0; i<cellsToCheck; i++) {
+            //different combinations of x and y
+            cellObjects[i] = board[((i<2 ? yfloor : yceil)*rowCellSize+(i%2==0 ? xfloor : xceil))];
         }
+        for (auto &cellObject: cellObjects) {
+            //checking object in each cell
+            switch(cellObject) {
+                case 'f': case 's': case 'c': case 'e':
+                    break;
+                case 'o':
+                    return false;
+                default:
+                    EG_ENGINE_ASSERT(false, "invalid character in pacman board");
+                    return false;
+            }
+        }
+        //all cellObjects are valid
+        return true;
     }
+    //invalid coordinates
     return false;
 }
 

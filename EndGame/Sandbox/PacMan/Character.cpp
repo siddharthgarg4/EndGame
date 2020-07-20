@@ -11,33 +11,40 @@
 #include <glm/glm.hpp>
 
 //MARK: Player methods
-Player::Player(const std::pair<uint16_t, uint16_t> &startingPosition) : Character(startingPosition) {}
+Player::Player(const std::pair<float, float> &startingPosition) : Character(startingPosition) {}
 
 void Player::move(PacManBoard &board, bool isPowerUpActive) {
+    //change directions if needed
     if (EndGame::Input::isKeyPressed(EG_KEY_UP)) {
         currentFacing = Direction::up;
     } else if (EndGame::Input::isKeyPressed(EG_KEY_DOWN)) {
         currentFacing = Direction::down;
-    }
-    if (EndGame::Input::isKeyPressed(EG_KEY_LEFT)) {
+    }else if (EndGame::Input::isKeyPressed(EG_KEY_LEFT)) {
         currentFacing = Direction::left;
     } else if (EndGame::Input::isKeyPressed(EG_KEY_RIGHT)) {
         currentFacing = Direction::right;
     }
-    int newX = position.first;
-    int newY = position.second;
+    float newX = 0.0f;
+    float newY = 0.0f;
+    //to smooth float values in direction you are not moving
+    int xBaseHundred = ((int)trunc(newX*100.0f))%100;
+    int yBaseHundred = ((int)trunc(newY*100.0f))%100;
     switch(currentFacing) {
         case up:
-            newY--;
+            newY=position.second-movementSpeed;
+            newX=(97 <= xBaseHundred || xBaseHundred <= 3) ? round(position.first) : position.first;
             break;
         case down:
-            newY++;
+            newY=position.second+movementSpeed;
+            newX=(97 <= xBaseHundred || xBaseHundred <= 3) ? round(position.first) : position.first;
             break;
         case left:
-            newX--;
+            newX=position.first-movementSpeed;
+            newY=(97 <= yBaseHundred || yBaseHundred <= 3) ? round(position.second) : position.second;
             break;
         case right:
-            newX++;
+            newX=position.first+movementSpeed;
+            newY=(97 <= yBaseHundred || yBaseHundred <= 3) ? round(position.second) : position.second;
             break;
         case noDirection:
             break;
@@ -49,21 +56,21 @@ void Player::move(PacManBoard &board, bool isPowerUpActive) {
 
 void Player::render(bool isPowerUpActive, uint8_t rowCellSize) {
     glm::vec4 playerColor = {0.705f, 0.4f, 1.0f, 1.0f};
-    int8_t playerX = position.first * 2.0f;
-    int8_t playerY = (rowCellSize - position.second) * 2.0f;
+    float playerX = position.first * 2.0f;
+    float playerY = (rowCellSize - position.second) * 2.0f;
     //rotation based on direction facing!!
     //rotation = directionFacing
     EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({playerX, playerY, 0.6f}, 0, {2.0f, 2.0f}, playerColor), true);
 }
 
 //MARK: Monster methods
-Monster::Monster(const std::pair<uint16_t, uint16_t> &startingPosition, uint16_t monsterId) : Character(startingPosition), monsterId(monsterId) {}
+Monster::Monster(const std::pair<float, float> &startingPosition, uint16_t monsterId) : Character(startingPosition), monsterId(monsterId) {}
 
 void Monster::render(bool isPowerUpActive, uint8_t rowCellSize) {
     //based on direction facing change rotation
     glm::vec4 monsterColor;
-    int8_t monsterX = position.first * 2.0f;
-    int8_t monsterY = (rowCellSize - position.second) * 2.0f;
+    float monsterX = position.first * 2.0f;
+    float monsterY = (rowCellSize - position.second) * 2.0f;
     switch(monsterId) {
         case 0:
             monsterColor = {0.078f, 0.662f, 0.960f, 1.0f};

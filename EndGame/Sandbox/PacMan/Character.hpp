@@ -21,20 +21,21 @@ enum Direction : int {
 
 class Character {
     public:
-        Character(const std::pair<uint16_t, uint16_t> &startingPosition) : position(startingPosition) {}
+        Character(const std::pair<float, float> &startingPosition) : position(startingPosition) {}
         virtual ~Character() = default;
-        virtual const std::pair<uint16_t, uint16_t> &getPosition() { return position; }
+        virtual const std::pair<float, float> &getPosition() { return position; }
         virtual void move(PacManBoard &board, bool isPowerUpActive) = 0;
         virtual void render(bool isPowerUpActive, uint8_t rowCellSize) = 0;
         virtual void reset() = 0;
     protected:
-        std::pair<uint16_t, uint16_t> position;
+        static constexpr float movementSpeed = 0.025f;
+        std::pair<float, float> position;
         Direction currentFacing = Direction::noDirection;
 };
 
 class Player : public Character {
     public:
-        Player(const std::pair<uint16_t, uint16_t> &startingPosition);
+        Player(const std::pair<float, float> &startingPosition);
         ~Player() = default;
         void move(PacManBoard &board, bool isPowerUpActive) override;
         void render(bool isPowerUpActive, uint8_t rowCellSize) override;
@@ -43,7 +44,7 @@ class Player : public Character {
 
 class Monster : public Character {
     public:
-        Monster(const std::pair<uint16_t, uint16_t> &startingPosition, uint16_t monsterId);
+        Monster(const std::pair<float, float> &startingPosition, uint16_t monsterId);
         ~Monster() = default;
         void move(PacManBoard &board, bool isPowerUpActive) override {};
         void render(bool isPowerUpActive, uint8_t rowCellSize) override;

@@ -38,17 +38,17 @@ void PacMan::reset() {
     //reset board
     board.reset();
     //reset player
-    player = std::make_unique<Player>(std::make_pair(11, 16));
+    player = std::make_unique<Player>(std::make_pair(11.0f, 16.0f));
     //reset monsters
-    std::array<uint16_t, numMonsters * 2> startingMonsterPositions = {
-        10,  9, //0
-        9,  10, //1
-        10, 10, //2
-        11, 10  //3
+    std::array<float, numMonsters * 2> startingMonsterPositions = {
+        10.0f,  9.0f, //0
+        9.0f,  10.0f, //1
+        10.0f, 10.0f, //2
+        11.0f, 10.0f  //3
     };
     for (int i=0; i<numMonsters; i++) {
-        int monsterX = startingMonsterPositions[i*2];
-        int monsterY = startingMonsterPositions[(i*2)+1];
+        float monsterX = startingMonsterPositions[i*2];
+        float monsterY = startingMonsterPositions[(i*2)+1];
         monsters[i] = std::make_unique<Monster>(std::make_pair(monsterX, monsterY), i);
     }
     currentGameState = GameState::startScreen;
@@ -57,22 +57,20 @@ void PacMan::reset() {
 
 void PacMan::update() {
     //check if game has ended, if not then pass command to board to update
-    static int slowUpdates = 0;
     if (!board.isFoodLeft() || isPlayerCaptured()) {
         currentGameState = GameState::ended;
-    } else if (currentGameState == GameState::running && (slowUpdates%6==0)) {
+    } else if (currentGameState == GameState::running) {
         bool isPowerUpActive = currentPlayerState==PlayerState::powerUp;
         player->move(board, isPowerUpActive);
         for(auto &monster: monsters) {
             monster->move(board, isPowerUpActive);
         }
     }
-    slowUpdates++;
 }
 
 bool PacMan::isPlayerCaptured() {
     for(auto &monster: monsters) {
-        if (player->getPosition() == monster->getPosition()) {
+        if (player->getPosition() == monster->getPosition() && currentPlayerState!=PlayerState::powerUp) {
             return true;
         }
     }
