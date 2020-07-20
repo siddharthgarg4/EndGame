@@ -46,7 +46,8 @@ class Monster : public Character {
     public:
         Monster(const std::pair<float, float> &startingPosition, uint16_t monsterId);
         ~Monster() = default;
-        void move(PacManBoard &board, bool isPowerUpActive) override {};
+        //first two will move randomly, second two will chase
+        void move(PacManBoard &board, bool isPowerUpActive) override;
         void render(bool isPowerUpActive, uint8_t rowCellSize) override;
         void reset() override {};
     private:

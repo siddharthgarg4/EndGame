@@ -22,7 +22,8 @@ class PacManBoard {
         void render();
         bool isFoodLeft();
         //modifies the board if valid
-        bool isValidMove(float x, float y);
+        bool makeMoveIfValid(float x, float y);
+        float roundIfNeeded(float i);
         std::array<char, numBoardCells> &getBoard();
     private:
         //number of cells to check for every movement
@@ -30,6 +31,7 @@ class PacManBoard {
         int numOfFoodLeft = 0;
         //e - empty, o - obstacle, f - food, c - cherry, s - strawberry, p - player, m - monster
         std::array<char, numBoardCells> board;
+        void updateBoardAfterMove(float x, float y);
 };
 
 #endif

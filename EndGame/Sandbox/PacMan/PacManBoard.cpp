@@ -49,7 +49,7 @@ void PacManBoard::reset() {
     }
 }
 
-bool PacManBoard::isValidMove(float x, float y) {
+bool PacManBoard::makeMoveIfValid(float x, float y) {
     if (0.0f <= x && x < (float)rowCellSize && 0.0f <= y && y < (float)rowCellSize) {
         //valid values
         int xfloor = floor(x);
@@ -75,10 +75,37 @@ bool PacManBoard::isValidMove(float x, float y) {
             }
         }
         //all cellObjects are valid
+        updateBoardAfterMove(x, y);
         return true;
     }
     //invalid coordinates
     return false;
+}
+
+void PacManBoard::updateBoardAfterMove(float x, float y) {
+    float roundedX = roundIfNeeded(x);
+    float roundedY = roundIfNeeded(y);
+    int roundedXInt = (int) roundedX;
+    int roundedYInt = (int) roundedY;
+    if (roundedXInt == roundedX && roundedY == roundedYInt) {
+        char currentCellObject = board[(roundedYInt * rowCellSize)+roundedXInt];
+        switch(currentCellObject) {
+            case 'f': case 's': case 'c':
+                board[(roundedYInt * rowCellSize)+roundedXInt] = 'e';
+                numOfFoodLeft--;
+                break;
+            case 'e': case 'o':
+                break;
+        }
+    }
+}
+
+float PacManBoard::roundIfNeeded(float i) {
+    int iBaseHundred = ((int)trunc(i*100.0f))%100;
+    if (85 <= iBaseHundred || iBaseHundred <= 15) {
+        return round(i);
+    }
+    return i;
 }
 
 void PacManBoard::render() {
