@@ -87,9 +87,9 @@ void PacMan::render() {
         {
             bool isPowerUpActive = currentPlayerState==PlayerState::powerUp;
             board.render();
-            player->render(isPowerUpActive, board.rowCellSize);
+            player->render(isPowerUpActive, board.rowCellSize, board.renderedCellSize);
             for(auto &monster: monsters) {
-                monster->render(isPowerUpActive, board.rowCellSize);
+                monster->render(isPowerUpActive, board.rowCellSize, board.renderedCellSize);
             }
             break;
         }

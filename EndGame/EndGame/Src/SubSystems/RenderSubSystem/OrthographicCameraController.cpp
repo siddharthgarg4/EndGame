@@ -13,6 +13,8 @@
 namespace EndGame {
     OrthographicCameraController::OrthographicCameraController(OrthoCamControllerData data, OrthoCamControllerKeys keys) :
         data(data), keys(keys), camera((-data.aspectRatio)*data.cameraZoom, data.aspectRatio*data.cameraZoom, -data.cameraZoom, data.cameraZoom) {
+            //to update the camera as per provided initial values
+            onRender(0.0f, 0.0f);
     }
 
     void OrthographicCameraController::onEvent(Event &event) {

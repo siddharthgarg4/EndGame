@@ -15,6 +15,8 @@ class PacManBoard {
         //information about the board
         static const int numBoardCells = 400; //20 * 20
         static const int rowCellSize = 20;
+        //since -1.0f to 1.0f
+        static constexpr float renderedCellSize = (2.0f/rowCellSize);
         //methods
         PacManBoard();
         ~PacManBoard() = default;

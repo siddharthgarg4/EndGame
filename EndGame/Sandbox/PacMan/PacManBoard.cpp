@@ -113,8 +113,9 @@ void PacManBoard::render() {
     int x, y = 0;
     glm::vec4 cellColor;
     for (int i=0; i<numBoardCells; i++) {
-        x = i%rowCellSize; 
-        y = rowCellSize - i/rowCellSize;
+        x = i%rowCellSize;
+        //needs to go from 19 to 0
+        y = (rowCellSize-1) - i/rowCellSize;
         char currentCellState = board[i];
         switch(currentCellState) {
             case 'e':
@@ -141,7 +142,7 @@ void PacManBoard::render() {
                 cellColor = {1.0f, 0.0f, 1.0f, 1.0f}; 
                 break;
         }
-        EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({x * 2.0f, y * 2.0f}, false, {2.0f, 2.0f}, cellColor));
+        EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({x*renderedCellSize, y*renderedCellSize}, false, {renderedCellSize, renderedCellSize}, cellColor));
     }
 }
 
