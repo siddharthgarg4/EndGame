@@ -55,15 +55,15 @@ void PacMan::reset() {
     currentPlayerState = PlayerState::none;
 }
 
-void PacMan::update() {
+void PacMan::update(const float &timeSinceStart, const float &dtime) {
     //check if game has ended, if not then pass command to board to update
     if (!board.isFoodLeft() || isPlayerCaptured()) {
         currentGameState = GameState::ended;
     } else if (currentGameState == GameState::running) {
         bool isPowerUpActive = currentPlayerState==PlayerState::powerUp;
-        player->move(board, isPowerUpActive);
+        player->move(board, isPowerUpActive, timeSinceStart, dtime);
         for(auto &monster: monsters) {
-            monster->move(board, isPowerUpActive);
+            monster->move(board, isPowerUpActive, timeSinceStart, dtime);
         }
     }
 }
@@ -77,7 +77,7 @@ bool PacMan::isPlayerCaptured() {
     return false;
 }
 
-void PacMan::render() {
+void PacMan::render(const float &alpha, const float &dtime) {
     //only pass rendering commands if in running state
     //else render the appropriate quads from here with the messages
     switch(currentGameState) {
@@ -86,10 +86,11 @@ void PacMan::render() {
         case running:
         {
             bool isPowerUpActive = currentPlayerState==PlayerState::powerUp;
+            //board does not move thus does not need dtime and alpha
             board.render();
-            player->render(isPowerUpActive, board.rowCellSize, board.renderedCellSize);
+            player->render(board, isPowerUpActive, alpha, dtime);
             for(auto &monster: monsters) {
-                monster->render(isPowerUpActive, board.rowCellSize, board.renderedCellSize);
+                monster->render(board, isPowerUpActive, alpha, dtime);
             }
             break;
         }

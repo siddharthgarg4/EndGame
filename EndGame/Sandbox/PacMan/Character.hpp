@@ -34,11 +34,12 @@ class Character {
         Character(const std::pair<float, float> &startingPosition) : position(startingPosition) {}
         virtual ~Character() = default;
         virtual const std::pair<float, float> &getPosition() { return position; }
-        virtual void move(PacManBoard &board, bool isPowerUpActive, const CharacterPositions &positions = CharacterPositions()) = 0;
-        virtual void render(bool isPowerUpActive, uint8_t rowCellSize, float renderedCellSize) = 0;
+        virtual void move(PacManBoard &board, bool isPowerUpActive, const float &timeSinceStart, const float &dtime, const CharacterPositions &positions = CharacterPositions()) = 0;
+        virtual void render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime) = 0;
         virtual void reset() = 0;
     protected:
-        static constexpr float movementSpeed = 0.025f;
+        virtual std::pair<float, float>nextFramePosition(PacManBoard &board, const float &dtime) = 0;
+        static constexpr float movementSpeed = 2.5f;
         std::pair<float, float> position;
         Direction currentFacing = Direction::noDirection;
 };
@@ -47,9 +48,11 @@ class Player : public Character {
     public:
         Player(const std::pair<float, float> &startingPosition);
         ~Player() = default;
-        void move(PacManBoard &board, bool isPowerUpActive, const CharacterPositions &positions = CharacterPositions()) override;
-        void render(bool isPowerUpActive, uint8_t rowCellSize, float renderedCellSize) override;
+        void move(PacManBoard &board, bool isPowerUpActive, const float &timeSinceStart, const float &dtime, const CharacterPositions &positions = CharacterPositions()) override;
+        void render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime) override;
         void reset() override {};
+    private:
+        std::pair<float, float>nextFramePosition(PacManBoard &board, const float &dtime) override;
 };
 
 class Monster : public Character {
@@ -57,11 +60,14 @@ class Monster : public Character {
         Monster(const std::pair<float, float> &startingPosition, uint16_t monsterId);
         ~Monster() = default;
         //first two will move randomly, second two will chase
-        void move(PacManBoard &board, bool isPowerUpActive, const CharacterPositions &positions = CharacterPositions()) override;
-        void render(bool isPowerUpActive, uint8_t rowCellSize, float renderedCellSize) override;
+        void move(PacManBoard &board, bool isPowerUpActive, const float &timeSinceStart, const float &dtime, const CharacterPositions &positions = CharacterPositions()) override;
+        void render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime) override;
         void reset() override {};
     private:
+        //elements
         uint16_t monsterId;
+        //methods
+        std::pair<float, float>nextFramePosition(PacManBoard &board, const float &dtime) override;
 };
 
 #endif

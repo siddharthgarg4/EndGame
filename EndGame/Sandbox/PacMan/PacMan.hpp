@@ -25,8 +25,8 @@ class PacMan {
         PacMan();
         ~PacMan() = default;
         void onEvent(EndGame::Event &event);
-        void update();
-        void render();
+        void update(const float &timeSinceStart, const float &dtime);
+        void render(const float &alpha, const float &dtime);
         bool isPlayerCaptured();
     private:
         //methods

@@ -28,13 +28,13 @@ void PacManLayer::onEvent(EndGame::Event &event) {
 
 void PacManLayer::onUpdate(const float &timeSinceStart, const float &dtime) {
     //check if game has ended if it has, 
-    game.update();
+    game.update(timeSinceStart, dtime);
 }
 
 void PacManLayer::onRender(const float &alpha, const float &dtime) {
     EndGame::RenderCommand::clear();
     EndGame::RenderCommand::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
     EndGame::Renderer2D::beginScene(cameraController.getCamera());
-    game.render();
+    game.render(alpha, dtime);
     EndGame::Renderer2D::endScene();
 }
