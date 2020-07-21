@@ -13,6 +13,11 @@
 
 class PacManLayer : public EndGame::Layer {
     public:
+        //static const variables for window
+        static const std::string pacManWindowTitle;
+        static const uint32_t pacManWindowHeight = 800;
+        static const uint32_t pacManWindowWidth = 800;
+        //methods
         PacManLayer();
         ~PacManLayer() = default;
         //overriding layer methods

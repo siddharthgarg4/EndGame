@@ -18,7 +18,7 @@ namespace EndGame {
 
     class Application {
         public:
-            Application(bool shouldAddDebugOverlay);
+            Application(bool shouldAddDebugOverlay, std::string windowTitle="EndGame Engine", uint32_t width=1280, uint32_t height=720);
             virtual ~Application();
             void run();
             static inline Application &getApplication() { return *appInstance; }

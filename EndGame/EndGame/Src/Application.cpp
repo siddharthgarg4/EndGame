@@ -15,10 +15,10 @@ namespace EndGame {
     //need to declare static variables and cannot init in definitions
     Application *Application::appInstance = nullptr;
 
-    Application::Application(bool shouldAddDebugOverlay) {
+    Application::Application(bool shouldAddDebugOverlay, std::string windowTitle, uint32_t width, uint32_t height) {
         EG_ENGINE_ASSERT(!appInstance, "Application already exists!");
         appInstance = this;
-        window = std::unique_ptr<Window>(Window::create());
+        window = std::unique_ptr<Window>(Window::create(WindowProperties(windowTitle, width, height)));
         window->setEventCallBack([this](Event &event) {
             //setting event call back
             EventDispatcher dispatcher(event);

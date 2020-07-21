@@ -8,7 +8,10 @@
 
 #include "PacManLayer.hpp"
 
-PacManLayer::PacManLayer() : Layer("PacMan"), cameraController((1280.0f/720.0f)) {}
+//defining the PacMan window title
+const std::string PacManLayer::pacManWindowTitle = "PacMan Game: Powered by EndGame Engine";
+
+PacManLayer::PacManLayer() : Layer("PacMan"), cameraController((800.0f/800.0f)) {}
 
 void PacManLayer::onImguiRender() {}
 

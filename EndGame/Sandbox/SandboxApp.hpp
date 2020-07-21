@@ -36,7 +36,8 @@ class ExampleLayer : public EndGame::Layer {
 
 class Sandbox : public EndGame::Application {
     public:
-        Sandbox(bool shouldAddDebugOverlay) : Application(shouldAddDebugOverlay) {
+        Sandbox(bool shouldAddDebugOverlay) : Application(shouldAddDebugOverlay, PacManLayer::pacManWindowTitle, 
+            PacManLayer::pacManWindowWidth, PacManLayer::pacManWindowHeight) {
             pushLayer(new PacManLayer());
         }
         ~Sandbox() {}

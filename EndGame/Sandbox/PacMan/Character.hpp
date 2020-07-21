@@ -9,6 +9,7 @@
 #ifndef Character_hpp
 #define Character_hpp
 #include <utility>
+#include <vector>
 #include <Sandbox/PacMan/PacManBoard.hpp>
 
 enum Direction : int {
@@ -19,12 +20,21 @@ enum Direction : int {
     down = 270,
 };
 
+struct CharacterPositions {
+    std::pair<float, float> playerPosition;
+    std::vector<std::pair<float, float>> monsterPositions;
+    //constructors
+    CharacterPositions() : playerPosition({0, 0}), monsterPositions() {}
+    CharacterPositions(std::pair<float, float> &playerPosition, std::vector<std::pair<float, float>> &monsterPositions) :
+        playerPosition(playerPosition), monsterPositions(monsterPositions) {}
+};
+
 class Character {
     public:
         Character(const std::pair<float, float> &startingPosition) : position(startingPosition) {}
         virtual ~Character() = default;
         virtual const std::pair<float, float> &getPosition() { return position; }
-        virtual void move(PacManBoard &board, bool isPowerUpActive) = 0;
+        virtual void move(PacManBoard &board, bool isPowerUpActive, const CharacterPositions &positions = CharacterPositions()) = 0;
         virtual void render(bool isPowerUpActive, uint8_t rowCellSize) = 0;
         virtual void reset() = 0;
     protected:
@@ -37,7 +47,7 @@ class Player : public Character {
     public:
         Player(const std::pair<float, float> &startingPosition);
         ~Player() = default;
-        void move(PacManBoard &board, bool isPowerUpActive) override;
+        void move(PacManBoard &board, bool isPowerUpActive, const CharacterPositions &positions = CharacterPositions()) override;
         void render(bool isPowerUpActive, uint8_t rowCellSize) override;
         void reset() override {};
 };
@@ -47,11 +57,10 @@ class Monster : public Character {
         Monster(const std::pair<float, float> &startingPosition, uint16_t monsterId);
         ~Monster() = default;
         //first two will move randomly, second two will chase
-        void move(PacManBoard &board, bool isPowerUpActive) override;
+        void move(PacManBoard &board, bool isPowerUpActive, const CharacterPositions &positions = CharacterPositions()) override;
         void render(bool isPowerUpActive, uint8_t rowCellSize) override;
         void reset() override {};
     private:
-        static const uint8_t maxNumMonsters = 5;
         uint16_t monsterId;
 };
 

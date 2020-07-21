@@ -13,7 +13,7 @@
 //MARK: Player methods
 Player::Player(const std::pair<float, float> &startingPosition) : Character(startingPosition) {}
 
-void Player::move(PacManBoard &board, bool isPowerUpActive) {
+void Player::move(PacManBoard &board, bool isPowerUpActive, const CharacterPositions &positions) {
     //change directions if needed
     if (EndGame::Input::isKeyPressed(EG_KEY_UP)) {
         currentFacing = Direction::up;
@@ -90,6 +90,6 @@ void Monster::render(bool isPowerUpActive, uint8_t rowCellSize) {
     EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({monsterX, monsterY, 0.6f}, false, {3.0f, 3.0f}, monsterColor));
 }
 
-void Monster::move(PacManBoard &board, bool isPowerUpActive) {
+void Monster::move(PacManBoard &board, bool isPowerUpActive, const CharacterPositions &positions) {
 
 }
