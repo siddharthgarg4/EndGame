@@ -70,7 +70,7 @@ void PacMan::update(const float &timeSinceStart, const float &dtime) {
 
 bool PacMan::isPlayerCaptured() {
     for(auto &monster: monsters) {
-        if (player->getPosition() == monster->getPosition() && currentPlayerState!=PlayerState::powerUp) {
+        if (player->isOverlappingWith(monster->getPosition()) && currentPlayerState!=PlayerState::powerUp) {
             return true;
         }
     }

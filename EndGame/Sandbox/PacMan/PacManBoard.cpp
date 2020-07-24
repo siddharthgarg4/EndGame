@@ -81,28 +81,23 @@ bool PacManBoard::isMoveValid(float x, float y) {
     return false;
 }
 
-bool PacManBoard::makeMoveIfValid(float x, float y) {
-    bool isCurrentMoveValid = isMoveValid(x, y);
-    if (isCurrentMoveValid) {
-        //move is valid thus update the board
-        float roundedX = roundIfNeeded(x);
-        float roundedY = roundIfNeeded(y);
-        int roundedXInt = (int) roundedX;
-        int roundedYInt = (int) roundedY;
-        if (roundedXInt == roundedX && roundedY == roundedYInt) {
-            char currentCellObject = board[(roundedYInt * rowCellSize)+roundedXInt];
-            switch(currentCellObject) {
-                case 'f': case 's': case 'c':
-                    board[(roundedYInt * rowCellSize)+roundedXInt] = 'e';
-                    numOfFoodLeft--;
-                    break;
-                case 'e': case 'o':
-                    break;
-            }
+void PacManBoard::updateBoardForPlayerMove(float x, float y) {
+    //round to nearest value if close to an int value to ensure it has actually reached that grid square
+    float roundedX = roundIfNeeded(x);
+    float roundedY = roundIfNeeded(y);
+    int roundedXInt = (int) roundedX;
+    int roundedYInt = (int) roundedY;
+    if (roundedXInt == roundedX && roundedY == roundedYInt) {
+        char currentCellObject = board[(roundedYInt * rowCellSize)+roundedXInt];
+        switch(currentCellObject) {
+            case 'f': case 's': case 'c':
+                board[(roundedYInt * rowCellSize)+roundedXInt] = 'e';
+                numOfFoodLeft--;
+                break;
+            case 'e': case 'o':
+                break;
         }
     }
-    //returns whether move was successfully made and valid or not
-    return isCurrentMoveValid;
 }
 
 float PacManBoard::roundIfNeeded(float i) {

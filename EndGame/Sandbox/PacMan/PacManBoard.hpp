@@ -25,7 +25,8 @@ class PacManBoard {
         bool isFoodLeft();
         //modifies the board if valid
         bool isMoveValid(float x, float y);
-        bool makeMoveIfValid(float x, float y);
+        //this method is only called if move is made and thus has been checked for validity
+        void updateBoardForPlayerMove(float x, float y);
         float roundIfNeeded(float i);
         std::array<char, numBoardCells> &getBoard();
     private:
