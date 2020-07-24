@@ -9,6 +9,20 @@
 #ifndef PacManBoard_hpp
 #define PacManBoard_hpp
 #include <array>
+#include <EndGame/EndGame.h>
+
+struct PacManBoardTextures {
+    std::shared_ptr<EndGame::Texture2D> blockTexture = nullptr;
+    std::shared_ptr<EndGame::Texture2D> foodTexture = nullptr;
+    std::shared_ptr<EndGame::Texture2D> strawberryTexture = nullptr;
+    std::shared_ptr<EndGame::Texture2D> cherryTexture = nullptr;
+    glm::vec4 emptyColor = glm::vec4(0.0f);
+    //constructors
+    PacManBoardTextures() {}
+    PacManBoardTextures(const std::shared_ptr<EndGame::Texture2D> blockTexture, const std::shared_ptr<EndGame::Texture2D> foodTexture, 
+        const std::shared_ptr<EndGame::Texture2D> strawberryTexture, const std::shared_ptr<EndGame::Texture2D> cherryTexture, const glm::vec4 &baseColor) :
+        blockTexture(blockTexture), foodTexture(foodTexture), strawberryTexture(strawberryTexture), cherryTexture(cherryTexture), emptyColor(baseColor) {}
+};
 
 class PacManBoard {
     public:
@@ -18,7 +32,7 @@ class PacManBoard {
         //since -1.0f to 1.0f
         static constexpr float renderedCellSize = (2.0f/rowCellSize);
         //methods
-        PacManBoard();
+        PacManBoard(const PacManBoardTextures &textures = PacManBoardTextures());
         ~PacManBoard() = default;
         void reset();
         void render();
@@ -35,6 +49,8 @@ class PacManBoard {
         int numOfFoodLeft = 0;
         //e - empty, o - obstacle, f - food, c - cherry, s - strawberry, p - player, m - monster
         std::array<char, numBoardCells> board;
+        //textures
+        PacManBoardTextures boardTextures;
 };
 
 #endif

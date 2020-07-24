@@ -17,6 +17,7 @@ class PacManLayer : public EndGame::Layer {
         static const std::string pacManWindowTitle;
         static const uint32_t pacManWindowHeight = 800;
         static const uint32_t pacManWindowWidth = 800;
+        static const glm::vec4 baseColor;
         //methods
         PacManLayer();
         ~PacManLayer() = default;
@@ -26,7 +27,7 @@ class PacManLayer : public EndGame::Layer {
         void onUpdate(const float &timeSinceStart, const float &dtime) override;
         void onRender(const float &alpha, const float &dtime) override;
     private:
-        PacMan game = PacMan();
+        PacMan game = PacMan(baseColor);
         EndGame::OrthographicCameraController cameraController;
 };
 

@@ -22,7 +22,7 @@ enum PlayerState {
 
 class PacMan {
     public:
-        PacMan();
+        PacMan(const glm::vec4 &baseColor);
         ~PacMan() = default;
         void onEvent(EndGame::Event &event);
         void update(const float &timeSinceStart, const float &dtime);
@@ -35,11 +35,13 @@ class PacMan {
         GameState currentGameState;
         PlayerState currentPlayerState;
         //board
-        PacManBoard board = PacManBoard();
+        PacManBoard board;
         //player and monsters
         static const int numMonsters = 4;
         std::unique_ptr<Character> player;
         std::array<std::unique_ptr<Character>, numMonsters> monsters;
+        //color
+        glm::vec4 baseColor;
 };
 
 #endif

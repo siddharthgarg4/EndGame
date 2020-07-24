@@ -17,7 +17,7 @@ namespace EndGame {
         std::string filepathRelativeToExe = RenderApiUtilities::filepathRelativeToExe(filepath);
         stbi_set_flip_vertically_on_load(1);
         stbi_uc *imageData = stbi_load(filepathRelativeToExe.c_str(), &width, &height, &channels, 0);
-        EG_ENGINE_ASSERT(imageData, "Failed to load image!");
+        EG_ENGINE_ASSERT(imageData!=NULL, stbi_failure_reason());
         //initializing class members
         this->height = height;
         this->width = width;
@@ -54,6 +54,14 @@ namespace EndGame {
 
     void OpenGlTexture2D::setTextureFormatForChannels(const int &numChannels) {
         switch(numChannels) {
+            case 1:
+                internalFormat = GL_RED;
+                dataFormat = GL_R8;
+                break;
+            case 2:
+                internalFormat = GL_RG;
+                dataFormat = GL_RG8;
+                break;
             case 3:
                 internalFormat = GL_RGB8;
                 dataFormat = GL_RGB;
@@ -70,6 +78,10 @@ namespace EndGame {
 
     uint32_t OpenGlTexture2D::bytesPerPixelForFormat(const uint32_t &format) {
         switch(format) {
+            case GL_RED: case GL_R8:
+                return 1;
+            case GL_RG: case GL_RG8:
+                return 2;
             case GL_RGB8: case GL_RGB:
                 return 3;
             case GL_RGBA8: case GL_RGBA:

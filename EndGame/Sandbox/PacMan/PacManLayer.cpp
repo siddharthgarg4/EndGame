@@ -10,6 +10,7 @@
 
 //defining the PacMan window title
 const std::string PacManLayer::pacManWindowTitle = "PacMan Game: Powered by EndGame Engine";
+const glm::vec4 PacManLayer::baseColor = {0.0f, 0.0f, 0.0f, 1.0f};
 
 PacManLayer::PacManLayer() : Layer("PacMan") {
     EndGame::OrthoCamControllerData data = EndGame::OrthoCamControllerData();
@@ -33,7 +34,7 @@ void PacManLayer::onUpdate(const float &timeSinceStart, const float &dtime) {
 
 void PacManLayer::onRender(const float &alpha, const float &dtime) {
     EndGame::RenderCommand::clear();
-    EndGame::RenderCommand::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+    EndGame::RenderCommand::setClearColor(baseColor);
     EndGame::Renderer2D::beginScene(cameraController.getCamera());
     game.render(alpha, dtime);
     EndGame::Renderer2D::endScene();

@@ -11,7 +11,7 @@
 #include <glm/glm.hpp>
 #include <EndGame/EndGame.h>
 
-PacManBoard::PacManBoard() {
+PacManBoard::PacManBoard(const PacManBoardTextures &textures) : boardTextures(textures) {
     reset();
 }
 
@@ -111,38 +111,33 @@ float PacManBoard::roundIfNeeded(float i) {
 void PacManBoard::render() {
     //render board
     int x, y = 0;
-    glm::vec4 cellColor;
     for (int i=0; i<numBoardCells; i++) {
         x = i%rowCellSize;
         //needs to go from 19 to 0
         y = (rowCellSize-1) - i/rowCellSize;
         char currentCellState = board[i];
         switch(currentCellState) {
-            case 'e':
-                //black
-                cellColor = {0.0f, 0.0f, 0.0f, 1.0f}; 
-                break;
             case 'o':
-                //white
-                cellColor = {1.0f, 1.0f, 1.0f, 1.0f}; 
+                EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({x*renderedCellSize, y*renderedCellSize}, 
+                    0.0f, {renderedCellSize, renderedCellSize}, boardTextures.blockTexture, 1.0f));
                 break;
             case 'f':
-                //green
-                cellColor = {0.2f, 0.8, 0.2f, 1.0f}; 
+                EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({x*renderedCellSize, y*renderedCellSize}, 
+                    0.0f, {renderedCellSize, renderedCellSize}, boardTextures.foodTexture, 1.0f));
                 break;
             case 'c':
-                //red
-                cellColor = {0.8f, 0.3f, 0.4, 1.0f}; 
+                EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({x*renderedCellSize, y*renderedCellSize}, 
+                    0.0f, {renderedCellSize, renderedCellSize}, boardTextures.cherryTexture, 1.0f));
                 break;
             case 's':
-                //blue
-                cellColor = {0.2f, 0.3f, 0.9f, 1.0f}; 
+                EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({x*renderedCellSize, y*renderedCellSize}, 
+                    0.0f, {renderedCellSize, renderedCellSize}, boardTextures.strawberryTexture, 1.0f));
                 break;
-            defaul:
-                cellColor = {1.0f, 0.0f, 1.0f, 1.0f}; 
+            case 'e': default:
+                EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({x*renderedCellSize, y*renderedCellSize}, 
+                    0.0f, {renderedCellSize, renderedCellSize}, boardTextures.emptyColor));
                 break;
         }
-        EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({x*renderedCellSize, y*renderedCellSize}, false, {renderedCellSize, renderedCellSize}, cellColor));
     }
 }
 

@@ -8,7 +8,15 @@
 
 #include "PacMan.hpp"
 
-PacMan::PacMan() {
+PacMan::PacMan(const glm::vec4 &baseColor) : baseColor(baseColor) {
+    //setting up board textures
+    board = PacManBoard(PacManBoardTextures(
+        EndGame::RenderApiFactory::createTexture2D("Sandbox/PacMan/assets/block.png"),
+        EndGame::RenderApiFactory::createTexture2D("Sandbox/PacMan/assets/food.png"),
+        EndGame::RenderApiFactory::createTexture2D("Sandbox/PacMan/assets/food.png"),
+        EndGame::RenderApiFactory::createTexture2D("Sandbox/PacMan/assets/food.png"),
+        baseColor
+    ));
     reset();
 }
 
