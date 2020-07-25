@@ -81,6 +81,8 @@ namespace EndGame {
             static void shutdown();
             static void beginScene(const OrthographicCamera &camera);
             static void endScene();
+            //sorts buffer by z-index first, however be careful if using more than max number of textures
+            //as it could cause items with higher z index to be rendered first
             static void flushVertexBuffer();
             //primitives
             static void drawQuad(QuadRendererData data = QuadRendererData(), bool shouldRotate = false);

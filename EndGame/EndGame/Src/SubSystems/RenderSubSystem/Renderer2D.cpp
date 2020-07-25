@@ -67,6 +67,10 @@ namespace EndGame {
     }
 
     void Renderer2D::flushVertexBuffer() {
+        //sort quadVertexBufferData by z-index to render textures with lower z index first
+        std::sort(storage->quadVertexBufferData.begin(), storage->quadVertexBufferData.begin() + storage->quadVertexBufferDataSize, [](const QuadVertexData &first, const QuadVertexData &second){
+            return first.position.z < second.position.z;
+        });
         storage->quadShader->bind();
         storage->quadVertexBuffer->setData(storage->quadVertexBufferDataSize * sizeof(QuadVertexData), storage->quadVertexBufferData.data());
         storage->quadVertexArray->bind();
