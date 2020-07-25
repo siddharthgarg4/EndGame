@@ -100,7 +100,7 @@ void Player::render(PacManBoard &board, bool isPowerUpActive, const float &alpha
     //z based on power up or not and who can eat who
     EG_ASSERT(characterTextures.size()<3, "Too few character textures provided for player!");
     static int renderingCount = 0;
-    static const int pacManTextureEatingInterval = 10;  //simulate animation by changing textures every 10 frames
+    static const int pacManTextureEatingInterval = 15;  //simulate animation by changing textures every 10 frames
     std::shared_ptr<EndGame::Texture2D> playerTexture;
     if (currentFacingDirection == Direction::noDirection) {
         playerTexture = characterTextures.at(0);
@@ -109,7 +109,8 @@ void Player::render(PacManBoard &board, bool isPowerUpActive, const float &alpha
     } else {
         playerTexture = characterTextures.at(2);
     }
-    EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({playerX, playerY, 0.6f}, static_cast<std::underlying_type<Direction>::type>(currentFacingDirection), 
+    float zIndex = isPowerUpActive ? 0.2f : 0.1f;
+    EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({playerX, playerY, zIndex}, static_cast<std::underlying_type<Direction>::type>(currentFacingDirection), 
         {board.renderedCellSize*1.5, board.renderedCellSize*1.5}, playerTexture, 1.0f), true);
     renderingCount++;
 }
@@ -164,7 +165,10 @@ void Monster::render(PacManBoard &board, bool isPowerUpActive, const float &alph
             monsterTexture = characterTextures.at(3);
             break;
     }
-    EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({monsterX, monsterY, 0.6f}, false, 
+    float zIndex = isPowerUpActive ? 0.1f : 0.2f;
+    //to render different monsters on different planes in case of overlap
+    zIndex += monsterId * 0.01f;
+    EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({monsterX, monsterY, zIndex}, false, 
         {board.renderedCellSize*1.5, board.renderedCellSize*1.5}, monsterTexture, 1.0f));
 }
 

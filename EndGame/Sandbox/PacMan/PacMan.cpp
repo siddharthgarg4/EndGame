@@ -116,9 +116,17 @@ void PacMan::render(const float &alpha, const float &dtime) {
             bool isPowerUpActive = currentPlayerState==PlayerState::powerUp;
             //board does not move thus does not need dtime and alpha
             board.render();
-            player->render(board, isPowerUpActive, alpha, dtime);
-            for(auto &monster: monsters) {
-                monster->render(board, isPowerUpActive, alpha, dtime);
+            if (isPowerUpActive) {
+                //render monsters first since the player should overlap them
+                for(auto &monster: monsters) {
+                    monster->render(board, isPowerUpActive, alpha, dtime);
+                }
+                player->render(board, isPowerUpActive, alpha, dtime);
+            } else {
+                player->render(board, isPowerUpActive, alpha, dtime);
+                for(auto &monster: monsters) {
+                    monster->render(board, isPowerUpActive, alpha, dtime);
+                }
             }
             break;
         }
