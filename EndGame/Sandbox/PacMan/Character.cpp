@@ -30,7 +30,7 @@
 }
 
 bool Character::isOverlappingWith(const std::pair<float, float> &otherPosition) {
-    return areCharacterPositionsOverlapping(position.first, position.second, otherPosition.first, otherPosition.second);
+    return areCharacterPositionsOverlapping(currentPosition.first, currentPosition.second, otherPosition.first, otherPosition.second);
 }
 
 Direction Character::oppositeDirection(Direction currentFacingDirection) {
@@ -49,19 +49,19 @@ std::pair<float, float> Character::characterNewPosition(float x, float y, Direct
     switch(direction) {
         case up:
             characterNewPositionY-=movementPerDtime;
-            characterNewPositionX=board.roundIfNeeded(position.first);
+            characterNewPositionX=board.roundIfNeeded(currentPosition.first);
             break;
         case down:
             characterNewPositionY+=movementPerDtime;
-            characterNewPositionX=board.roundIfNeeded(position.first);
+            characterNewPositionX=board.roundIfNeeded(currentPosition.first);
             break;
         case left:
             characterNewPositionX-=movementPerDtime;
-            characterNewPositionY=board.roundIfNeeded(position.second);
+            characterNewPositionY=board.roundIfNeeded(currentPosition.second);
             break;
         case right:
             characterNewPositionX+=movementPerDtime;
-            characterNewPositionY=board.roundIfNeeded(position.second);
+            characterNewPositionY=board.roundIfNeeded(currentPosition.second);
             break;
         case noDirection:
             break;
@@ -70,93 +70,110 @@ std::pair<float, float> Character::characterNewPosition(float x, float y, Direct
 }
 
 //MARK: Player methods
-Player::Player(const std::pair<float, float> &startingPosition) : Character(startingPosition) {}
+Player::Player(const std::pair<float, float> &defaultPosition, const std::vector<std::shared_ptr<EndGame::Texture2D>> &textures) : Character(defaultPosition, textures) {}
 
 void Player::move(PacManBoard &board, bool isPowerUpActive, const float &timeSinceStart, const float &dtime, const CharacterPositions &positions) {
     //change directions if needed
     if (EndGame::Input::isKeyPressed(EG_KEY_UP)) {
-        currentFacing = Direction::up;
+        currentFacingDirection = Direction::up;
     } else if (EndGame::Input::isKeyPressed(EG_KEY_DOWN)) {
-        currentFacing = Direction::down;
+        currentFacingDirection = Direction::down;
     }else if (EndGame::Input::isKeyPressed(EG_KEY_LEFT)) {
-        currentFacing = Direction::left;
+        currentFacingDirection = Direction::left;
     } else if (EndGame::Input::isKeyPressed(EG_KEY_RIGHT)) {
-        currentFacing = Direction::right;
+        currentFacingDirection = Direction::right;
     }
     //get next frame position
-    position = nextFramePosition(board, dtime);
-    board.updateBoardForPlayerMove(position.first, position.second);
+    currentPosition = nextFramePosition(board, dtime);
+    board.updateBoardForPlayerMove(currentPosition.first, currentPosition.second);
 }
 
 void Player::render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime){
-    glm::vec4 playerColor = {0.705f, 0.4f, 1.0f, 1.0f};
     std::pair<float, float> nextFramePlayerCoord = nextFramePosition(board, dtime);
-    float interpolatedPlayerX = (position.first * (1-alpha)) + (nextFramePlayerCoord.first * alpha);
-    float interpolatedPlayerY = (position.second * (1-alpha)) + (nextFramePlayerCoord.second * alpha);
+    float interpolatedPlayerX = (currentPosition.first * (1-alpha)) + (nextFramePlayerCoord.first * alpha);
+    float interpolatedPlayerY = (currentPosition.second * (1-alpha)) + (nextFramePlayerCoord.second * alpha);
     //checking validity of interpolated position
     bool isInterpolatedCoordValid = board.isMoveValid(interpolatedPlayerX, interpolatedPlayerY);
-    float playerX = (isInterpolatedCoordValid ? interpolatedPlayerX : position.first) * board.renderedCellSize;
+    float playerX = (isInterpolatedCoordValid ? interpolatedPlayerX : currentPosition.first) * board.renderedCellSize;
     //-1 since it should go from 19 to 0
-    float playerY = (board.rowCellSize - (isInterpolatedCoordValid ? interpolatedPlayerY : position.second) - 1) * board.renderedCellSize;
-    //rotation based on direction facing!!
-    //rotation = directionFacing
+    float playerY = (board.rowCellSize - (isInterpolatedCoordValid ? interpolatedPlayerY : currentPosition.second) - 1) * board.renderedCellSize;
     //z based on power up or not and who can eat who
-    EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({playerX, playerY, 0.6f}, 0, {board.renderedCellSize*1.5, board.renderedCellSize*1.5}, playerColor), true);
+    EG_ASSERT(characterTextures.size()<3, "Too few character textures provided for player!");
+    static int renderingCount = 0;
+    static const int pacManTextureEatingInterval = 10;  //simulate animation by changing textures every 10 frames
+    std::shared_ptr<EndGame::Texture2D> playerTexture;
+    if (currentFacingDirection == Direction::noDirection) {
+        playerTexture = characterTextures.at(0);
+    } else if ((renderingCount/pacManTextureEatingInterval)%2==0) {
+        playerTexture = characterTextures.at(1);
+    } else {
+        playerTexture = characterTextures.at(2);
+    }
+    EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({playerX, playerY, 0.6f}, static_cast<std::underlying_type<Direction>::type>(currentFacingDirection), 
+        {board.renderedCellSize*1.5, board.renderedCellSize*1.5}, playerTexture, 1.0f), true);
+    renderingCount++;
+}
+
+void Player::reset() {
+    currentPosition = defaultPosition;
+    currentFacingDirection = Direction::noDirection;
 }
 
 std::pair<float, float> Player::nextFramePosition(PacManBoard &board, const float &dtime) {
     //returns next frame position for player
     const float movementPerDtime = movementSpeed*dtime;
-    std::pair<float, float> playerNextFramePosition = characterNewPosition(position.first, position.second, currentFacing, board, movementPerDtime);
+    std::pair<float, float> playerNextFramePosition = characterNewPosition(currentPosition.first, currentPosition.second, currentFacingDirection, board, movementPerDtime);
     //if move is valid return the move else return current position (i.e. no move if not valid)
-    return board.isMoveValid(playerNextFramePosition.first, playerNextFramePosition.second) ? playerNextFramePosition : position;
+    return board.isMoveValid(playerNextFramePosition.first, playerNextFramePosition.second) ? playerNextFramePosition : currentPosition;
 }
 
 //MARK: Monster methods
-Monster::Monster(const std::pair<float, float> &startingPosition, uint16_t monsterId, MonsterChaseStrategy strategy) : 
-    Character(startingPosition), monsterId(monsterId), defaultStrategy(strategy) {
+Monster::Monster(const std::pair<float, float> &defaultPosition, const std::vector<std::shared_ptr<EndGame::Texture2D>> &textures, uint16_t monsterId, MonsterChaseStrategy defaultStrategy) : 
+    Character(defaultPosition, textures), monsterId(monsterId), directionLock(false), defaultStrategy(defaultStrategy), targetPosition(std::make_pair(-1.0f, -1.0f)) {
         //starts off with default strategy
         currentStrategy = defaultStrategy;
-        targetPosition = std::make_pair(-1.0f, -1.0f);
-}
+    }
 
 void Monster::move(PacManBoard &board, bool isPowerUpActive, const float &timeSinceStart, const float &dtime, const CharacterPositions &positions) {
     //also change current chase strategy based on timeSinceStart
     MonsterMove nextMove = nextFramePosition(dtime, board, positions);
-    currentFacing = nextMove.newDirection;
-    position = nextMove.newPosition;
+    currentFacingDirection = nextMove.newDirection;
+    currentPosition = nextMove.newPosition;
     directionLock = nextMove.isDirectionLock;
     targetPosition = nextMove.targetPosition;
 }
 
 void Monster::render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime) {
-    //needs to be updated properly like player
-    //based on direction facing change rotation
-    glm::vec4 monsterColor;
-    float monsterX = position.first * board.renderedCellSize;
+    //IMPORTANT::::: needs to be updated properly like player
+    float monsterX = currentPosition.first * board.renderedCellSize;
     //since it should go from 19 to 0
-    float monsterY = (board.rowCellSize - position.second -1) * board.renderedCellSize;
-    switch(monsterId) {
-        case 0:
-            monsterColor = {0.078f, 0.662f, 0.960f, 1.0f};
+    float monsterY = (board.rowCellSize - currentPosition.second -1) * board.renderedCellSize;
+    EG_ASSERT(characterTextures.size()<4, "Too few character textures provided for monster!");
+    std::shared_ptr<EndGame::Texture2D> monsterTexture;
+    switch(currentFacingDirection) {
+        case Direction::right:
+            monsterTexture = characterTextures.at(0);
             break;
-        case 1:
-            monsterColor = {0.96f, 0.5f, 0.078f, 1.0f};
+        case Direction::up: 
+            monsterTexture = characterTextures.at(1);
             break;
-        case 2:
-            monsterColor = {0.96f, 0.91f, 0.078f, 1.0f};
+        case Direction::left:
+            monsterTexture = characterTextures.at(2);
             break;
-        case 3:
-            monsterColor = {0.2f, 0.078f, 0.96f, 1.0f};
+        case Direction::noDirection: case Direction::down: default:
+            monsterTexture = characterTextures.at(3);
             break;
-        case 4:
-            monsterColor = {1.0f, 0.0f, 1.0f, 1.0f};
-            break;
-        default:
-            EG_ENGINE_ASSERT(false, "invalid monster id, maximum monsters = 5");
     }
     EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({monsterX, monsterY, 0.6f}, false, 
-        {board.renderedCellSize*1.5, board.renderedCellSize*1.5}, monsterColor));
+        {board.renderedCellSize*1.5, board.renderedCellSize*1.5}, monsterTexture, 1.0f));
+}
+
+void Monster::reset() {
+    currentPosition = defaultPosition;
+    currentFacingDirection = Direction::noDirection;
+    currentStrategy = defaultStrategy;
+    directionLock = false;
+    targetPosition = std::make_pair(-1.0f, -1.0f);
 }
 
 MonsterMove Monster::nextFramePosition(const float &dtime, PacManBoard &board, const CharacterPositions &positions) {
@@ -169,10 +186,10 @@ MonsterMove Monster::nextFramePosition(const float &dtime, PacManBoard &board, c
     std::vector<MonsterMove> possibleMoves;
     //every direction except moving backwards
     possibleMoves.reserve(numDirections-1); 
-    Direction oppositeDirectionToFacing = oppositeDirection(currentFacing);
+    Direction oppositeDirectionToFacing = oppositeDirection(currentFacingDirection);
     for (auto &direction : directions) {
         if (oppositeDirectionToFacing != direction) {
-            std::pair<float, float> monsterMoveNewPosition = characterNewPosition(position.first, position.second, direction, board, movementPerDtime);
+            std::pair<float, float> monsterMoveNewPosition = characterNewPosition(currentPosition.first, currentPosition.second, direction, board, movementPerDtime);
             if (isMonsterMoveValid(monsterMoveNewPosition, board, positions)) {
                 //only adds valid moves
                 possibleMoves.emplace_back(monsterMoveNewPosition, direction);
@@ -185,7 +202,7 @@ MonsterMove Monster::nextFramePosition(const float &dtime, PacManBoard &board, c
             if (directionLock) {
                 //try to move in the same direction else error and return current position
                 for (auto &move:possibleMoves) {
-                    if (currentFacing == move.newDirection) {
+                    if (currentFacingDirection == move.newDirection) {
                         //checking lock and target position
                         move.isDirectionLock = !shouldTurnOffDirectionLockForMove(move.newPosition);
                         move.targetPosition = move.isDirectionLock ? targetPosition : std::make_pair(-1.0f, -1.0f);
@@ -211,23 +228,23 @@ MonsterMove Monster::nextFramePosition(const float &dtime, PacManBoard &board, c
         case MonsterChaseStrategy::frightenedStrategy: break;
     }
     //since none of front, left, right worked, need to try opposite direction
-    std::pair<float, float> oppositeDirectionMove = characterNewPosition(position.first, position.second, oppositeDirectionToFacing, board, movementPerDtime);
+    std::pair<float, float> oppositeDirectionMove = characterNewPosition(currentPosition.first, currentPosition.second, oppositeDirectionToFacing, board, movementPerDtime);
     //if opposite direction move is valid return it else return current position and direction
     return isMonsterMoveValid(oppositeDirectionMove, board, positions) ? MonsterMove(oppositeDirectionMove, oppositeDirectionToFacing, true, targetPositionForDirection(oppositeDirectionToFacing)) 
-        : MonsterMove(position, currentFacing, directionLock, targetPosition);
+        : MonsterMove(currentPosition, currentFacingDirection, directionLock, targetPosition);
 }
 
 bool Monster::shouldTurnOffDirectionLockForMove(const std::pair<float, float> &newPosition) {
     int xBaseHundred = ((int)trunc(newPosition.first*100.0f))%100;
     int yBaseHundred = ((int)trunc(newPosition.second*100.0f))%100;
-    int xRounded = round(position.first);
-    int yRounded = round(position.second);
+    int xRounded = round(currentPosition.first);
+    int yRounded = round(currentPosition.second);
     int targetxRounded = round(targetPosition.first);
     int targetyRounded = round(targetPosition.second);
-    if ((xBaseHundred >= 85 && currentFacing == Direction::right && xRounded == targetxRounded) ||
-        (xBaseHundred <= 15 && currentFacing == Direction::left  && xRounded == targetxRounded) ||
-        (yBaseHundred >= 85 && currentFacing == Direction::down  && yRounded == targetyRounded) ||
-        (yBaseHundred <= 15 && currentFacing == Direction::up    && yRounded == targetyRounded)) {
+    if ((xBaseHundred >= 85 && currentFacingDirection == Direction::right && xRounded == targetxRounded) ||
+        (xBaseHundred <= 15 && currentFacingDirection == Direction::left  && xRounded == targetxRounded) ||
+        (yBaseHundred >= 85 && currentFacingDirection == Direction::down  && yRounded == targetyRounded) ||
+        (yBaseHundred <= 15 && currentFacingDirection == Direction::up    && yRounded == targetyRounded)) {
         //checking if the monster has moved approximately one unit in the direction of lock, if it has then turn lock off
         return true;
     }
@@ -238,16 +255,16 @@ bool Monster::shouldTurnOffDirectionLockForMove(const std::pair<float, float> &n
 std::pair<float, float> Monster::targetPositionForDirection(Direction newDirection) {
     switch(newDirection) {
         case Direction::up:
-            return std::make_pair(position.first, position.second+1);
+            return std::make_pair(currentPosition.first, currentPosition.second+1);
         case Direction::down:
-            return std::make_pair(position.first, position.second-1);
+            return std::make_pair(currentPosition.first, currentPosition.second-1);
         case Direction::right:
-            return std::make_pair(position.first+1, position.second);
+            return std::make_pair(currentPosition.first+1, currentPosition.second);
         case Direction::left:
-            return std::make_pair(position.first-1, position.second);
+            return std::make_pair(currentPosition.first-1, currentPosition.second);
         case Direction::noDirection: default:
             EG_WARNING("No direction detected in possible moves!");
-            return position;
+            return currentPosition;
     }
 }
 
@@ -255,7 +272,7 @@ bool Monster::isMonsterMoveValid(std::pair<float, float> &move, PacManBoard &boa
     if (board.isMoveValid(move.first, move.second)) {
         //the move is valid by board, need to check overlap with other monsters
         for (auto &monsterPosition: positions.monsterPositions) {
-            if (position != monsterPosition) {
+            if (currentPosition != monsterPosition) {
                 //ensure the position we are considering is another monster's
                 if (areCharacterPositionsOverlapping(move.first, move.second, monsterPosition.first, monsterPosition.second)) {
                     return false;   //move overlapped with another monster position

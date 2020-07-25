@@ -32,18 +32,21 @@ struct CharacterPositions {
 
 class Character {
     public:
-        Character(const std::pair<float, float> &startingPosition) : position(startingPosition) {}
+        Character(const std::pair<float, float> &defaultPosition, const std::vector<std::shared_ptr<EndGame::Texture2D>> &textures) 
+            : defaultPosition(defaultPosition), characterTextures(textures) { currentPosition = defaultPosition; }
         virtual ~Character() = default;
-        virtual const std::pair<float, float> &getPosition() { return position; }
-        virtual const Direction &getDirection() { return currentFacing; }
+        virtual const std::pair<float, float> &getCurrentPosition() { return currentPosition; }
+        virtual const Direction &getDirection() { return currentFacingDirection; }
         virtual void move(PacManBoard &board, bool isPowerUpActive, const float &timeSinceStart, const float &dtime, const CharacterPositions &positions = CharacterPositions()) = 0;
         virtual void render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime) = 0;
         virtual void reset() = 0;
         bool isOverlappingWith(const std::pair<float, float> &otherPosition);
     protected:
         static constexpr float movementSpeed = 2.5f;
-        std::pair<float, float> position;
-        Direction currentFacing = Direction::noDirection;
+        std::pair<float, float> currentPosition;
+        const std::pair<float, float> defaultPosition;
+        Direction currentFacingDirection = Direction::noDirection;
+        std::vector<std::shared_ptr<EndGame::Texture2D>> characterTextures;
         //utility methods
         bool areCharacterPositionsOverlapping(float x1, float y1, float x2, float y2);
         Direction oppositeDirection(Direction currentFacingDirection);
@@ -52,11 +55,11 @@ class Character {
 
 class Player : public Character {
     public:
-        Player(const std::pair<float, float> &startingPosition);
+        Player(const std::pair<float, float> &defaultPosition, const std::vector<std::shared_ptr<EndGame::Texture2D>> &textures);
         ~Player() = default;
         void move(PacManBoard &board, bool isPowerUpActive, const float &timeSinceStart, const float &dtime, const CharacterPositions &positions = CharacterPositions()) override;
         void render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime) override;
-        void reset() override {};
+        void reset() override;
     private:
         //returns the valid position else returns current positin
         std::pair<float, float> nextFramePosition(PacManBoard &board, const float &dtime);
@@ -82,19 +85,18 @@ struct MonsterMove {
 
 class Monster : public Character {
     public:
-        Monster(const std::pair<float, float> &startingPosition, uint16_t monsterId, MonsterChaseStrategy defaultStrategy = MonsterChaseStrategy::randomStrategy);
+        Monster(const std::pair<float, float> &defaultPosition, const std::vector<std::shared_ptr<EndGame::Texture2D>> &textures, uint16_t monsterId, MonsterChaseStrategy defaultStrategy = MonsterChaseStrategy::randomStrategy);
         ~Monster() = default;
         //first two will move randomly, second two will chase
         void move(PacManBoard &board, bool isPowerUpActive, const float &timeSinceStart, const float &dtime, const CharacterPositions &positions = CharacterPositions()) override;
         void render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime) override;
-        void reset() override {};
+        void reset() override;
     private:
         //elements
         uint16_t monsterId;
         bool directionLock;                         //ensure the monster moves atleast one block once decision is made
         MonsterChaseStrategy defaultStrategy;       //default chase strategy
         MonsterChaseStrategy currentStrategy;       //current chase strategy
-        // std::pair<float, float> defaultPosition;    //if monster is eaten during power up
         // std::pair<float, float> scatterPosition;    //scatter
         std::pair<float, float> targetPosition;     //trap/chase/random
         //methods
