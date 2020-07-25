@@ -11,10 +11,10 @@
 PacMan::PacMan(const glm::vec4 &baseColor) : baseColor(baseColor) {
     //setting up board textures
     board = PacManBoard(PacManBoardTextures(
-        EndGame::RenderApiFactory::createTexture2D("Sandbox/PacMan/assets/block.png"),
+        EndGame::RenderApiFactory::createTexture2D("Sandbox/PacMan/assets/block5.png"),
         EndGame::RenderApiFactory::createTexture2D("Sandbox/PacMan/assets/food.png"),
-        EndGame::RenderApiFactory::createTexture2D("Sandbox/PacMan/assets/food.png"),
-        EndGame::RenderApiFactory::createTexture2D("Sandbox/PacMan/assets/food.png"),
+        EndGame::RenderApiFactory::createTexture2D("Sandbox/PacMan/assets/strawberry.png"),
+        EndGame::RenderApiFactory::createTexture2D("Sandbox/PacMan/assets/cherry.png"),
         baseColor
     ));
     //setting up player
@@ -47,6 +47,10 @@ PacMan::PacMan(const glm::vec4 &baseColor) : baseColor(baseColor) {
         monsterTexture.clear();
     }
     reset();
+    startScreenTexture = EndGame::RenderApiFactory::createTexture2D("Sandbox/PacMan/assets/start.png");
+    pausedScreenTexture = EndGame::RenderApiFactory::createTexture2D("Sandbox/PacMan/assets/paused.png");
+    overScreenTexture = EndGame::RenderApiFactory::createTexture2D("Sandbox/PacMan/assets/over.png");
+    victoryScreenTexture = EndGame::RenderApiFactory::createTexture2D("Sandbox/PacMan/assets/victory.png");
 }
 
 void PacMan::onEvent(EndGame::Event &event) {
@@ -106,27 +110,27 @@ bool PacMan::isPlayerCaptured() {
 }
 
 void PacMan::render(const float &alpha, const float &dtime) {
-    //only pass rendering commands if in running state
-    //else render the appropriate quads from here with the messages
+    bool isPowerUpActive = currentPlayerState==PlayerState::powerUp;
+    //board does not move thus does not need dtime and alpha
+    board.render();
+    //rendering characters
+    CharacterPositions positions = getCurrentCharacterPositions();
+    player->render(board, isPowerUpActive, alpha, dtime, positions, currentGameState==GameState::running);
+    for(auto &monster: monsters) {
+        monster->render(board, isPowerUpActive, alpha, dtime, positions, currentGameState==GameState::running);
+    }
     switch(currentGameState) {
         case paused:
+            EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({1.0f, 1.0f, 1.0f}, 0.0f, {1.0f, 1.0f}, pausedScreenTexture, 1.0f));
             break;
         case running:
-        {
-            bool isPowerUpActive = currentPlayerState==PlayerState::powerUp;
-            //board does not move thus does not need dtime and alpha
-            board.render();
-            //rendering characters
-            CharacterPositions positions = getCurrentCharacterPositions();
-            player->render(board, isPowerUpActive, alpha, dtime, positions);
-            for(auto &monster: monsters) {
-                monster->render(board, isPowerUpActive, alpha, dtime, positions);
-            }
             break;
-        }
         case ended:
+            //check if food is left to see if game ended due to victory or loss
+            EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({1.0f, 1.0f, 1.0f}, 0.0f, {1.0f, 1.0f}, (board.isFoodLeft() ? overScreenTexture : victoryScreenTexture), 1.0f));
             break;
         case startScreen:
+            EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({1.0f, 1.0f, 1.0f}, 0.0f, {1.0f, 1.0f}, startScreenTexture, 1.0f));
             break;
     }
 }

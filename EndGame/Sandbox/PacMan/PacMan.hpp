@@ -43,6 +43,11 @@ class PacMan {
         std::array<std::unique_ptr<Character>, numMonsters> monsters;
         //color
         glm::vec4 baseColor;
+        //textures
+        std::shared_ptr<EndGame::Texture2D> startScreenTexture;
+        std::shared_ptr<EndGame::Texture2D> pausedScreenTexture;
+        std::shared_ptr<EndGame::Texture2D> overScreenTexture;
+        std::shared_ptr<EndGame::Texture2D> victoryScreenTexture;
 };
 
 #endif

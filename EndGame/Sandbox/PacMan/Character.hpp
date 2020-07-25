@@ -38,7 +38,7 @@ class Character {
         virtual const std::pair<float, float> &getCurrentPosition() { return currentPosition; }
         virtual const Direction &getDirection() { return currentFacingDirection; }
         virtual void move(PacManBoard &board, bool isPowerUpActive, const float &timeSinceStart, const float &dtime, const CharacterPositions &positions) = 0;
-        virtual void render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime, const CharacterPositions &positions) = 0;
+        virtual void render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime, const CharacterPositions &positions, bool isGameRunning) = 0;
         virtual void reset() = 0;
         bool isOverlappingWith(const std::pair<float, float> &otherPosition);
     protected:
@@ -58,7 +58,7 @@ class Player : public Character {
         Player(const std::pair<float, float> &defaultPosition, const std::vector<std::shared_ptr<EndGame::Texture2D>> &textures);
         ~Player() = default;
         void move(PacManBoard &board, bool isPowerUpActive, const float &timeSinceStart, const float &dtime, const CharacterPositions &positions) override;
-        void render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime, const CharacterPositions &positions) override;
+        void render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime, const CharacterPositions &positions, bool isGameRunning) override;
         void reset() override;
     private:
         //returns the valid position else returns current positin
@@ -89,7 +89,7 @@ class Monster : public Character {
         ~Monster() = default;
         //first two will move randomly, second two will chase
         void move(PacManBoard &board, bool isPowerUpActive, const float &timeSinceStart, const float &dtime, const CharacterPositions &positions) override;
-        void render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime, const CharacterPositions &positions) override;
+        void render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime, const CharacterPositions &positions, bool isGameRunning) override;
         void reset() override;
     private:
         //elements
