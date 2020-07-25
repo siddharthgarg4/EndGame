@@ -26,7 +26,7 @@ struct CharacterPositions {
     Direction playerDirection = Direction::noDirection;
     //constructors
     CharacterPositions() : playerPosition({0, 0}), monsterPositions() {}
-    CharacterPositions(Direction playerDirection, std::pair<float, float> &playerPosition, std::vector<std::pair<float, float>> &monsterPositions) :
+    CharacterPositions(const Direction playerDirection, const std::pair<float, float> &playerPosition, const std::vector<std::pair<float, float>> &monsterPositions) :
         playerDirection(playerDirection), playerPosition(playerPosition), monsterPositions(monsterPositions) {}
 };
 
@@ -37,8 +37,8 @@ class Character {
         virtual ~Character() = default;
         virtual const std::pair<float, float> &getCurrentPosition() { return currentPosition; }
         virtual const Direction &getDirection() { return currentFacingDirection; }
-        virtual void move(PacManBoard &board, bool isPowerUpActive, const float &timeSinceStart, const float &dtime, const CharacterPositions &positions = CharacterPositions()) = 0;
-        virtual void render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime) = 0;
+        virtual void move(PacManBoard &board, bool isPowerUpActive, const float &timeSinceStart, const float &dtime, const CharacterPositions &positions) = 0;
+        virtual void render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime, const CharacterPositions &positions) = 0;
         virtual void reset() = 0;
         bool isOverlappingWith(const std::pair<float, float> &otherPosition);
     protected:
@@ -57,8 +57,8 @@ class Player : public Character {
     public:
         Player(const std::pair<float, float> &defaultPosition, const std::vector<std::shared_ptr<EndGame::Texture2D>> &textures);
         ~Player() = default;
-        void move(PacManBoard &board, bool isPowerUpActive, const float &timeSinceStart, const float &dtime, const CharacterPositions &positions = CharacterPositions()) override;
-        void render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime) override;
+        void move(PacManBoard &board, bool isPowerUpActive, const float &timeSinceStart, const float &dtime, const CharacterPositions &positions) override;
+        void render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime, const CharacterPositions &positions) override;
         void reset() override;
     private:
         //returns the valid position else returns current positin
@@ -88,8 +88,8 @@ class Monster : public Character {
         Monster(const std::pair<float, float> &defaultPosition, const std::vector<std::shared_ptr<EndGame::Texture2D>> &textures, uint16_t monsterId, MonsterChaseStrategy defaultStrategy = MonsterChaseStrategy::randomStrategy);
         ~Monster() = default;
         //first two will move randomly, second two will chase
-        void move(PacManBoard &board, bool isPowerUpActive, const float &timeSinceStart, const float &dtime, const CharacterPositions &positions = CharacterPositions()) override;
-        void render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime) override;
+        void move(PacManBoard &board, bool isPowerUpActive, const float &timeSinceStart, const float &dtime, const CharacterPositions &positions) override;
+        void render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime, const CharacterPositions &positions) override;
         void reset() override;
     private:
         //elements

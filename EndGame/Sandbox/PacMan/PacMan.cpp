@@ -89,9 +89,9 @@ void PacMan::update(const float &timeSinceStart, const float &dtime) {
         currentGameState = GameState::ended;
     } else if (currentGameState == GameState::running) {
         bool isPowerUpActive = currentPlayerState==PlayerState::powerUp;
-        player->move(board, isPowerUpActive, timeSinceStart, dtime);
+        player->move(board, isPowerUpActive, timeSinceStart, dtime, getCurrentCharacterPositions());
         for(auto &monster: monsters) {
-            monster->move(board, isPowerUpActive, timeSinceStart, dtime);
+            monster->move(board, isPowerUpActive, timeSinceStart, dtime, getCurrentCharacterPositions());
         }
     }
 }
@@ -117,9 +117,10 @@ void PacMan::render(const float &alpha, const float &dtime) {
             //board does not move thus does not need dtime and alpha
             board.render();
             //rendering characters
-            player->render(board, isPowerUpActive, alpha, dtime);
+            CharacterPositions positions = getCurrentCharacterPositions();
+            player->render(board, isPowerUpActive, alpha, dtime, positions);
             for(auto &monster: monsters) {
-                monster->render(board, isPowerUpActive, alpha, dtime);
+                monster->render(board, isPowerUpActive, alpha, dtime, positions);
             }
             break;
         }
@@ -128,4 +129,14 @@ void PacMan::render(const float &alpha, const float &dtime) {
         case startScreen:
             break;
     }
+}
+
+CharacterPositions PacMan::getCurrentCharacterPositions() {
+    static std::vector<std::pair<float, float>> monsterPositions;
+    monsterPositions.reserve(numMonsters);
+    monsterPositions.clear();
+    for (auto &monster: monsters) {
+        monsterPositions.push_back(monster->getCurrentPosition());
+    }
+    return CharacterPositions(player->getDirection(), player->getCurrentPosition(), monsterPositions);
 }

@@ -31,6 +31,7 @@ class PacMan {
     private:
         //methods
         void reset();
+        CharacterPositions getCurrentCharacterPositions();
         //game
         GameState currentGameState;
         PlayerState currentPlayerState;

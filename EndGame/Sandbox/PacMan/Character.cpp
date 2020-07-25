@@ -88,16 +88,13 @@ void Player::move(PacManBoard &board, bool isPowerUpActive, const float &timeSin
     board.updateBoardForPlayerMove(currentPosition.first, currentPosition.second);
 }
 
-void Player::render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime){
+void Player::render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime, const CharacterPositions &positions){
     std::pair<float, float> nextFramePlayerCoord = nextFramePosition(board, dtime);
     float interpolatedPlayerX = (currentPosition.first * (1-alpha)) + (nextFramePlayerCoord.first * alpha);
     float interpolatedPlayerY = (currentPosition.second * (1-alpha)) + (nextFramePlayerCoord.second * alpha);
-    //checking validity of interpolated position
-    bool isInterpolatedCoordValid = board.isMoveValid(interpolatedPlayerX, interpolatedPlayerY);
-    float playerX = (isInterpolatedCoordValid ? interpolatedPlayerX : currentPosition.first) * board.renderedCellSize;
+    float playerX = interpolatedPlayerX * board.renderedCellSize;
     //-1 since it should go from 19 to 0
-    float playerY = (board.rowCellSize - (isInterpolatedCoordValid ? interpolatedPlayerY : currentPosition.second) - 1) * board.renderedCellSize;
-    //z based on power up or not and who can eat who
+    float playerY = (board.rowCellSize - interpolatedPlayerY - 1) * board.renderedCellSize;
     EG_ASSERT(characterTextures.size()<3, "Too few character textures provided for player!");
     static int renderingCount = 0;
     static const int pacManTextureEatingInterval = 15;  //simulate animation by changing textures every 10 frames
@@ -109,6 +106,7 @@ void Player::render(PacManBoard &board, bool isPowerUpActive, const float &alpha
     } else {
         playerTexture = characterTextures.at(2);
     }
+    //z based on power up or not and who can eat who
     float zIndex = isPowerUpActive ? 0.2f : 0.1f;
     EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({playerX, playerY, zIndex}, static_cast<std::underlying_type<Direction>::type>(currentFacingDirection), 
         {board.renderedCellSize*1.5, board.renderedCellSize*1.5}, playerTexture, 1.0f), true);
@@ -144,11 +142,14 @@ void Monster::move(PacManBoard &board, bool isPowerUpActive, const float &timeSi
     targetPosition = nextMove.targetPosition;
 }
 
-void Monster::render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime) {
-    //IMPORTANT::::: needs to be updated properly like player
-    float monsterX = currentPosition.first * board.renderedCellSize;
+void Monster::render(PacManBoard &board, bool isPowerUpActive, const float &alpha, const float &dtime, const CharacterPositions &positions) {
+    MonsterMove nextMove = nextFramePosition(dtime, board, positions);
+    float interpolatedMonsterX = (currentPosition.first * (1-alpha)) + (nextMove.newPosition.first * alpha);
+    float interpolatedMonsterY = (currentPosition.second * (1-alpha)) + (nextMove.newPosition.second * alpha);
+    //should not interpolate if positions are too far apart [more than 2.0f] (in case of power up death of monster)
+    float monsterX = (abs(currentPosition.first-nextMove.newPosition.first)<2.0f ? interpolatedMonsterX : currentPosition.first) * board.renderedCellSize;
     //since it should go from 19 to 0
-    float monsterY = (board.rowCellSize - currentPosition.second -1) * board.renderedCellSize;
+    float monsterY = (board.rowCellSize - (abs(currentPosition.second-nextMove.newPosition.second)<2.0f ? interpolatedMonsterY : currentPosition.second) - 1) * board.renderedCellSize;
     EG_ASSERT(characterTextures.size()<4, "Too few character textures provided for monster!");
     std::shared_ptr<EndGame::Texture2D> monsterTexture;
     switch(currentFacingDirection) {
@@ -168,7 +169,7 @@ void Monster::render(PacManBoard &board, bool isPowerUpActive, const float &alph
     float zIndex = isPowerUpActive ? 0.1f : 0.2f;
     //to render different monsters on different planes in case of overlap
     zIndex += monsterId * 0.01f;
-    EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({monsterX, monsterY, zIndex}, false, 
+    EndGame::Renderer2D::drawQuad(EndGame::QuadRendererData({monsterX, monsterY, zIndex}, 0.0f, 
         {board.renderedCellSize*1.5, board.renderedCellSize*1.5}, monsterTexture, 1.0f));
 }
 
