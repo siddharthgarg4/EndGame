@@ -8,9 +8,11 @@ EndGame is a ***C++ Game Engine*** that compiles as a static library focused at 
 
 The aim for this engine is to eventually be cross-platform and cross-rendering API, however due to time and resource restrictions it currently only supports MacOS (utilising OpenGl rendering). 
 
-This project has given me a greater understanding of Graphics and Game Development.
-
 **Currently Implemented SubSystems** - Window, Debug, Event, Input, Layer, Logging, Batch Rendering, Camera
+
+This project also contains an example **Sandbox application** that has been built utilising the EndGame Engine. This example application runs a **PacMan Game** available to play on any MacOs device. Running the Sandbox application should launch the PacMan game.
+
+![PacMan](/resources/pacman.png?raw=true"PacMan")
 
 ## Getting Started
 
@@ -59,8 +61,6 @@ There are two ways of running the SandBox Application(that utilises EndGame):
 * **SPDLog** - Logging
 
 ## What's next for EndGame
-
-* **PacMan Game** - Currently working on building a PacMan game utilising the EndGame engine
 
 * **Entity Component System**
 
