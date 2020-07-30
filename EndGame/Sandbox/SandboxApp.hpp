@@ -45,7 +45,7 @@ class Sandbox : public EndGame::Application {
 
 //custom run the application as per the client
 EndGame::Application *EndGame::createApplication() {
-    return new Sandbox(true);
+    return new Sandbox(false);
 }
 
 #endif
